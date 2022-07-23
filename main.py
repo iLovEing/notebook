@@ -9,8 +9,7 @@ from feedgen.feed import FeedGenerator
 from lxml.etree import CDATA
 
 MD_HEAD = """## Gitblog
-My personal blog using issues and GitHub Actions (随意转载，无需署名)
-[RSS Feed](https://raw.githubusercontent.com/{repo_name}/master/feed.xml)
+My notebook：记录一些脑残想法和可能只有我能看懂的笔记
 """
 
 BACKUP_DIR = "BACKUP"
@@ -23,9 +22,9 @@ IGNORE_LABELS = FRIENDS_LABELS + TOP_ISSUES_LABELS + TODO_ISSUES_LABELS
 FRIENDS_TABLE_HEAD = "| Name | Link | Desc | \n | ---- | ---- | ---- |\n"
 FRIENDS_TABLE_TEMPLATE = "| {name} | {link} | {desc} |\n"
 FRIENDS_INFO_DICT = {
-    "名字": "",
-    "链接": "",
-    "描述": "",
+    "名字": "yihong0618",
+    "链接": "https://github.com/yihong0618/gitblog",
+    "描述": "blog来源：用issue搭建博客",
 }
 
 
