@@ -1,6 +1,5 @@
 ## Gitblog
-my notessssbook
-记录一些脑残想法以及可能只有我看得懂的笔记
+my notessssbook: 记录一些脑残想法以及可能只有我看得懂的笔记
 ## 友情链接
 | Name | Link | Desc | 
  | ---- | ---- | ---- |
