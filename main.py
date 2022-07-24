@@ -9,7 +9,7 @@ from feedgen.feed import FeedGenerator
 from lxml.etree import CDATA
 
 MD_HEAD = """## My Notebook
-记录一些脑残想法和可能只有我能看懂的笔记
+记录可能只有我能看懂的笔记
 """
 
 BACKUP_DIR = "BACKUP"
