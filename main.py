@@ -8,8 +8,8 @@ from github import Github
 from feedgen.feed import FeedGenerator
 from lxml.etree import CDATA
 
-MD_HEAD = """## Gitblog
-My notebook：记录一些脑残想法和可能只有我能看懂的笔记
+MD_HEAD = """## My Notebook
+记录一些脑残想法和可能只有我能看懂的笔记
 """
 
 BACKUP_DIR = "BACKUP"
