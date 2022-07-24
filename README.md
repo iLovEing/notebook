@@ -1,6 +1,5 @@
 ## Gitblog
-My personal blog using issues and GitHub Actions (随意转载，无需署名)
-[RSS Feed](https://raw.githubusercontent.com/iLovEing/notebook/master/feed.xml)
+My notebook：记录一些脑残想法和可能只有我能看懂的笔记
 ## 友情链接
 | Name | Link | Desc | 
  | ---- | ---- | ---- |
