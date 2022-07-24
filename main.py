@@ -22,9 +22,9 @@ IGNORE_LABELS = FRIENDS_LABELS + TOP_ISSUES_LABELS + TODO_ISSUES_LABELS
 FRIENDS_TABLE_HEAD = "| Name | Link | Desc | \n | ---- | ---- | ---- |\n"
 FRIENDS_TABLE_TEMPLATE = "| {name} | {link} | {desc} |\n"
 FRIENDS_INFO_DICT = {
-    "名字": "yihong0618",
-    "链接": "https://github.com/yihong0618/gitblog",
-    "描述": "blog来源：用issue搭建博客",
+    "名字": "",
+    "链接": "",
+    "描述": "",
 }
 
 
