@@ -1,9 +1,10 @@
 ## My Notebook
-记录可能只有我能看懂的笔记
+好记性不如烂笔头
 ## 友情链接
 | Name | Link | Desc | 
  | ---- | ---- | ---- |
 | yihong0618 | https://github.com/yihong0618/gitblog | blog来源 |
+| 佚名 | https://zhuanlan.zhihu.com/p/400962805 | blog简易教程 |
 ## 最近更新
 - [一些教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
