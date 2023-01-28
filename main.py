@@ -9,7 +9,7 @@ from feedgen.feed import FeedGenerator
 from lxml.etree import CDATA
 
 MD_HEAD = """## My Notebook
-记录可能只有我能看懂的笔记
+好记性不如烂笔头
 """
 
 BACKUP_DIR = "BACKUP"
@@ -187,6 +187,11 @@ def add_md_header(md, repo_name):
 
 def add_md_label(repo, md, me):
     labels = get_repo_labels(repo)
+
+    # sort lables by description info if it exists, otherwise sort by name, 
+    # for example, we can let the description start with a number (1#Java, 2#Docker, 3#K8s, etc.)
+    labels = sorted(labels, key=lambda x: (x.description is None, x.description == "", x.description, x.name))
+
     with open(md, "a+", encoding="utf-8") as md:
         for label in labels:
 
