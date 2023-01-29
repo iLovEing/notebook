@@ -11,7 +11,7 @@
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
 - [友情链接](https://github.com/iLovEing/notebook/issues/4)--2022-07-24
 ## tips
-- [conda](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
+- [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
 - [pytorch](https://github.com/iLovEing/notebook/issues/7)--2023-01-29
 - [Git](https://github.com/iLovEing/notebook/issues/3)--2022-07-23
 ## 传送门
