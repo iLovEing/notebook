@@ -3,13 +3,9 @@
 ### 全局设置
 - git config --global  --list
 
----
-
 #### 配置用户名和email
 - git config --global user.name "iLovEing"
 - git config --global user.email "878314708@qq.com"
-
----
 
 #### 命令缩写
 - git config --global alias.st status
@@ -26,8 +22,6 @@
 
 ### 本地修改
 
----
-
 #### 暂存区（add）
 查看修改 ：
 - git diff --cached 
@@ -37,8 +31,6 @@
 - git rm --cached [文件名] 
 - git restore --sraged [文件名] 
 
----
-
 #### 查看历史
 - git log [分支名] 查看某分支的提交历史，不写分支名查看当前所在分支
 - git log --oneline 一行显示提交历史
@@ -47,16 +39,12 @@
 - git log --graph 图示法显示提交历史
 - git reflog 记录本地所有修改
 
----
-
 #### 分支相关
 - git branch -avv 查看所有分支状态
 - git branch -D [分支名] 删除本地分支
 - git branch -m [原分支名] [新分支名] ，若修改当前所在分支的名字，原分支名可以省略不写
 
----
-
-### reset
+#### reset
 - git reset --soft
 - git reset --hard
 
