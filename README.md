@@ -4,7 +4,6 @@
 | Name | Link | Desc | 
  | ---- | ---- | ---- |
 | yihong0618 | https://github.com/yihong0618/gitblog | blog来源 |
-| 佚名 | https://zhuanlan.zhihu.com/p/400962805 | blog简易教程 |
 ## 最近更新
 - [pytorch](https://github.com/iLovEing/notebook/issues/7)--2023-01-29
 - [一些教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
