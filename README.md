@@ -3,6 +3,8 @@
 ## 友情链接
 | Name | Link | Desc | 
  | ---- | ---- | ---- |
+| iLovEing | https://github.com/iLovEing/notebook/issues/4 | 友情连接issue |
+| yihong0618 | https://github.com/yihong0618/gitblog | blog来源 |
 ## 最近更新
 - [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
 - [pytorch](https://github.com/iLovEing/notebook/issues/7)--2023-01-29
