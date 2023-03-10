@@ -5,6 +5,7 @@
  | ---- | ---- | ---- |
 | iLovEing | https://github.com/iLovEing/notebook/issues/4 | 友情连接issue |
 | yihong0618 | https://github.com/yihong0618/gitblog | blog来源 |
+| unknown | https://www.latexlive.com/ | Latex在线编辑 |
 ## 最近更新
 - [clustering](https://github.com/iLovEing/notebook/issues/9)--2023-03-09
 - [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
