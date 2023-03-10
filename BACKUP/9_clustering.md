@@ -57,6 +57,37 @@ ___
 2. **MinPts**的选取方法
 **MinPts**的取值为上述k值加1，即： $MinPts = k + 1$
 
+___
+### 代码示例
+
+	import numpy as np
+	import matplotlib.pyplot as plt
+	from sklearn import datasets
+	from sklearn.cluster import DBSCAN
+	from sklearn.cluster import KMeans
+	from sklearn.neighbors import NearestNeighbors
+
+	X1, y1=datasets.make_circles(n_samples=5000, factor=.6,
+										  noise=.05)
+	X2, y2 = datasets.make_blobs(n_samples=1000, n_features=2, centers=[[1.2,1.2]], cluster_std=[[.1]],
+				   random_state=9)
+
+	X = np.concatenate((X1, X2))
+	plt.scatter(X[:, 0], X[:, 1], marker='o')
+	plt.show()
+
+	nbrs = NearestNeighbors(n_neighbors=4).fit(X)
+	distances, indices = nbrs.kneighbors(X)
+	dis = distances[:, 3]
+	dis = -np.sort(-dis)
+	fig, ax = plt.subplots()
+	ax.plot(np.array(range(len(dis))), dis, linewidth=2.0)
+	plt.show()
+
+	y_pred1 = DBSCAN(eps = 0.09, min_samples = 4).fit_predict(X)
+	plt.scatter(X[:, 0], X[:, 1], c=y_pred1)
+	plt.show()
+	np.unique(y_pred1)
 
 
 ---
