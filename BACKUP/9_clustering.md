@@ -15,11 +15,11 @@ DBSCAN（Density-Based Spatial Clustering of Applications with Noise）
 
 ___
 ### DBSCAN算法原理
-1. 两个重要参数：
+1.**两个参数**：
 - 领域半径：**Eps**；
 - 成为核心对象的在领域半径内的最少点数：**MinPts**。
 
-2. 几个重要概念：
+2.**几个重要概念**：
 - Eps领域 (Eps-neighborhood of a point)：点p的**Eps**邻域，记为 $N_{Eps}(p)$，定义为 $N_{Eps}(p) = \lbrace q\in D | dist(p,q)≤Eps \rbrace$
 - 核心对象 (core points)：如果给定对象**Eps**领域内的样本点数大于等于**MinPts**，则称该对象为核心对象。
 - 直接密度可达 (directly density-reachable):
@@ -34,8 +34,7 @@ ___
 2）∀ p, q ∈ C，p和q是密度相连的。
 - 噪音(noise)：不属于任何簇的点为噪音数据。
 
-___
-### 算法流程
+3.**算法流程**
 1. 给定领域半径：**Eps**和成为核心对象的在领域半径内的最少点数：**MinPts**。
 2. 从任意点p开始，将其标记为”visited“，检查其是否为核心点（即p的**Eps**邻域至少有**MinPts**个对象），如果不是核心点，则将其标记为噪声点。否则为p创建一个新的簇C，并且把p的**Eps**邻域中的所有对象都放到候选集合N中。
 3. 迭代地把N中不属于其它簇的对象添加至C中，在此过程中，对于N中标记为”unvisited"的对象p‘，把它标记为“visited”，并且检查它的**Eps**邻域，如果p’也为核心对象，则p’的**Eps**邻域中的对象都被添加至N中。继续添加对象至C中，直到C不能扩展，即直到N为空。此时，簇C完全生成。
