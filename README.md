@@ -7,12 +7,13 @@
 | yihong0618 | https://github.com/yihong0618/gitblog | blog来源 |
 | unknown | https://www.latexlive.com/ | Latex在线编辑 |
 ## 最近更新
+- [计算法则](https://github.com/iLovEing/notebook/issues/12)--2023-03-13
 - [Fourier Transform](https://github.com/iLovEing/notebook/issues/11)--2023-03-13
 - [收藏滴小网站](https://github.com/iLovEing/notebook/issues/10)--2023-03-10
 - [clustering](https://github.com/iLovEing/notebook/issues/9)--2023-03-09
 - [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
-- [pytorch](https://github.com/iLovEing/notebook/issues/7)--2023-01-29
 ## maths
+- [计算法则](https://github.com/iLovEing/notebook/issues/12)--2023-03-13
 - [Fourier Transform](https://github.com/iLovEing/notebook/issues/11)--2023-03-13
 ## tips
 - [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
