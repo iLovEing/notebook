@@ -20,3 +20,7 @@
 - GoogLeNet
 - ResNet
 - DenseNet
+
+---
+
+## Batch Normal
