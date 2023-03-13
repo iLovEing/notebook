@@ -22,3 +22,16 @@ support vector machine-支持向量机
 ![image](https://user-images.githubusercontent.com/109459299/224753714-e390b5bc-0a03-451a-a99d-b884424aed43.png)
 
 
+
+
+---
+
+## 正餐-SVM
+hard margin + soft margin
+![image](https://user-images.githubusercontent.com/109459299/224754112-cb9ab30c-bf30-48c9-bd99-42f8fc0507e2.png)
+![image](https://user-images.githubusercontent.com/109459299/224754320-02d30bfa-4c87-4e77-a527-292d0fc8f231.png)
+![image](https://user-images.githubusercontent.com/109459299/224754413-50ca05e3-60df-4302-ad01-d4c4942c101e.png)
+![image](https://user-images.githubusercontent.com/109459299/224754475-c1ea23b9-7a01-4662-b77c-e17a0b778704.png)
+
+
+
