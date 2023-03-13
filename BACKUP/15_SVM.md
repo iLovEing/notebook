@@ -35,3 +35,8 @@ hard margin + soft margin
 
 
 
+
+
+---
+
+## kernel SVM
