@@ -40,3 +40,6 @@ hard margin + soft margin
 ---
 
 ## kernel SVM
+
+挖个坑，写完核方法填坑。
+（其实解出w和b已经能看出来了）
