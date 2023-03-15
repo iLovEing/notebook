@@ -6,12 +6,13 @@
 | iLovEing | https://github.com/iLovEing/notebook/issues/4 | 友情连接issue |
 | yihong0618 | https://github.com/yihong0618/gitblog | blog来源 |
 ## 最近更新
+- [生成模型](https://github.com/iLovEing/notebook/issues/19)--2023-03-15
 - [Transformer](https://github.com/iLovEing/notebook/issues/18)--2023-03-15
 - [CNN](https://github.com/iLovEing/notebook/issues/17)--2023-03-13
 - [梯度下降方法](https://github.com/iLovEing/notebook/issues/16)--2023-03-13
 - [SVM](https://github.com/iLovEing/notebook/issues/15)--2023-03-13
-- [1-线性回归](https://github.com/iLovEing/notebook/issues/14)--2023-03-13
 ## DeepLearning
+- [生成模型](https://github.com/iLovEing/notebook/issues/19)--2023-03-15
 - [Transformer](https://github.com/iLovEing/notebook/issues/18)--2023-03-15
 - [CNN](https://github.com/iLovEing/notebook/issues/17)--2023-03-13
 - [梯度下降方法](https://github.com/iLovEing/notebook/issues/16)--2023-03-13
