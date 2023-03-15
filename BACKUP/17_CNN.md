@@ -32,3 +32,10 @@
 ---
 
 ## Batch Normal
+![image](https://user-images.githubusercontent.com/109459299/225286089-ce704717-402a-4921-8a35-a40e71814124.png)
+
+
+---
+
+## ResNet残差网络
+![image](https://user-images.githubusercontent.com/109459299/225286215-ebda6c34-c520-4617-9a44-2c2d14632c72.png)
