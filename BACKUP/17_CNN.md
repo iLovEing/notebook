@@ -13,18 +13,18 @@
 ---
 
 ## 经典结构
-- LeNet
+- LeNet，激活函数为sigmod
 ![image](https://user-images.githubusercontent.com/109459299/225285118-1805f341-d18f-48f7-b340-c1084486b9e6.png)
-激活函数为sigmod
-- AlexNet
+
+- AlexNet，激活函数为ReLU, 在全连接层用了dropout
 ![image](https://user-images.githubusercontent.com/109459299/225285207-c110022f-4c8b-480e-8835-56d4cf196cad.png)
-激活函数为ReLU, 在全连接层用了dropout
-- VGG
+
+- VGG，使用VGG块，每个块中有若干个相同的卷积层和一个池化层
 ![image](https://user-images.githubusercontent.com/109459299/225285361-8de76aa0-79d0-40c7-b000-369287c291df.png)
-使用VGG块，每个块中有若干个相同的卷积层和一个池化层
-- NiN
+
+- NiN，引入1*1卷积层，相当于像素全连接
 ![image](https://user-images.githubusercontent.com/109459299/225285514-abd99adc-7d49-4af9-9500-91e73943a77e.png)
-引入1*1卷积层，相当于像素全连接
+
 - GoogLeNet
 ![image](https://user-images.githubusercontent.com/109459299/225285631-86f58c15-f49f-495d-9d7f-0b64f5450163.png)
 ![image](https://user-images.githubusercontent.com/109459299/225285659-7929b2c5-5cf2-404a-a8e4-3455fbcfd09f.png)
