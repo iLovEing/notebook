@@ -54,12 +54,12 @@ ___
 - 成为核心对象的在领域半径内的最少点数：**MinPts**。
 
 #### 几个重要概念
-- Eps领域 (Eps-neighborhood of a point)：点p的**Eps**邻域，记为 $N_{Eps}(p)$，定义为 $N_{Eps}(p) = \lbrace q\in D | dist(p,q)≤Eps \rbrace$
+- Eps领域 (Eps-neighborhood of a point)：点p的**Eps**邻域，记为 $N_{eps}(p)$，定义为 $N_{eps}(p) = \lbrace q\in D | dist(p,q)≤eps \rbrace$
 - 核心对象 (core points)：如果给定对象**Eps**领域内的样本点数大于等于**MinPts**，则称该对象为核心对象。
 - 直接密度可达 (directly density-reachable):
 若：
-    1. $p\in N_{Eps}(q)$
-    2. $|N_{Eps}(q)| ≥ MinPts$ 
+    1. $p\in N_{eps}(q)$
+    2. $|N_{eps}(q)| ≥ MinPts$ 
 则称对象p从核心对象q是直接密度可达的。
 - 密度可达 (density-reachable)：对于对象p1,p2, …, pn，令p1= q，pn = p。若pi+1是从pi直接密度可达的，则称p是从q密度可达的。
 - 密度相连 (density-connected)：对于点p和点q，若点p点q都是从点o密度可达的，则称点p和点q密度相连。
