@@ -11,6 +11,8 @@
 - [Transformer](https://github.com/iLovEing/notebook/issues/18)--2023-03-15
 - [CNN](https://github.com/iLovEing/notebook/issues/17)--2023-03-13
 - [梯度下降方法](https://github.com/iLovEing/notebook/issues/16)--2023-03-13
+## 传统算法
+- [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## Tips
 - [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
 - [pytorch](https://github.com/iLovEing/notebook/issues/7)--2023-01-29
