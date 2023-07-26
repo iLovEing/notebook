@@ -45,7 +45,9 @@ str_sen = tokenizer.convert_tokens_to_string(tokens)
 ids = tokenizer.encode(sen, padding="max_length", max_length=10, add_special_tokens=True)
 str_sen = tokenizer.decode(ids, skip_special_tokens=True)
   - 一步到位（带token_type和attention_mask）
-res = tokenizer(sens, padding="max_length", max_length=20, truncation=True)
+res = tokenizer(list_of_sentences, padding="max_length", max_length=20, truncation=True)
+  - 返回tensor
+inputs = tokenizer(list_of_sentences, padding=True, truncation=True, ***return_tensors="pt"***)
 
 - **加载特殊编码**
 某些模型有tokenizer相关的py文件，需要添加***trust_remote_code***参数
