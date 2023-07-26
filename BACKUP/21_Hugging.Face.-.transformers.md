@@ -31,7 +31,7 @@ pipelines.SUPPORTED_TASKS
 # tokenizer
 
 - **加载、保存、基本信息**
-tokenizer = AutoTokenizer.from_pretrained("uer/roberta-base-finetuned-dianping-chinese", device="cuda")
+tokenizer = AutoTokenizer.from_pretrained("uer/roberta-base-finetuned-dianping-chinese")
 tokenizer.save_pretrained("./roberta_tokenizer")
 tokenizer.special_tokens_map, tokenizer.vocab_size, tokenizer.vocab
 
