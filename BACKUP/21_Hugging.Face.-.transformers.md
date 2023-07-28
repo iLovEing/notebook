@@ -52,3 +52,22 @@ inputs = tokenizer(list_of_sentences, padding=True, truncation=True, ***return_t
 - **加载特殊编码**
 某些模型有tokenizer相关的py文件，需要添加***trust_remote_code***参数
 tokenizer1 = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", ***trust_remote_code=True***, revision="v1.1.0")
+
+---
+
+# model
+
+- **加载、保存、配置**
+model = AutoModel.from_pretrained("hfl/rbt3").to(device)
+print(model.config)
+*or*
+config = AutoConfig.from_pretrained("hfl/rbt3") && print(config)  //可以看到config原型，找到实现有更多的配置项
+
+- **使用**
+  - 不带model head
+tokenizer = AutoTokenizer.from_pretrained("hfl/rbt3")
+inputs = tokenizer(sentencelist, padding=True, return_tensors="pt").to(device)
+**output = model(**inputs)
+  - 带model head
+指定任务可以得到带model head的模型，比如bert可以得到cls token之后的pooler out，各种模型点进去看实现最清楚
+clz_model = AutoModelForSequenceClassification.from_pretrained("hfl/rbt3", num_labels=5).to(device)
