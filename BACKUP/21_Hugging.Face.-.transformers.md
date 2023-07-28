@@ -71,3 +71,66 @@ inputs = tokenizer(sentencelist, padding=True, return_tensors="pt").to(device)
   - 带model head
 指定任务可以得到带model head的模型，比如bert可以得到cls token之后的pooler out，各种模型点进去看实现最清楚
 clz_model = AutoModelForSequenceClassification.from_pretrained("hfl/rbt3", num_labels=5).to(device)
+
+---
+
+# dataset
+
+- **加载数据集**
+dataset = load_dataset("madao33/new-title-chinese")
+dataset = load_dataset("super_glue", "boolq") //某些dataset是一个任务集合，需要添加子项
+dataset = load_dataset("madao33/new-title-chinese", split="train") //加载某一个split
+dataset["train"].column_names, dataset["train"].features //属性
+
+- **索引数据集**
+//多种索引，切片方式
+dataset = load_dataset("madao33/new-title-chinese", split="train[10:100]")
+dataset = load_dataset("madao33/new-title-chinese", split="train[:50%]")
+dataset = load_dataset("madao33/new-title-chinese", split=["train[:50%]", "train[50%:]"])
+
+- **数据操作：切分、过滤**
+dataset["train"][0], dataset["train"].select([0, 1]), dataset["train"]['title']  //选取
+sub_data = dataset.train_test_split(test_size=0.1) //切分
+sub_data = dataset.train_test_split(test_size=0.1, ***stratify_by_column="label"***) //按label平衡切分
+filter_dataset = dataset.filter(lambda example: "中国" in example["title"]) //过滤
+
+- **map**
+```
+tokenizer = AutoTokenizer.from_pretrained("bert-base-chinese")
+
+def preprocess_function(example, tokenizer=tokenizer):
+    model_inputs = tokenizer(example["content"], max_length=512, truncation=True)
+    labels = tokenizer(example["title"], max_length=32, truncation=True)
+    # label就是title编码的结果
+    model_inputs["labels"] = labels["input_ids"]
+    return model_inputs
+
+# batched: 加速，num_proc: 线程数
+processed_datasets = datasets.map(preprocess_function, batched=True, num_proc=24)
+processed_datasets
+```
+
+- **with DataCollator**
+```
+def process_function(examples):
+    tokenized_examples = tokenizer(examples["review"], max_length=128, truncation=True)
+    tokenized_examples["labels"] = examples["label"]
+    return tokenized_examples
+
+tokenized_dataset = dataset.map(process_function, batched=True, remove_columns=dataset.column_names)
+collator = DataCollatorWithPadding(tokenizer=tokenizer)
+dl = DataLoader(tokenized_dataset, batch_size=32, collate_fn=collator, shuffle=True)
+```
+
+- **保存和加载**
+processed_datasets.save_to_disk("./processed_data")
+processed_datasets = load_from_disk("./processed_data")
+// 各种加载方法
+// 直接加载文件
+dataset = load_dataset("csv", data_files="./ChnSentiCorp_htl_all.csv", split="train")
+dataset = load_dataset("csv", data_dir="./data/", split='train')
+// 从pandas加载,也可以用load_dataset指定类型
+dataset = Dataset.from_pandas(df)
+// 从list加载,也可以用load_dataset指定类型
+data = [{"text": "abc"}, {"text": "def"}]
+dataset = Dataset.from_list(data)
