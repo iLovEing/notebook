@@ -138,7 +138,8 @@ dataset = Dataset.from_list(data)
 ---
 
 # evaluate
-[任务支持的评价指标](https://huggingface.co/tasks)
+各种任务支持的评价指标，可以在[这里](https://huggingface.co/tasks)找到，进去任务寻找Metrics即可
+
 - **加载和查看**
 evaluate.list_evaluation_modules(with_details=True)
 accuracy = evaluate.load("accuracy")
