@@ -63,11 +63,13 @@ CREATE TABLE `student` (
     FOREIGN KEY (`major_id`) REFERENCES `another_table_name`(`stats_name`) ON DELETE SET NULL
 );
 
-# 上述写法需要another_table_name已经创建，如果没有，则需要按添加属性写
+# 1. 上述写法需要another_table_name已经创建，如果没有，则需要按添加属性写
 ALTER TABLE `student`
 ADD FOREIGN KEY(`brother_id`)
 REFERENCES `student`(`student_id`)  # 可以是自己
 ON DELETE SET NULL;
+
+# 2. ON DELETE指another_table_name 中没有 major_id时的操作，比如 set null(设置为空)，cascade（删除该项）
 ```
 
 - **删除表格**
