@@ -147,11 +147,16 @@ LIMIT 100;  # 限制100个人
 - 聚合函数
 
 ```
-SELECT COUNT(*) FROM `student`  # 统计个数
-SELECT COUNT(`major`) FROM `student`  # 统计有major属性的个数
+# count
+SELECT COUNT(*) FROM `student`;  # 统计个数
+SELECT COUNT(`major`) FROM `student`;  # 统计有major属性的个数
 SELECT COUNT(*)
-FROM `student`
+FROM `student`;
 WHERE .......;  # 还可以加条件
 
+# AVG
+SELECT AVG(`score`) FROM `student`;
+
+# 还有常用的 SUM  MIN MAX
 ```
 
