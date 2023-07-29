@@ -222,4 +222,24 @@ WHERE `teacher_id` = (  # 如果子查询有多个结果，这里要加IN
 pip3 install mysql-connector-python
 
 - 使用
-- 
+调用接口传入命令即可
+```
+import mysql.connector as sql
+connection = sql.connector.connect(host="localhost",
+                                                          port="3306",
+                                                          user="root",
+                                                          password="password")  # 信息根据本地配置来
+
+cursor = connection .cursor ()
+# 创建数据库库
+cursor.execute(“CREATE DATABASE `sql_tutoria`; ”)
+cursor.execute(”SHOW DATABASES; “)
+record = cursor.fetchall()  # 如果有回传内容，需要调用fetchall
+
+# 使用资料库
+cursor.execute(”USE `sql_tutoria`; “) #或者在创建连接的时候加database="sql_tutoria"参数
+
+cursor.close()
+connection.commit()  # 如果有修改数据库，需要调用commit()
+connection.close()
+```
