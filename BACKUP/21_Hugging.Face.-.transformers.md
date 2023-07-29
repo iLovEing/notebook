@@ -134,3 +134,51 @@ dataset = Dataset.from_pandas(df)
 // 从list加载,也可以用load_dataset指定类型
 data = [{"text": "abc"}, {"text": "def"}]
 dataset = Dataset.from_list(data)
+
+---
+
+# evaluate
+
+- **加载和查看**
+evaluate.list_evaluation_modules(with_details=True)
+accuracy = evaluate.load("accuracy")
+accuracy, accuracy.description, accuracy.inputs_description //属性
+
+- **指标计算**
+```
+# 全局计算
+accuracy = evaluate.load("accuracy")
+results = accuracy.compute(references=[0, 1, 2, 0, 1, 2], predictions=[0, 1, 1, 2, 1, 0])
+
+# 迭代计算
+accuracy = evaluate.load("accuracy")
+for ref, pred in zip([0,1,0,1], [1,0,0,1]):
+    accuracy.add(references=ref, predictions=pred)
+accuracy.compute()
+
+# batch迭代计算
+accuracy = evaluate.load("accuracy")
+for refs, preds in zip([[0,1],[0,1]], [[1,0],[0,1]]):
+    accuracy.add_batch(references=refs, predictions=preds)
+accuracy.compute()
+
+# 多个指标
+clf_metrics = evaluate.combine(["accuracy", "f1", "recall", "precision"])
+results = clf_metrics.compute(predictions=[0, 1, 0], references=[0, 1, 1])
+```
+
+- **可视化**
+```
+from evaluate.visualization import radar_plot
+
+data = [
+   {"accuracy": 0.99, "precision": 0.8, "f1": 0.95, "latency_in_seconds": 33.6},
+   {"accuracy": 0.98, "precision": 0.87, "f1": 0.91, "latency_in_seconds": 11.2},
+   {"accuracy": 0.98, "precision": 0.78, "f1": 0.88, "latency_in_seconds": 87.6},
+   {"accuracy": 0.88, "precision": 0.78, "f1": 0.81, "latency_in_seconds": 101.6}
+   ]
+
+model_names = ["Model 1", "Model 2", "Model 3", "Model 4"]
+
+plot = radar_plot(data=data, model_names=model_names)
+```
