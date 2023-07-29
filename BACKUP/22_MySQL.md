@@ -212,3 +212,14 @@ WHERE `teacher_id` = (  # 如果子查询有多个结果，这里要加IN
     WHERE `name` = `大白`
 );
 ```
+
+
+---
+
+## python
+
+- 安装
+pip3 install mysql-connector-python
+
+- 使用
+- 
