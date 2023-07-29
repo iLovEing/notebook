@@ -143,3 +143,15 @@ WHERE `major` = `英语` AND `score` <> 70 # <>表示不等于
 # WHERE `major` IN("历史"， “生物”)  # in写法，也可以用or表示
 LIMIT 100;  # 限制100个人
 ```
+
+- 聚合函数
+
+```
+SELECT COUNT(*) FROM `student`  # 统计个数
+SELECT COUNT(`major`) FROM `student`  # 统计有major属性的个数
+SELECT COUNT(*)
+FROM `student`
+WHERE .......;  # 还可以加条件
+
+```
+
