@@ -65,7 +65,7 @@ ALTER TABLE \`student\` DROP COLUMN gpa;
 
 ---
 
-### 数据
+## 修改数据
 
 - **添加数据**
 INSERT INTO \`student\` VALUES(1, "小白", "历史");
