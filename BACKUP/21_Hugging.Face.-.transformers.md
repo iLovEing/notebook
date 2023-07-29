@@ -183,3 +183,35 @@ model_names = ["Model 1", "Model 2", "Model 3", "Model 4"]
 
 plot = radar_plot(data=data, model_names=model_names)
 ```
+
+---
+
+# trainer
+各种任务支持的评价指标，可以在[这里](https://huggingface.co/tasks)找到，进去任务寻找Metrics即可
+
+- **TrainingArguments**
+重要参数:
+  - output_dir                               # 输出文件夹
+  - per_device_train_batch_size    # 训练时的batch_size
+  - per_device_eval_batch_size     # 验证时的batch_size
+  - logging_steps                          # log 打印的频率
+  - evaluation_strategy                 # 评估策略
+  - save_strategy                           # 保存策略
+  - save_total_limit                        # 最大保存数
+  - learning_rate                            # 学习率
+  - weight_decay                           # weight_decay
+  - metric_for_best_model            # 设定评估指标
+  - load_best_model_at_end         # 训练完成后加载最优模型
+
+- **trainer**
+trainer = Trainer(model=model, 
+                  args=train_args, 
+                  train_dataset=tokenized_datasets["train"], 
+                  eval_dataset=tokenized_datasets["test"], 
+                  data_collator=DataCollatorWithPadding(tokenizer=tokenizer),
+                  compute_metrics=evaluate.load("accuracy"))
+
+- **训练和评估**
+trainer.train()
+trainer.evaluate(tokenized_datasets["test"])
+trainer.predict(tokenized_datasets["test"])
