@@ -9,7 +9,7 @@ foreign key：外键，可以是自己表格或者其他表格的key（索引用
 ---
 
 ### 资料库
-CREATE DATABASE `sql_tutoria`;  //创建
+CREATE DATABASE \`sql_tutoria\`;  //创建
 SHOW DATABASES;  //展示
-DROP DATABASE `sql_tutorial`;  //删除
-USE `sql_tutoria`; //使用
+DROP DATABASE \`sql_tutorial\`;  //删除
+USE \`sql_tutoria\`; //使用
