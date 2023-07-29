@@ -38,18 +38,36 @@ CREATE TABLE `student1` (
 `student_id` INT,
     `name` VARCHAR(20),
     `major` VARCHAR(20),
-    PRIMARY KEY(`student_id`)
+    PRIMARY KEY(`student_id`, `name`)  # 支持多个primal key
 );
 ```
 ***修饰词***
 ```
 CREATE TABLE `student` (
-    `student_id` INT KEY AUTO_INCREMENT,  # 自动加一(就可以不用指定了)
+    `student_id` INT AUTO_INCREMENT,  # 自动加一(就可以不用指定了)
     `name` VARCHAR(20) NOT NULL,  # 不能为空
     `major` VARCHAR(20) UNIQUE,  # 不能重复
     `level` VARCHAR(20) DEFAULT “first",  # 默认值
     PRIMARY KEY(`student_id`)
 );
+```
+***带foreign key***
+```
+CREATE TABLE `student` (
+    `student_id` INT KEY AUTO_INCREMENT,
+    `name` VARCHAR(20) NOT NULL,
+    `major` VARCHAR(20) UNIQUE,
+    `brother_id` INT,
+    `major_id` INT,
+    PRIMARY KEY(`student_id`),
+    FOREIGN KEY (`major_id`) REFERENCES `another_table_name`(`stats_name`) ON DELETE SET NULL
+);
+
+# 上述写法需要another_table_name已经创建，如果没有，则需要按添加属性写
+ALTER TABLE `student`
+ADD FOREIGN KEY(`brother_id`)
+REFERENCES `student`(`student_id`)  # 可以是自己
+ON DELETE SET NULL;
 ```
 
 - **删除表格**
