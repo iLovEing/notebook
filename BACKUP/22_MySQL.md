@@ -74,11 +74,11 @@ INSERT INTO \`student\`(\`major\`, \`student_id\`) VALUES("力学", 5); //手动
 
 - **修改数据**
 ```
-SET SQL_SAFE_UPDATES = 0; #关闭安全更新限制
+SET SQL_SAFE_UPDATES = 0;  # 关闭安全更新限制
 
 # 把student表中major等于英语的改为英语文学
 UPDATE `student`
-SET `major` = "英语文学" #注意这两处都没有分号
+SET `major` = "英语文学"  # 注意这两处都没有分号
 WHERE `major` = "英语";
 
 # WHERE中也可以用OR，AND关键词表达复杂条件；SET中可以用逗号添加多种操作
