@@ -90,6 +90,8 @@ INSERT INTO \`student\` VALUES(1, "小白", "历史");
 INSERT INTO \`student\` VALUES(3, "小绿", NULL);
 INSERT INTO \`student\`(\`major\`, \`student_id\`) VALUES("力学", 5); //手动指定ID
 
+注意，有foreign key循环依赖的情况，如果另一张表上没有这个key，会创建失败，可以先把属性值设为null
+
 - **修改数据**
 ```
 SET SQL_SAFE_UPDATES = 0;  # 关闭安全更新限制
