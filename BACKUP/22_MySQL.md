@@ -9,7 +9,19 @@ foreign key：外键，可以是自己表格或者其他表格的key（索引用
 ---
 
 ### 资料库
+
+- **资料库操作**
 CREATE DATABASE \`sql_tutoria\`;  //创建
 SHOW DATABASES;  //展示
 DROP DATABASE \`sql_tutorial\`;  //删除
 USE \`sql_tutoria\`; //使用
+
+- **支持的数据类型**
+  - INT                        //整数
+  - DECIMAL(m, n)     //小数，m为总位数，n为小数位数
+  - VARCHAR(n)         //字符串，n为字符个数
+  - BLOB                     //binary large object
+  - DATE                     //日期，格式为 YYYY-MM-DD
+  - TIMESTAMP          //时间，格式为 YYYY-MM-DD HH:MM:SS
+
+
