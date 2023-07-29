@@ -145,7 +145,6 @@ LIMIT 100;  # 限制100个人
 ```
 
 - 聚合函数
-
 ```
 # count
 SELECT COUNT(*) FROM `student`;  # 统计个数
@@ -160,3 +159,54 @@ SELECT AVG(`score`) FROM `student`;
 # 还有常用的 SUM  MIN MAX
 ```
 
+- 万能替代
+```
+#  %代表任意个字符，_代表一个字符
+SELECT *
+FROM `student`
+WHERE `phone` LIKE "%3154";  # 以3154结尾的电话号码
+```
+
+- union 聚集
+```
+# 属性个数要相同， 属性值类型要相同。最后属性会用第一个
+SELECT `major`
+FROM `student`
+UNION
+SELECT `name`
+FROM `teacher`;
+
+SELECT `major` as `another_name`  # 可以改属性名字
+FROM `student`
+UNION
+SELECT `name`
+FROM `teacher`;
+```
+
+- join 连接
+```
+SELECT *  # 选取最终集合的属性（这里是所有）
+FROM `teacher`  # teacher表
+JOIN `student`  # 添加到student表格里
+ON `my_id` = `teacher_id` ; # 索引条件是student的teacher id 等于teacher的my id
+
+SELECT * 
+FROM `teacher`
+JOIN `student`
+ON `teacher`.`my_id` = `student`.`teacher_id` ;  # 详细写法，选择属性也可以这么用
+
+# 使用left join和right jion，表示左边/右边的表全部选中，否则只有匹配条件的才选中
+```
+
+
+- subquery 子查询
+```
+# 把查询作为条件，这里表示找出大白所有的学生名
+SELECT `name`
+FROM `student`
+WHERE `teacher_id` = (  # 如果子查询有多个结果，这里要加IN
+    SELECT `my_id`
+    FROM `teacher`
+    WHERE `name` = `大白`
+);
+```
