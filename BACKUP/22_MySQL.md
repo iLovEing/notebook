@@ -35,9 +35,19 @@ CREATE TABLE `student` (
 ***or***
 ```
 CREATE TABLE `student1` (
-	`student_id` INT,
+`student_id` INT,
     `name` VARCHAR(20),
     `major` VARCHAR(20),
+    PRIMARY KEY(`student_id`)
+);
+```
+***修饰词***
+```
+CREATE TABLE `student` (
+    `student_id` INT KEY AUTO_INCREMENT, #自动加一(就可以不用指定了)
+    `name` VARCHAR(20) NOT NULL, #不能为空
+    `major` VARCHAR(20) UNIQUE，  #不能重复
+    `level` VARCHAR(20) DEFAULT, “first"  #默认值
     PRIMARY KEY(`student_id`)
 );
 ```
