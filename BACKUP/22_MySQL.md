@@ -24,7 +24,33 @@ USE \`sql_tutoria\`; //使用
   - DATE                     //日期，格式为 YYYY-MM-DD
   - TIMESTAMP          //时间，格式为 YYYY-MM-DD HH:MM:SS
 
+- **创建表格**
+```
+CREATE TABLE `student` (
+    `student_id` INT PRIMARY KEY,
+    `name` VARCHAR(20),
+    `major` VARCHAR(20)
+);
+```
+***or***
+```
+CREATE TABLE `student1` (
+	`student_id` INT,
+    `name` VARCHAR(20),
+    `major` VARCHAR(20),
+    PRIMARY KEY(`student_id`)
+);
+```
 
+- **删除表格**
+DROP TABLE \`student\`;
+
+- **显示信息**
+DESCRIBE \`student\`;
+
+- **添加/删除属性**
+ALTER TABLE \`student\` ADD gpa DECIMAL(3, 2);
+ALTER TABLE \`student\` DROP COLUMN gpa;
 
 
 ---
