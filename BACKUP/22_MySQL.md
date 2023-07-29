@@ -135,9 +135,9 @@ FROM `student`
 ORDER BY `score`, `student_id` DESC;  # 按score，student_id排序，前者优先级高，DESC 表示降序，默认为升序(ASE)
 ```
 
-- 带限制
+- 带限制 
 ```
-SELECT *
+SELECT DISTINCT `major`  # DISTINCT 表示去重
 FROM `student`
 WHERE `major` = `英语` AND `score` <> 70 # <>表示不等于
 # WHERE `major` IN("历史"， “生物”)  # in写法，也可以用or表示
