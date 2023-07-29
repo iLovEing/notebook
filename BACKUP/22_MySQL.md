@@ -89,3 +89,37 @@ WHERE `major` = "英语";
 DELETE FROM `student`
 WHERE `name` = "小黑";
 ```
+
+
+---
+
+## 搜索数据
+//比较重要，单独列出来
+
+- 取全部数据
+```
+SELECT *  # 这里*表示所有属性
+FROM `student`;
+```
+
+- 取部分数据
+```
+SELECT `name`, `major`  # 取name major两个属性
+FROM `student`;
+```
+
+- 带排序
+```
+SELECT *
+FROM `student`
+ORDER BY `score`, `student_id` DESC;  # 按score，student_id排序，前者优先级高，DESC 表示降序，默认为升序(ASE)
+```
+
+- 带限制
+```
+SELECT *
+FROM `student`
+WHERE `major` = `英语` AND `score` <> 70 # <>表示不等于
+# WHERE `major` IN("历史"， “生物”)  # in写法，也可以用or表示
+LIMIT 100;  # 限制100个人
+```
