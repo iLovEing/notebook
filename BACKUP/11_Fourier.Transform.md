@@ -1,6 +1,10 @@
 # [Fourier Transform](https://github.com/iLovEing/notebook/issues/11)
 
-从傅里叶级数到FFT
+## 大纲
+- 傅里叶级数
+- 傅里叶变换
+- 快速傅里叶变换(fft)
+- kiss_fft
 
 ---
 
