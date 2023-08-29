@@ -36,7 +36,7 @@
 - git rm --cached [文件名] 
 - git restore --sraged [文件名] 
 
-#### 查看历史
+#### log
 - git log [分支名] 查看某分支的提交历史，不写分支名查看当前所在分支
 - git log --oneline 一行显示提交历史
 - git log -n 其中 n 是数字，查看最近 n 个提交
@@ -44,15 +44,32 @@
 - git log --graph 图示法显示提交历史
 - git reflog 记录本地所有修改
 
-#### 分支相关
+#### branch
 - git branch -avv 查看所有分支状态
 - git branch -D [分支名] 删除本地分支
 - git branch -m [原分支名] [新分支名] ，若修改当前所在分支的名字，原分支名可以省略不写
 - git branch -f main HEAD~3 强制移动main指向HEAD上三笔提交
 
-#### reset
+#### merge, rebase, cherry-pick
+- git cherry-pick hash1 hash2... 将hash1、hash2 cp到当前分支，并指向当前分支最新
+- git merge branch_name1 将branch_name1的修改merge到当前分支，并指向当前分支最新
+- git rebase branch_name1 将当前分支修改merge到branch_name1之后，并指向当前分支最新
+- git rebase -i HEAD~4 调整当前分支最近4笔的提交
+
+#### branch
+- git branch -avv 查看所有分支状态
+- git branch -D [分支名] 删除本地分支
+- git branch -m [原分支名] [新分支名] ，若修改当前所在分支的名字，原分支名可以省略不写
+- git branch -f main HEAD~3 强制移动main指向HEAD上三笔提交
+- git cherry-pick hash1 hash2... 将hash1、hash2cp到当前分支
+
+#### reset&revert
 - git reset --soft
 - git reset --hard
+- git reset HEAD~ 回到上一笔哈希
+- git revert HEAD 撤回当前提交，会生成新哈希，状态和上一笔相同
+
+
 
 ---
 
