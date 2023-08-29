@@ -84,7 +84,8 @@
 
 #### 拉取远程commit
 - git fetch 改变本地远程分支指针，与远程仓库同步，但是不会改变本地分支
-- git pull = fetch + merge，如果本地分支有修改，会对远端修改生成新的hash（merge而非rebase）
+- git pull = fetch + merge，如果本地分支有修改，会对远端修改生成新的hash（merge而非rebase），不影响后续提交
+- git pull --rebase = fetch + rebase
 - git rebase origin/main 
 
 #### push
