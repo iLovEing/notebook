@@ -1,5 +1,10 @@
 # [Git](https://github.com/iLovEing/notebook/issues/3)
 
+# 重要！超级好用的git教程
+[git教程](https://learngitbranching.js.org/?locale=zh_CN)
+
+---
+
 ### 全局设置
 - git config --global  --list
 
