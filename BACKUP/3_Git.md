@@ -48,6 +48,7 @@
 - git branch -avv 查看所有分支状态
 - git branch -D [分支名] 删除本地分支
 - git branch -m [原分支名] [新分支名] ，若修改当前所在分支的名字，原分支名可以省略不写
+- git branch -f main HEAD~3 强制移动main指向HEAD上三笔提交
 
 #### reset
 - git reset --soft
