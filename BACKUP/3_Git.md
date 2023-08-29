@@ -76,10 +76,14 @@
 
 ### 远程交互
 
+#### 说明
+1. clone远程分支后，本地有origin/main表示远程分支指针，表示与远程分支的通信状态，在该分支上commit会分离HEAD（该分支不会改变）；
+2. git
+
 #### 拉取远程commit
-- git pull
-- git fetch
-- git rebase origin/main
+- git fetch 改变本地远程分支指针，与远程仓库同步，但是不会改变本地分支
+- git pull = fetch + merge，如果本地分支有修改，会对远端修改生成新的hash（merge而非rebase）
+- git rebase origin/main 
 
 #### push
 - git push [主机名] [本地分支名]:[远程分支名]  将本地分支推送到远程仓库的分支中，通常冒号前后的分支名是相同的，如果是相同的，可以省略 :[远程分支名]，如果远程分支不存在，会自动创建
