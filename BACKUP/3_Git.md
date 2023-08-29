@@ -36,13 +36,15 @@
 - git rm --cached [文件名] 
 - git restore --sraged [文件名] 
 
-#### log
+#### log, tag
 - git log [分支名] 查看某分支的提交历史，不写分支名查看当前所在分支
 - git log --oneline 一行显示提交历史
 - git log -n 其中 n 是数字，查看最近 n 个提交
 - git log --author [贡献者名字] 查看指定贡献者的提交记录
 - git log --graph 图示法显示提交历史
 - git reflog 记录本地所有修改
+- git tag tag_name hash/HEAD 给某个commit打tag，tag相当于hash的别名
+- git describe HEAD/hash 查看距离某个hash最近的tag
 
 #### branch
 - git branch -avv 查看所有分支状态
@@ -61,7 +63,7 @@
 - git branch -D [分支名] 删除本地分支
 - git branch -m [原分支名] [新分支名] ，若修改当前所在分支的名字，原分支名可以省略不写
 - git branch -f main HEAD~3 强制移动main指向HEAD上三笔提交
-- git cherry-pick hash1 hash2... 将hash1、hash2cp到当前分支
+- git cherry-pick hash1 hash2... 将hash1、hash2 cp到当前分支
 
 #### reset&revert
 - git reset --soft
