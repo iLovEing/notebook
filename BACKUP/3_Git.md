@@ -93,7 +93,9 @@
 - git push [主机名] [本地分支名]:[远程分支名]  将本地分支推送到远程仓库的分支中，通常冒号前后的分支名是相同的，如果是相同的，可以省略 :[远程分支名]，如果远程分支不存在，会自动创建
 - git push origin dev/dev
 
-#### 跟踪/取消跟踪远程分支
+#### remote tracking
+- remote tracking 隐含了本地分支pull和push默认跟踪的远程分支
+- git checkout branch_name o/branch_name 创建分支时跟踪
 - git branch -u [主机名/远程分支名] [本地分支名] 将本地分支与远程分支关联，或者说使本地分支跟踪远程分支。如果是设置当前所在分支跟踪远程分支，最后一个参数本地分支名可以省略不写
 - git branch -u origin/dev
 - git branch --unset-upstream [分支名] 即可撤销该分支对远程分支的跟踪，同样地，如果撤销当前所在的分支的跟踪，分支名可以省略不写
