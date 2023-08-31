@@ -73,28 +73,16 @@
 ---
 
 ### 远程交互
-
-#### 说明
-1. clone远程分支后，本地有：
+ 
+#### remote说明
+- remote有主机名和分支名
+- git remote -v 查看主机名
+- 使用 remote 系列命令可以增加一个关联主机，执行 git remote add [主机名] [主仓库的地址]，注意，主仓库的地址使用 https 开头的：
+  - git remote add up https://github.com/iLovEing/hello_github
+  - git fetch up
+- clone远程分支后，本地有：
   - 与远程同名的分支，比如main，该分支可在本地任意改动
   - origin/main分支，表示远程分支指针，表示与远程分支的通信状态，在该分支上commit会分离HEAD（该分支不会改变）；
-
-
-#### 拉取远程commit
-- git fetch 改变本地远程分支指针，与远程仓库同步，但是不会改变本地分支
-- git pull = fetch + merge，如果本地分支有修改，会对远端修改生成新的hash（merge而非rebase），不影响后续提交
-- git pull --rebase = fetch + rebase
-- git rebase origin/main 
-
-#### push
-- gut push 将本地修改提交到远端，同时更新本地远程分支指针
-- git push [主机名] [本地分支名]:[远程分支名]  将本地分支推送到远程仓库的分支中，通常冒号前后的分支名是相同的，如果是相同的，可以省略 :[远程分支名]，如果远程分支不存在，会自动创建 (缺省自动关联tracking，还可以创建远程分支)
-- +冒号
-- git push origin dev/dev
-- fetch 相反
-- ~
-- ^
-- pull 参数
 
 #### remote tracking
 - remote tracking 隐含了本地分支pull和push默认跟踪的远程分支
@@ -104,14 +92,16 @@
 - git branch --unset-upstream [分支名] 即可撤销该分支对远程分支的跟踪，同样地，如果撤销当前所在的分支的跟踪，分支名可以省略不写
 - git push -u origin dev 可在push时自动跟踪
 
-#### 删除远程分支
-首先，删除远程分支，使用 git push [主机名] :[远程分支名] ，如果一次性删除多个，可以这样：git push [主机名] :[远程分支名] :[远程分支名] :[远程分支名] 。此命令的原理是将空分支推送到远程分支，结果自然就是远程分支被删除。另一个删除远程分支的命令：git push [主机名] --delete [远程分支名]。删除远程分支的命令可以在任意本地分支中执行。两个命令分别试一下：
-- git push origin :dev
+#### pull/fetch
+- git fetch 改变本地远程分支指针，与远程仓库同步，但是不会改变本地分支，不加参数会作用于所有远程分支
+- git rebase origin/main，执行fetch后rebase
+- git pull = fetch + merge，如果本地分支有修改，会对远端修改生成新的hash（merge而非rebase），不影响后续提交
+- git pull --rebase = fetch + rebase
+- git fetch [主机名] [远程分支名]:[本地分支名] 指定fetch某个远程分支到本地分支，若本地分支不存在则新建分支。注意这里不会更新任何远程分支指针
+- - git fetch [主机名] [远程分支名]:[本地分支名] = git fetch + git merge [本地分支名]
 
-#### 远程主机
-- git remote -v 查看
-
-使用 remote 系列命令来增加一个关联主机，执行 git remote add [主机名] [主仓库的地址]，注意，主仓库的地址使用 https 开头的：
-- git remote add up https://github.com/iLovEing/hello_github
-- git fetch up
-- git rebase up/main        git pull --rebase up/main
+#### push
+- gut push 将本地修改提交到远端，同时更新本地远程分支指针
+- git push [主机名] [本地分支名]:[远程分支名]  将本地分支推送到远程仓库的分支中，如果远程分支不存在，会自动创建并tracking
+- git push origin :dev 删除dev分支
+- git push [主机名] --delete [远程分支名]
