@@ -115,6 +115,7 @@ def get_repo_labels(repo):
 def get_issues_from_label(repo, label):
     print(label)
     print(type(label))
+    print(type((label,)))
     return repo.get_issues(labels=(label,))
 
 
