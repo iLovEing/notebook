@@ -25,11 +25,11 @@
 </table>
 
 ## 最近更新
+- [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--2023-10-11
 - [TorchAudio](https://github.com/iLovEing/notebook/issues/25)--2023-10-11
 - [声纹识别](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
 - [MySQL](https://github.com/iLovEing/notebook/issues/22)--2023-07-29
 - [Hugging Face - transformers](https://github.com/iLovEing/notebook/issues/21)--2023-07-22
-- [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## 传统算法
 - [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## Tips
@@ -62,3 +62,8 @@
 - [Transformer](https://github.com/iLovEing/notebook/issues/18)--2023-03-15
 - [CNN](https://github.com/iLovEing/notebook/issues/17)--2023-03-13
 - [梯度下降方法](https://github.com/iLovEing/notebook/issues/16)--2023-03-13
+## TODO
+TODO list from [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--2 jobs to do--0 jobs done
+- [ ] 考驾照
+- [ ] 考雅思
+
