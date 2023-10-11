@@ -17,8 +17,7 @@ ANCHOR_NUMBER = 5
 TOP_ISSUES_LABELS = ["Top"]
 TODO_ISSUES_LABELS = ["TODO"]
 FRIENDS_LABELS = ["Friends"]
-EXTRA_INGORE_LABELS = ["help wanted"] # some labels will trigger exception
-IGNORE_LABELS = FRIENDS_LABELS + TOP_ISSUES_LABELS + TODO_ISSUES_LABELS + EXTRA_INGORE_LABELS
+IGNORE_LABELS = FRIENDS_LABELS + TOP_ISSUES_LABELS + TODO_ISSUES_LABELS
 
 FRIENDS_TABLE_HEAD = "| Name | Link | Desc | \n | ---- | ---- | ---- |\n"
 FRIENDS_TABLE_TEMPLATE = "| {name} | {link} | {desc} |\n"
@@ -114,6 +113,8 @@ def get_repo_labels(repo):
 
 
 def get_issues_from_label(repo, label):
+    print(label)
+    print(type(label))
     return repo.get_issues(labels=(label,))
 
 
