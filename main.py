@@ -17,7 +17,8 @@ ANCHOR_NUMBER = 5
 TOP_ISSUES_LABELS = ["Top"]
 TODO_ISSUES_LABELS = ["TODO"]
 FRIENDS_LABELS = ["Friends"]
-IGNORE_LABELS = FRIENDS_LABELS + TOP_ISSUES_LABELS + TODO_ISSUES_LABELS
+EXTRA_INGORE_LABELS = ["help wanted"] # some labels will trigger exception
+IGNORE_LABELS = FRIENDS_LABELS + TOP_ISSUES_LABELS + TODO_ISSUES_LABELS + EXTRA_INGORE_LABELS
 
 FRIENDS_TABLE_HEAD = "| Name | Link | Desc | \n | ---- | ---- | ---- |\n"
 FRIENDS_TABLE_TEMPLATE = "| {name} | {link} | {desc} |\n"
@@ -113,7 +114,6 @@ def get_repo_labels(repo):
 
 
 def get_issues_from_label(repo, label):
-    print(label) #qzl
     return repo.get_issues(labels=(label,))
 
 
@@ -193,7 +193,6 @@ def add_md_label(repo, md, me):
     # for example, we can let the description start with a number (1#Java, 2#Docker, 3#K8s, etc.)
     labels = sorted(labels, key=lambda x: (x.description is None, x.description == "", x.description, x.name))
 
-    print(labels) #qzl
     with open(md, "a+", encoding="utf-8") as md:
         for label in labels:
 
