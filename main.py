@@ -113,6 +113,7 @@ def get_repo_labels(repo):
 
 
 def get_issues_from_label(repo, label):
+    print(label) #qzl
     return repo.get_issues(labels=(label,))
 
 
@@ -192,6 +193,7 @@ def add_md_label(repo, md, me):
     # for example, we can let the description start with a number (1#Java, 2#Docker, 3#K8s, etc.)
     labels = sorted(labels, key=lambda x: (x.description is None, x.description == "", x.description, x.name))
 
+    print(labels) #qzl
     with open(md, "a+", encoding="utf-8") as md:
         for label in labels:
 
