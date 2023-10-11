@@ -1,10 +1,29 @@
 ## My Notebook
 好记性不如烂笔头
-## 友情链接
-| Name | Link | Desc | 
- | ---- | ---- | ---- |
-| iLovEing | https://github.com/iLovEing/notebook/issues/4 | 友情连接issue |
-| yihong0618 | https://github.com/yihong0618/gitblog | blog来源 |
+
+## [友情链接](https://github.com/iLovEing/gitblog/issues/4)
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Link</th>
+<th>Desc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>iLovEing</td>
+<td>https://github.com/iLovEing/notebook/issues/4</td>
+<td>友情连接issue</td>
+</tr>
+<tr>
+<td>yihong0618</td>
+<td>https://github.com/yihong0618/gitblog</td>
+<td>blog来源</td>
+</tr>
+</tbody>
+</table>
+
 ## 最近更新
 - [TorchAudio](https://github.com/iLovEing/notebook/issues/25)--2023-10-11
 - [声纹识别](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
