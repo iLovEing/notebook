@@ -63,7 +63,7 @@
 - [CNN](https://github.com/iLovEing/notebook/issues/17)--2023-03-13
 - [梯度下降方法](https://github.com/iLovEing/notebook/issues/16)--2023-03-13
 ## TODO
-TODO list from [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--2 jobs to do--0 jobs done
-- [ ] 考驾照
+TODO list from [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--1 jobs to do--1 jobs done
+- [x] 考驾照
 - [ ] 考雅思
 
