@@ -39,8 +39,11 @@
 ![image](https://github.com/iLovEing/notebook/assets/109459299/fd66871e-3455-4fa6-b2e4-00cdae26870a)
 ----- ***公式(b)***
 
+---
 
-> L(x,\lambda,\eta) = f(x) + \sum_{i}^{M}\lambda_i m_i + \sum_{j}^{N}\eta_i m_i,x\propto R^P
+> 公式latex
+> (a): \left\{\begin{matrix}\min_x{f(x)}, x\propto R^P \\s.t. m_i(x) \le 0, i=1, 2...M \\s.t. n_j(x) = 0, j=1, 2...N\end{matrix}\right.
+> (b): L(x,\lambda,\eta) = f(x) + \sum_{i}^{M}\lambda_i m_i + \sum_{j}^{N}\eta_i m_i,x\propto R^P
 
 ---
 
