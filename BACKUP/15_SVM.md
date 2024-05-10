@@ -25,22 +25,22 @@
 
 ---
 
-## 约束优化问题求解
-先前知识，svm的约束优化问题求解思路：
-1. 利用拉格朗日乘子法，将原问题转成无约束形式
-2. 将原问题转化为对偶问题求解
-3. 根据slater条件，原问题和对偶问题同解
-4. 根据3，引入KKT条件
-5. 已知算法求解最终问题
+## 先前知识: 约束优化问题求解
+此章节讲解SVM中，带约束优化问题的求解，纯数学内容。
 
-![image](https://user-images.githubusercontent.com/109459299/224753194-284f184a-b6f0-4b48-ade7-abd391c2a828.png)
-![image](https://user-images.githubusercontent.com/109459299/224753398-4db6f84a-0ec4-427f-b4c6-0b13e3d42f4c.png)
-![image](https://user-images.githubusercontent.com/109459299/224753526-a8e90401-d2f7-44ec-839e-d85038422fc6.png)
-![image](https://user-images.githubusercontent.com/109459299/224753657-97a7e8fc-4044-433e-82b6-07e6022f6d85.png)
-![image](https://user-images.githubusercontent.com/109459299/224753714-e390b5bc-0a03-451a-a99d-b884424aed43.png)
+### 1. 原问题
+考虑一个带不等式约束的优化问题：
+![image](https://github.com/iLovEing/notebook/assets/109459299/5f25c6bd-0f31-4037-aed9-8d3123f6167a)
+----- ***公式(a)***
+
+### 2. 拉格朗日乘子法
+使用拉格朗日乘子法，将原问题写成无约束形式。
+引入拉格朗日函数：
+![image](https://github.com/iLovEing/notebook/assets/109459299/fd66871e-3455-4fa6-b2e4-00cdae26870a)
+----- ***公式(b)***
 
 
-
+> L(x,\lambda,\eta) = f(x) + \sum_{i}^{M}\lambda_i m_i + \sum_{j}^{N}\eta_i m_i,x\propto R^P
 
 ---
 
