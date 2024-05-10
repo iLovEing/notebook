@@ -26,25 +26,19 @@
 
 ## 最近更新
 - [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--2023-10-11
-- [TorchAudio](https://github.com/iLovEing/notebook/issues/25)--2023-10-11
-- [声纹识别](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
+- [声纹识别基础](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
 - [MySQL](https://github.com/iLovEing/notebook/issues/22)--2023-07-29
 - [Hugging Face - transformers](https://github.com/iLovEing/notebook/issues/21)--2023-07-22
+- [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## 传统算法
 - [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## Tips
-- [TorchAudio](https://github.com/iLovEing/notebook/issues/25)--2023-10-11
 - [MySQL](https://github.com/iLovEing/notebook/issues/22)--2023-07-29
 - [Hugging Face - transformers](https://github.com/iLovEing/notebook/issues/21)--2023-07-22
 - [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
-- [pytorch](https://github.com/iLovEing/notebook/issues/7)--2023-01-29
-<details><summary>显示更多</summary>
-
 - [Git](https://github.com/iLovEing/notebook/issues/3)--2022-07-23
-</details>
-
 ## audio
-- [声纹识别](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
+- [声纹识别基础](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
 ## 传统机器学习
 - [SVM](https://github.com/iLovEing/notebook/issues/15)--2023-03-13
 - [1-线性回归](https://github.com/iLovEing/notebook/issues/14)--2023-03-13
