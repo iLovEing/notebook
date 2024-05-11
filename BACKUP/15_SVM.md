@@ -82,6 +82,7 @@ $\therefore \max_{\lambda, \eta}{\min_x{L}} \le L \le \min_x{\max_{\lambda, \eta
 - $u=m(x)$ ， $t=f(x)$ 
 - $G = []$
 
+#### 3.3 KKT条件
 ---
 
 > 公式latex
