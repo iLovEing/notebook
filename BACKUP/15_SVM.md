@@ -75,6 +75,14 @@ $\therefore \max_{\lambda, \eta}{\min_x{L}} \le L \le \min_x{\max_{\lambda, \eta
 - 强对偶性：对偶问题的解**等于**原问题，当优化问题满足某些条件时拥有强对偶性。这里直接写结论，凸优化问题，满足slater条件时拥有强对偶性，原问题和对偶问题同解。
 > 补充说明3：对偶问题的几何理解
 
+简化原问题，考虑一维不等式约束问题： $\min_x{f(x)}, s.t. m(x) \le 0$ , 其中 $x$ 定义域为 $D$
+拉格朗日函数： $L(x, \lambda) = f(x) + \lambda m(x)$
+原问题的无约束形式： $\min_x{\max_\lambda{L(x, \lambda)}}, s.t. \lambda \ge 0$
+对偶问题： $\max_\lambda{\min_x{L(x, \lambda)}}, s.t. \lambda \ge 0$
+定义：
+- $p_0$ 是原问题的解， $d_0$ 是对偶问题的解
+- $u=m(x)$ ， $t=f(x)$ 
+- $G = []$
 
 ---
 
