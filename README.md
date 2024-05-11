@@ -56,9 +56,10 @@
 - [教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
 ## TODO
-TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--5 jobs to do--0 jobs done
+TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--6 jobs to do--0 jobs done
 - [ ] SVM
 - [ ] 线性回归
+- [ ] fft
 - [ ] xgboost
 - [ ] 计算图
 - [ ] audio ssl
