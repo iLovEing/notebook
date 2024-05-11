@@ -46,12 +46,12 @@
 
 > 补充说明2：公式(c)和公式(a)同解
 > 考虑原问题的两个约束：
-> - $n_{j}$为等式约束，对拉格朗日函数 $L(x,\lambda,\eta)$ 求导即满足；
+> - $n_{j}$为等式约束，对拉格朗日函数 $L(x, λ, η)$ 求导即满足；
 > - $m_{i}$为不等式约束，考虑两种情况：
-> a. 如果 $x$ 不满足约束 $m_{i}$ ，即 $m_{i}(x) > 0$ ，观察拉格朗日函数，由于 $\lambda_{i} > 0$ ，则 $\max_\lambda{L(x,\lambda,\eta)}$ 值为正无穷；
-> b. 如果 $x$ 满足约束 $m_{i}$ ，同理， $\max_\lambda{L(x,\lambda,\eta)}$ 值小于正无穷。  
+> a. 如果 $x$ 不满足约束 $m_{i}$ ，即 $m_{i}(x) > 0$ ，观察拉格朗日函数，由于 $λ_{i} > 0$ ，则 $\max_λ{L(x, λ, η)}$ 值为正无穷；
+> b. 如果 $x$ 满足约束 $m_{i}$ ，同理， $\max_λ{L(x, λ, η)}$ 值小于正无穷。  
 > 由a. b. 易推断：  
-> $\min_x{\max_\lambda{L}} =  min_x{[+\infty (when: m_i > 0),  L(when: m_i \le  0)]} = min_x{[L(when: m_i \le  0)]}$
+> $\min_x{\max_λ{L}} =  min_x{[+\infty (when: m_i > 0),  L(when: m_i \le  0)]} = min_x{[L(when: m_i \le  0)]}$
 > 即公式(c)的解隐式地满足 $m_{i} \le  0$ 
 > 
 > **故**：公式(c)和公式(a)同解
@@ -64,28 +64,51 @@
 #### 3.2 弱对偶性与强对偶性
 这一节主要讨论原问题和对偶问题解的关系（这里的解指的是满足条件下拉格朗日函数 $L$ 的值）。
 - 弱对偶性：对偶问题的解**小于等于**原问题，**天然拥有**，即
-$\max_{\lambda,\eta}{\min_x L(x,\lambda,\eta)} \le \min_x{\max_{\lambda,\eta} L(x,\lambda,\eta)} $
+$\max_{λ, η}{\min_x L(x, λ, η)} \le \min_x{\max_{λ, η} L(x, λ, η)} $
 证明：
-显然有： $\min_x{L} \le L \le \max_{\lambda, \eta}L$
-$\therefore \max_{\lambda, \eta}{\min_x{L}} \le L \le \min_x{\max_{\lambda, \eta}L}$
+显然有： $\min_x{L} \le L \le \max_{λ, η}L$
+$\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 即，在小的值里面取最大的，肯定小于等于 大的值里面取最小的。
 
 - 强对偶性：对偶问题的解**等于**原问题，当优化问题满足某些条件时拥有强对偶性。这里直接写结论，凸优化问题，满足slater条件时拥有强对偶性，原问题和对偶问题同解。
 > 补充说明3：对偶问题的几何理解
+> 简化原问题，考虑一维不等式约束问题： $\min_x{f(x)}, s.t. m(x) \le 0$ , 其中 $x$ 定义域为 $D$
+> 拉格朗日函数： $L(x, λ) = f(x) + λ m(x)$
+> 原问题的无约束形式： $\min_x{\max_λ{L(x, λ)}}, s.t. λ \ge 0$
+> 对偶问题： $\max_λ{\min_x{L(x, λ)}}, s.t. λ \ge 0$
+> 定义：
+> - $p_0$ 是原问题的解， $d_0$ 是对偶问题的解
+> - $u=m(x)$ ， $t=f(x)$ 
+> - 区域 $G = [(u, t) | x \propto D]$
+> 
+> 则有：
+> - $p_0 = inf[t | (u, t) \propto D, u \le 0] $
+> - $d_0 = \max_λ{\min_x{L(x, λ)}} := \max_λ{g(λ)},  其中： g(λ) = inf[t+λu | (u, t) \propto G, λ \ge 0]$
+> 
+> 如图，在图上表示区域G，注意G可以非凸，其中阴影部分为约束条件 $u \le 0$，可以看出：
+> - $p_0$ 是满足 $u \le 0$ 下，$t$ 能取到的最小值
+> - 当固定 $λ$ 时， $g(λ)$ 是直线 $t + λu = a$ 和 $t$ 轴交点，又 $(u, t) \propto G$ ，且斜率 $-λ$ 小于0，故 $g(λ)$ 与 $G$ 相切时，取到下确界。现在，考虑  $λ$ 可变，要取到最大的 $g(λ)$ ，当且仅当 $t + λu = a$ 同时和 A、B相切，此时 $d_0$ 为 $g(λ)$ 和 竖轴交点。可以直观地看出 $d_0 \le p_0$ 。
+> ![image](https://github.com/iLovEing/notebook/assets/109459299/615d0b21-1b24-444a-96fe-14ea54a37a0c)
 
-简化原问题，考虑一维不等式约束问题： $\min_x{f(x)}, s.t. m(x) \le 0$ , 其中 $x$ 定义域为 $D$
-拉格朗日函数： $L(x, \lambda) = f(x) + \lambda m(x)$
-原问题的无约束形式： $\min_x{\max_\lambda{L(x, \lambda)}}, s.t. \lambda \ge 0$
-对偶问题： $\max_\lambda{\min_x{L(x, \lambda)}}, s.t. \lambda \ge 0$
-定义：
-- $p_0$ 是原问题的解， $d_0$ 是对偶问题的解
-- $u=m(x)$ ， $t=f(x)$ 
-- $G = []$
+
+> 补充说明4：slater条件
+> 在*补充说明3*中，如果G是凸的，可以直观地感觉到 $d_0 \= p_0$ 可以成立
+> ![image](https://github.com/iLovEing/notebook/assets/109459299/c9e06d12-9122-4ba2-ade4-6cb71583bb98)
+> 数学上，凸函数不是强对偶的充分条件，还需要满足一些其他条件，比如slater条件：
+> $\exists \hat{x} \propto relint-D， s.t. \forall i=1, 2, ..., M， m_i(\hat(x)) < 0$
+> 放松的slater：若 $M$ 中有 $k$ 个仿射函数，则不需要校验这 $k$ 个条件（ $m_i(\hat(x)) < 0， i=1,...,k$ ）
 
 #### 3.3 KKT条件
+如果一个凸优化问题满足强对偶性，则可以引出KKT条件，借助KKT条件求解问题。
+
+> 补充说明5：关于引入对偶问题求解优化问题
+> 主要目的是，如果优化问题满足强对偶性，则可以使用KKT条件，降低问题求解复杂度（或使问题从不可解变为可解？）
+> 这一章的**整体逻辑**是：凸优化+slater条件 -> 强对偶性（原问题和对偶问题同解） -> KKT条件
+
+
 ---
 
-> 公式latex
+> 公式latex附录
 > (a): \left\{\begin{matrix}\min_x{f(x)}, x\propto R^P \\s.t. m_i(x) \le 0, i=1, 2...M \\s.t. n_j(x) = 0, j=1, 2...N\end{matrix}\right.
 > (b): L(x,\lambda,\eta) = f(x) + \sum_{i}^{M}\lambda_i m_i + \sum_{j}^{N}\eta_i m_i,x\propto R^P
 > (c): \left\{\begin{matrix} \min_x{\max_{\lambda,\eta} L(x,\lambda,\eta)}  \\ s.t. \lambda_{i} \ge 0\end{matrix}\right.
