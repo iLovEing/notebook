@@ -36,7 +36,7 @@
 ### 2. 使用拉格朗日乘子法求解约束优化问题
 使用拉格朗日乘子法，将原问题写成无约束形式。
 引入拉格朗日函数：
-![image](https://github.com/iLovEing/notebook/assets/109459299/c69251f2-9229-4365-bf19-40bc7a229ed8)
+![image](https://github.com/iLovEing/notebook/assets/109459299/4368ede6-ee66-4e94-9fa6-6183c6b566fd)
 ----- ***公式(b)***  
 则原问题可以写为一下无约束形式：
 ![image](https://github.com/iLovEing/notebook/assets/109459299/8859c77e-a0eb-4601-9743-f27cf4510a6a)
@@ -56,7 +56,7 @@
 > 
 > **故**：公式(c)和公式(a)同解
 
-### 3. 转化为对偶问题求解
+### 3. 转化为对偶问题
 #### 3.1 先写出原问题的对偶形式，其实就是将 $min$ 和 $max$ 对调：
 ![image](https://github.com/iLovEing/notebook/assets/109459299/4d0d5305-5d62-45ed-9e4d-cf7311a16fec)
 ----- ***公式(d)***  
@@ -100,6 +100,28 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 
 #### 3.3 KKT条件
 如果一个凸优化问题满足强对偶性，则可以引出KKT条件，借助KKT条件求解问题。
+1. 先写出原问题和对偶问题
+拉格朗日函数： $L(x, λ, η)$
+原问题（无约束）： $\min_x{\max_λ{L(x, λ, η)}}, s.t. λ \ge 0$
+对偶问题： $\max_λ{\min_x{L(x, λ, η)}}, s.t. λ \ge 0$
+**定义**： $p_0$ 为原问题的解，在 $x_0$ 处取得； $d_0$ 为对偶问题的解，在 $λ_0, η_0$ 处取得。
+
+2. KKT条件定义
+    1. 可行性条件（由定义的约束直接得出）:
+    - $m_i{x_0} \le 0$
+    - $n_j{x_0} = 0$
+    - $λ_0 \ge 0$
+    2. 互补松弛条件： $λ_0^i m_i = 0$
+    3. 梯度为0： $\frac{\partial L}{\partial x} |_{x=x_0} = 0$
+
+3. KKT条件证明
+![image](https://github.com/iLovEing/notebook/assets/109459299/5d06b681-4624-479c-b8c1-9b9c999b22a3)
+----- ***公式(e)***  
+
+观察式e的两个不等号，当优化问题满足强对偶性时，不等号取等：
+- 第一个不等号取等：梯度为0条件 $\frac{\partial L}{\partial x} |_{x=x_0} = 0$
+- 第二个不等号取等：互补松弛条件： $λ_0^i m_i = 0$
+至此，KKT条件的2、3证毕。
 
 > 补充说明5：关于引入对偶问题求解优化问题
 > 主要目的是，如果优化问题满足强对偶性，则可以使用KKT条件，降低问题求解复杂度（或使问题从不可解变为可解？）
@@ -110,9 +132,10 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 
 > 公式latex附录
 > (a): \left\{\begin{matrix}\min_x{f(x)}, x\propto R^P \\s.t. m_i(x) \le 0, i=1, 2...M \\s.t. n_j(x) = 0, j=1, 2...N\end{matrix}\right.
-> (b): L(x,\lambda,\eta) = f(x) + \sum_{i}^{M}\lambda_i m_i + \sum_{j}^{N}\eta_i m_i,x\propto R^P
+> (b): L(x,\lambda,\eta) = f(x) + \sum_{i}^{M}\lambda_i m_i + \sum_{j}^{N}\eta_j m_j，x\propto R^P
 > (c): \left\{\begin{matrix} \min_x{\max_{\lambda,\eta} L(x,\lambda,\eta)}  \\ s.t. \lambda_{i} \ge 0\end{matrix}\right.
 > (d): \left\{\begin{matrix} \max_{\lambda,\eta}{\min_x L(x,\lambda,\eta)}  \\ s.t. \lambda_{i} \ge 0\end{matrix}\right.
+> (e): d_0 = \max_{\lambda, \eta}{\min_x{L(x, \lambda, \eta)}} = \min_x{L(x, \lambda_0, \eta_0)} {\color{Red} \le}  L(x_0, \lambda_0, \eta_0) = f(x_0) + \sum_{i}^{M}\lambda_0^i m_i + 0 {\color{Red} \le}  f(x_0) = p_0
 
 ---
 
