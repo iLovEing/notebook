@@ -36,14 +36,33 @@
 ### 2. 拉格朗日乘子法
 使用拉格朗日乘子法，将原问题写成无约束形式。
 引入拉格朗日函数：
-![image](https://github.com/iLovEing/notebook/assets/109459299/fd66871e-3455-4fa6-b2e4-00cdae26870a)
------ ***公式(b)***
+![image](https://github.com/iLovEing/notebook/assets/109459299/c69251f2-9229-4365-bf19-40bc7a229ed8)
+----- ***公式(b)***  
+则原问题可以写为一下无约束形式：
+![image](https://github.com/iLovEing/notebook/assets/109459299/8859c77e-a0eb-4601-9743-f27cf4510a6a)
+----- ***公式(c)***  
+> 简单说明：公式(c)和公式(a)同解
+
+考虑原问题的两个约束：
+1. $n_{j}$为等式约束，对拉格朗日函数 $L(x,\lambda,\eta)$ 求导即满足；
+2. $m_{i}$为不等式约束，考虑两种情况：a. 如果 $x$ 不满足约束 $m_{i}$ ，即 $m_{i}(x) > 0$ ，观察拉格朗日函数，由于 $\lambda_{i} > 0$ ，则 $\max_\lambda{L(x,\lambda,\eta)}$ 值为正无穷；b. 如果 $x$ 满足约束 $m_{i}$ ，同理，$\max_\lambda{L(x,\lambda,\eta)}$ 值小于正无穷。由a. b. 可知：  
+$\min_x{\max_\lambda{L}} =  min_x{[+\infty (when: m_i > 0),  L(when: m_i \le  0)]} = min_x{[L(when: m_i \le  0)]}$
+即公式(c)的解隐式地满足 $m_{i} \le  0$ 
+**故**：公式(c)和公式(a)同解
+
+### 3. 对偶问题
+#### 3.1 先写出原问题的对偶形式：
+
+
+
+
 
 ---
 
 > 公式latex
 > (a): \left\{\begin{matrix}\min_x{f(x)}, x\propto R^P \\s.t. m_i(x) \le 0, i=1, 2...M \\s.t. n_j(x) = 0, j=1, 2...N\end{matrix}\right.
 > (b): L(x,\lambda,\eta) = f(x) + \sum_{i}^{M}\lambda_i m_i + \sum_{j}^{N}\eta_i m_i,x\propto R^P
+> (c): \left\{\begin{matrix} \min_x{\max_{\lambda,\eta} L(x,\lambda,\eta)}  \\ s.t. \lambda_{i} \ge 0\end{matrix}\right.
 
 ---
 
