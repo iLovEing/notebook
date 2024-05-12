@@ -164,8 +164,8 @@ $\exists r>0，\min_i{y_i(w^Tx_i+b)}=r$
 又因为超平面 $w^Tx_i+b$ 可以任意缩放，故该约束条件可以进一步改写为：
 $\min_i{y_i(w^Tx_i+b)}=1$ ，即 $y_i(w^Tx_i+b) \ge 1$
 - 2.2 将2.1中的约束条件带入优化方程：
-$\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i}{\frac{ y_i(w^Tx_i+b) }{ ||w|| }}} = \max_{w, b}{\frac{ 1 }{ ||w|| }}\min_{x_i}{ y_i(w^Tx_i+b) } = \max_{w, b}{\frac{ 1 }{ ||w|| }} = \min_{w, b}{ ||w|| }$
-
+$\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i}{\frac{ y_i(w^Tx_i+b) }{ ||w|| }}} = \max_{w, b}{\frac{ 1 }{ ||w|| }}\min_{x_i}{ y_i(w^Tx_i+b) } = \max_{w, b}{\frac{ 1 }{ ||w|| }} = \min_{w, b}{ ||w|| } = \min_{w, b}{\frac{1}{2} w^Tw}$
+这里，第一个等号
 ---
 > 公式latex附录
 > (a): margin(w, b) = \min_{w,b,x_i}{d(w, b, x_i)} = \min_{w,b,x_i}{\frac{\left | w^Tx_i+b \right | }{\left \| w \right \| } }
