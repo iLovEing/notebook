@@ -166,10 +166,22 @@ $\min_i{y_i(w^Tx_i+b)}=1$ ，即 $y_i(w^Tx_i+b) \ge 1$
 - 2.2 将2.1中的约束条件带入优化方程：
 $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i}{\frac{ y_i(w^Tx_i+b) }{ ||w|| }}} = \max_{w, b}{\frac{ 1 }{ ||w|| }}\min_{x_i}{ y_i(w^Tx_i+b) } = \max_{w, b}{\frac{ 1 }{ ||w|| }} = \min_{w, b}{ ||w|| } = \min_{w, b}{\frac{1}{2} w^Tw}$
 这里，第一个等号
+
+![image](https://github.com/iLovEing/notebook/assets/109459299/8712f7c6-85e6-4160-a51e-ab5275cbc967)
+
+
+
+
+
+
 ---
+
+
 > 公式latex附录
 > (a): margin(w, b) = \min_{w,b,x_i}{d(w, b, x_i)} = \min_{w,b,x_i}{\frac{\left | w^Tx_i+b \right | }{\left \| w \right \| } }
-> (b): \left\{\begin{matrix} \max_{w, b}{\min_{x_i}{\frac{\left | w^Tx_i+b \right | }{\left \|| w \right \|| } }}\\s.t. y_i(w^Tx_i + b) > 0，i=1,2,...,N\end{matrix}\right.
+> (b): \left\{\begin{matrix} \max_{w, b}{\min_{x_i}{\frac{\left | w^Tx_i+b \right | }{\left \| w \right \| } }}
+\\s.t. y_i(w^Tx_i + b) > 0，i=1,2,...,N\end{matrix}\right.
+> (c): \left\{\begin{matrix} \min_{w, b}{\frac{1}{2} w^Tw}\\s.t. 1-y_i(w^Tx_i + b) \le 0，i=1,2,...,N\end{matrix}\right.
 
 ---
 
