@@ -51,7 +51,7 @@
 > a. 如果 $x$ 不满足约束 $m_{i}$ ，即 $m_{i}(x) > 0$ ，观察拉格朗日函数，由于 $λ_{i} > 0$ ，则 $\max_λ{L(x, λ, η)}$ 值为正无穷；
 > b. 如果 $x$ 满足约束 $m_{i}$ ，同理， $\max_λ{L(x, λ, η)}$ 值小于正无穷。  
 > 由a. b. 易推断：  
-> $\min_x{\max_λ{L}} =  min_x{[+\infty (when: m_i > 0),  L(when: m_i \le  0)]} = min_x{[L(when: m_i \le  0)]}$
+> $\min_x{\max_λ{L}} =  min_x{\\{+\infty (when: m_i > 0),  L(when: m_i \le  0)\\}} = min_x{\\{L(when: m_i \le  0)\\}}$
 > 即公式(c)的解隐式地满足 $m_{i} \le  0$ 
 > 
 > **故**：公式(c)和公式(a)同解
@@ -79,11 +79,11 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 > 定义：
 > - $p_0$ 是原问题的解， $d_0$ 是对偶问题的解
 > - $u=m(x)$ ， $t=f(x)$ 
-> - 区域 $G = [(u, t) | x \propto D]$
+> - 区域 $G = \\{(u, t) | x \propto D\\}$
 > 
 > 则有：
-> - $p_0 = inf[t | (u, t) \propto D, u \le 0] $
-> - $d_0 = \max_λ{\min_x{L(x, λ)}} := \max_λ{g(λ)},  其中： g(λ) = inf[t+λu | (u, t) \propto G, λ \ge 0]$
+> - $p_0 = inf\\{t | (u, t) \propto D, u \le 0\\} $
+> - $d_0 = \max_λ{\min_x{L(x, λ)}} := \max_λ{g(λ)},  其中： g(λ) = inf\\{t+λu | (u, t) \propto G, λ \ge 0\\}$
 > 
 > 如图，在图上表示区域G，注意G可以非凸，其中阴影部分为约束条件 $u \le 0$，可以看出：
 > - $p_0$ 是满足 $u \le 0$ 下，$t$ 能取到的最小值
