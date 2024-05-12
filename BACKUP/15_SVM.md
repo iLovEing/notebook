@@ -151,7 +151,7 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 > 补充说明1：SVM是一个判别模型，而非概率模型。
 
 ### 2. SVM的数学表达
-
+设样本点为 $\\{ (x_i, y_i) \\} _{i=1}^{N} ，x \propto R^P，y_i \propto \\{ -1, +1\\}$
 
 ---
 
