@@ -155,7 +155,16 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 超平面 $f(w, b)$ 最近点的间距： $margin(w, b) = \min_{w, b, x_i}d{w, b, x_i}$
 设样本点为 $\\{ (x_i, y_i) \\} _{i=1}^{N} ，x \propto R^P，y_i \propto \\{ -1, +1\\}$ ，超平面为 $f(w, b) = w^Tx+b$ 
 超平面距离最近样本点的间距：
-$margin(w, b) = min_{w,b,x_i}{b}$
+![image](https://github.com/iLovEing/notebook/assets/109459299/a1b4fc5f-3ad6-410e-86d8-0c1859bc7f1b)
+----- ***公式(a)***
+
+则，SVM中”最大化最小距离“可以用数学表达出来：
+
+
+
+---
+> 公式latex附录
+> (a): margin(w, b) = \min_{w,b,x_i}{d(w, b, x_i)} = \min_{w,b,x_i}{\frac{\left | w^Tx_i+b \right | }{\left \| w \right \| } }
 
 ---
 
