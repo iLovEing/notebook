@@ -165,10 +165,10 @@ $\exists r>0，\min_i{y_i(w^Tx_i+b)}=r$
 $\min_i{y_i(w^Tx_i+b)}=1$ ，即 $y_i(w^Tx_i+b) \ge 1$
 - 2.2 将2.1中的约束条件带入优化方程：
 $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i}{\frac{ y_i(w^Tx_i+b) }{ ||w|| }}} = \max_{w, b}{\frac{ 1 }{ ||w|| }}\min_{x_i}{ y_i(w^Tx_i+b) } = \max_{w, b}{\frac{ 1 }{ ||w|| }} = \min_{w, b}{ ||w|| } = \min_{w, b}{\frac{1}{2} w^Tw}$
-这里，第一个等号
-
+这里，第一个等号用 $y_i$ 相乘抵消绝对值，第三个等号是将约束条件代入的结果，最后一个等号中1/2是为了后面计算方便加上的。
+- 2.3 因此，SVM最终可以写成如下带约束优化问题：
 ![image](https://github.com/iLovEing/notebook/assets/109459299/8712f7c6-85e6-4160-a51e-ab5275cbc967)
-
+----- ***公式(c)***
 
 
 
