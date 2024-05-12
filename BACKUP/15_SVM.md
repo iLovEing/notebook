@@ -151,20 +151,25 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 > 补充说明1：SVM是一个判别模型，而非概率模型。
 
 ### 2. SVM的数学表达
-设样本点为 $\\{ (x_i, y_i) \\} _{i=1}^{N} ，x \propto R^P，y_i \propto \\{ -1, +1\\}$  ，超平面为 $f(w, b) = w^Tx+b$ 
-超平面 $f(w, b)$ 最近点的间距： $margin(w, b) = \min_{w, b, x_i}d{w, b, x_i}$
 设样本点为 $\\{ (x_i, y_i) \\} _{i=1}^{N} ，x \propto R^P，y_i \propto \\{ -1, +1\\}$ ，超平面为 $f(w, b) = w^Tx+b$ 
 超平面距离最近样本点的间距：
 ![image](https://github.com/iLovEing/notebook/assets/109459299/a1b4fc5f-3ad6-410e-86d8-0c1859bc7f1b)
 ----- ***公式(a)***
 
 则，SVM中”最大化最小距离“可以用数学表达出来：
-
-
+![image](https://github.com/iLovEing/notebook/assets/109459299/ebc850bc-b15f-45cf-ad55-41b471513366)
+----- ***公式(b)***
+- 2.1 观察式(b)中的约束条件，可以改写为：
+$\exists r>0，\min_i{y_i(w^Tx_i+b)}=r$
+又因为超平面 $w^Tx_i+b$ 可以任意缩放，故该约束条件可以进一步改写为：
+$\min_i{y_i(w^Tx_i+b)}=1$ ，即 $y_i(w^Tx_i+b) \ge 1$
+- 2.2 将2.1中的约束条件带入优化方程：
+$\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i}{\frac{ y_i(w^Tx_i+b) }{ ||w|| }}} = \max_{w, b}{\frac{ 1 }{ ||w|| }}\min_{x_i}{ y_i(w^Tx_i+b) } = \max_{w, b}{\frac{ 1 }{ ||w|| }} = \min_{w, b}{ ||w|| }$
 
 ---
 > 公式latex附录
 > (a): margin(w, b) = \min_{w,b,x_i}{d(w, b, x_i)} = \min_{w,b,x_i}{\frac{\left | w^Tx_i+b \right | }{\left \| w \right \| } }
+> (b): \left\{\begin{matrix} \max_{w, b}{\min_{x_i}{\frac{\left | w^Tx_i+b \right | }{\left \|| w \right \|| } }}\\s.t. y_i(w^Tx_i + b) > 0，i=1,2,...,N\end{matrix}\right.
 
 ---
 
