@@ -127,8 +127,8 @@ ubuntu 根目录
 
 ---
 
-### 开发环境和软件安装
-#### 硬盘挂载
+## 开发环境和软件安装
+### 硬盘挂载
 1. 手动挂载
    - df -l # 查看当前挂载情况
    - lsblk/fdisk -l 查看磁盘情况
@@ -147,7 +147,7 @@ ubuntu 根目录
    
 3. 挂载nas (smb)
 
-#### 开发环境
+### 开发环境
 1. python  
 sudo ln -s /usr/bin/python3 /usr/bin/python # 使用linux自带即可
 
@@ -187,69 +187,59 @@ pkgs_dirs:
   - /home/iloveing/anaconda3/pkgs
   - /home/iloveing/.conda/pkgs
 
-#### 软件安装
-chrome
-官网下载
-sudo dpkg -i google-chrome-stable_current_amd64.deb
+### VPN
+1. copy配置文件改名为config.yaml， clash文件Country.mmdb
+2. 下载amd64版本 https://github.com/Dreamacro/clash/releases
+3. 三个文件放一起，可能要chmod 777 clash
+4. 创建service
+5. sudo vim /etc/systemd/system/clash.service
+> [Unit]
+> Description=Clash
+> 
+> [Service]
+> Type=simple
+> Restart=always
+> ExecStart=/usr/local/clash/clash -d /usr/local/clash
+> 
+> [Install]
+> WantedBy=multi-user.target
 
-qq
-官网下载deb
-
-Typora
-官网下载deb
-
-
-
-
-pycharme
-wps
-vpn
-OpenRGB
-indicator-sysmonitor
-steam
-baidunetdisk
-
-
-
----
-
-
-VPN
-8.1 copy配置文件改名为config.yaml， clash文件Country.mmdb
-8.2 下载amd64版本 https://github.com/Dreamacro/clash/releases
-7.3 三个文件放一起，可能要chmod 777 clash
-7.4 创建service
-sudo vim /etc/systemd/system/clash.service
-[Unit]
-Description=Clash
-
-[Service]
-Type=simple
-Restart=always
-ExecStart=/usr/local/clash/clash -d /usr/local/clash
-
-[Install]
-WantedBy=multi-user.target
-7.5 启动service并设置为开机启动
-sudo systemctl daemon-reload
-sudo systemctl enable clash
-sudo systemctl start clash
-7.6 网络设置代理
+6. 启动service并设置为开机启动
+    - sudo systemctl daemon-reload
+    - sudo systemctl enable clash
+    - sudo systemctl start clash
+7. 网络设置代理
 手动 http和https都用127.0.0.1 端口和config.yaml一致，这里是7890
 
-7.7 测试
-systemctl status clash
-curl -i google.com 可能要重启终端
+8. 测试
+    - systemctl status clash
+    - curl -i google.com 可能要重启终端
 
-7.8 开关方法
+9. 开关方法
 设置里代理开关，终端内要重启生效
 
-7.9 设置
+10. 设置
 http://clash.razord.top
 网址 端口 密钥要和config.yaml（external-controller， secret）
 
-7.10 可以在某个终端单独开启/关闭
+11. 可以在某个终端单独开启/关闭
 export http_proxy="http://127.0.0.1:7890"
 export https_proxy="https://127.0.0.1:7890"
 unset http_proxy
 unset https_proxy
+
+
+### 软件安装
+1. chrome
+官网下载
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+2. qq
+官网下载deb
+3.Typora
+官网下载deb
+4. pycharme
+5. wps
+6. OpenRGB
+7. indicator-sysmonitor
+8. steam
+9. baidunetdisk
