@@ -41,7 +41,7 @@
 - [梯度下降方法](https://github.com/iLovEing/notebook/issues/16)--2023-03-13
 ## Machine Learnning
 - [SVM](https://github.com/iLovEing/notebook/issues/15)--2023-03-13
-- [1-线性回归](https://github.com/iLovEing/notebook/issues/14)--2023-03-13
+- [线性回归](https://github.com/iLovEing/notebook/issues/14)--2023-03-13
 - [clustering](https://github.com/iLovEing/notebook/issues/9)--2023-03-09
 ## Math
 - [计算法则](https://github.com/iLovEing/notebook/issues/12)--2023-03-13
@@ -56,8 +56,7 @@
 - [教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
 ## TODO
-TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--8 jobs to do--0 jobs done
-- [ ] SVM
+TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--7 jobs to do--0 jobs done
 - [ ] 线性回归
 - [ ] fft
 - [ ] xgboost
