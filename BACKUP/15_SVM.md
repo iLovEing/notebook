@@ -77,22 +77,22 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 > 原问题的无约束形式： $\min_x{\max_λ{L(x, λ)}}, s.t. λ \ge 0$
 > 对偶问题： $\max_λ{\min_x{L(x, λ)}}, s.t. λ \ge 0$
 > 定义：
-> - $p_0$ 是原问题的解， $d_0$ 是对偶问题的解
+> - $\tilde{p}$ 是原问题的解， $\tilde{d}$ 是对偶问题的解
 > - $u=m(x)$ ， $t=f(x)$ 
 > - 区域 $G = \\{(u, t) | x \propto D\\}$
 > 
 > 则有：
-> - $p_0 = inf\\{t | (u, t) \propto D, u \le 0\\} $
-> - $d_0 = \max_λ{\min_x{L(x, λ)}} := \max_λ{g(λ)},  其中： g(λ) = inf\\{t+λu | (u, t) \propto G, λ \ge 0\\}$
+> - $\tilde{p} = inf\\{t | (u, t) \propto D, u \le 0\\} $
+> - $\tilde{d} = \max_λ{\min_x{L(x, λ)}} := \max_λ{g(λ)},  其中： g(λ) = inf\\{t+λu | (u, t) \propto G, λ \ge 0\\}$
 > 
 > 如图，在图上表示区域G，注意G可以非凸，其中阴影部分为约束条件 $u \le 0$，可以看出：
-> - $p_0$ 是满足 $u \le 0$ 下，$t$ 能取到的最小值
-> - 当固定 $λ$ 时， $g(λ)$ 是直线 $t + λu = a$ 和 $t$ 轴交点，又 $(u, t) \propto G$ ，且斜率 $-λ$ 小于0，故 $g(λ)$ 与 $G$ 相切时，取到下确界。现在，考虑  $λ$ 可变，要取到最大的 $g(λ)$ ，当且仅当 $t + λu = a$ 同时和 A、B相切，此时 $d_0$ 为 $g(λ)$ 和 竖轴交点。可以直观地看出 $d_0 \le p_0$ 。
+> - $\tilde{p}$ 是满足 $u \le 0$ 下， $t$ 能取到的最小值
+> - 当固定 $λ$ 时， $g(λ)$ 是直线 $t + λu = a$ 和 $t$ 轴交点，又 $(u, t) \propto G$ ，且斜率 $-λ$ 小于0，故 $g(λ)$ 与 $G$ 相切时，取到下确界。现在，考虑  $λ$ 可变，要取到最大的 $g(λ)$ ，当且仅当 $t + λu = a$ 同时和 A、B相切，此时 $\tilde{d}$ 为 $g(λ)$ 和 竖轴交点。可以直观地看出 $\tilde{d} \le \tilde{p}$ 。
 > ![image](https://github.com/iLovEing/notebook/assets/109459299/615d0b21-1b24-444a-96fe-14ea54a37a0c)
 
 
 > 补充说明4：slater条件
-> 在*补充说明3*中，如果G是凸的，可以直观地感觉到 $d_0 \= p_0$ 可以成立
+> 在*补充说明3*中，如果G是凸的，可以直观地感觉到 $\tilde{d} \= \tilde{p}$ 可以成立
 > ![image](https://github.com/iLovEing/notebook/assets/109459299/c9e06d12-9122-4ba2-ade4-6cb71583bb98)
 > 数学上，凸函数不是强对偶的充分条件，还需要满足一些其他条件，比如slater条件：
 > $\exists \hat{x} \propto relint-D， s.t. \forall i=1, 2, ..., M， m_i(\hat(x)) < 0$
@@ -104,23 +104,24 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 拉格朗日函数： $L(x, λ, η)$
 原问题（无约束）： $\min_x{\max_λ{L(x, λ, η)}}, s.t. λ \ge 0$
 对偶问题： $\max_λ{\min_x{L(x, λ, η)}}, s.t. λ \ge 0$
-**定义**： $p_0$ 为原问题的解，在 $x_0$ 处取得； $d_0$ 为对偶问题的解，在 $λ_0, η_0$ 处取得。
+**定义**： $\tilde{p}$ 为原问题的解，在 $\tilde{x}$ 处取得； $\tilde{d}$ 为对偶问题的解，在 $\tilde{λ}, \tilde{η}$ 处取得。
 
-2. KKT条件定义
+2. KKT条件
     1. 可行性条件（由定义的约束直接得出）:
-    - $m_i{x_0} \le 0$
-    - $n_j{x_0} = 0$
-    - $λ_0 \ge 0$
-    2. 互补松弛条件： $λ_0^i m_i = 0$
-    3. 梯度为0： $\frac{\partial L}{\partial x} |_{x=x_0} = 0$
+        - $m_i(\tilde{x}) \le 0$
+        - $n_j(\tilde{x}) = 0$
+        - $\tilde{λ} \ge 0$
+    2. 互补松弛条件： $\tilde{λ}_i m_i = 0$
+    3. 梯度为0： $\frac{\partial L}{\partial x} |_{x=\tilde{x}} = 0$
 
 3. KKT条件证明
-![image](https://github.com/iLovEing/notebook/assets/109459299/5d06b681-4624-479c-b8c1-9b9c999b22a3)
+显然有：
+![image](https://github.com/iLovEing/notebook/assets/109459299/9df2fb48-df8e-45a0-84a2-9a5e513a8738)
 ----- ***公式(e)***  
 
 观察式e的两个不等号，当优化问题满足强对偶性时，不等号取等：
-- 第一个不等号取等：梯度为0条件 $\frac{\partial L}{\partial x} |_{x=x_0} = 0$
-- 第二个不等号取等：互补松弛条件： $λ_0^i m_i = 0$
+- 第一个不等号取等：梯度为0条件 $\frac{\partial L}{\partial x} |_{x=\tilde{x}} = 0$
+- 第二个不等号取等：互补松弛条件： $\tilde{λ}_i m_i = 0$
 至此，KKT条件的2、3证毕。
 
 > 补充说明5：关于引入对偶问题求解优化问题
@@ -135,7 +136,7 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 > (b): L(x,\lambda,\eta) = f(x) + \sum_{i}^{M}\lambda_i m_i + \sum_{j}^{N}\eta_j m_j，x\propto R^P
 > (c): \left\{\begin{matrix} \min_x{\max_{\lambda,\eta} L(x,\lambda,\eta)}  \\ s.t. \lambda_{i} \ge 0\end{matrix}\right.
 > (d): \left\{\begin{matrix} \max_{\lambda,\eta}{\min_x L(x,\lambda,\eta)}  \\ s.t. \lambda_{i} \ge 0\end{matrix}\right.
-> (e): d_0 = \max_{\lambda, \eta}{\min_x{L(x, \lambda, \eta)}} = \min_x{L(x, \lambda_0, \eta_0)} {\color{Red} \le}  L(x_0, \lambda_0, \eta_0) = f(x_0) + \sum_{i}^{M}\lambda_0^i m_i + 0 {\color{Red} \le}  f(x_0) = p_0
+> (e): \tilde{d} = \max_{\lambda, \eta}{\min_x{L(x, \lambda, \eta)}} = \min_x{L(x, \tilde{\lambda}, \tilde{\eta})} {\color{Red} \le}  L(\tilde{x}, \tilde{\lambda}, \tilde{\eta}) = f(\tilde{x}) + \sum_{i}^{M}\tilde{\lambda}_i m_i + 0 {\color{Red} \le}  f(\tilde{x}) = \tilde{p}
 
 ---
 
