@@ -25,11 +25,11 @@
 </table>
 
 ## 最近更新
+- [XGBoost](https://github.com/iLovEing/notebook/issues/28)--2024-05-13
 - [add notebook](https://github.com/iLovEing/notebook/issues/27)--2024-05-11
 - [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--2023-10-11
 - [声纹识别基础](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
 - [MySQL](https://github.com/iLovEing/notebook/issues/22)--2023-07-29
-- [Hugging Face - transformers](https://github.com/iLovEing/notebook/issues/21)--2023-07-22
 ## Traditional Algos
 - [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## Audio
@@ -40,6 +40,7 @@
 - [CNN](https://github.com/iLovEing/notebook/issues/17)--2023-03-13
 - [梯度下降方法](https://github.com/iLovEing/notebook/issues/16)--2023-03-13
 ## Machine Learnning
+- [XGBoost](https://github.com/iLovEing/notebook/issues/28)--2024-05-13
 - [SVM](https://github.com/iLovEing/notebook/issues/15)--2023-03-13
 - [线性回归](https://github.com/iLovEing/notebook/issues/14)--2023-03-13
 - [clustering](https://github.com/iLovEing/notebook/issues/9)--2023-03-09
