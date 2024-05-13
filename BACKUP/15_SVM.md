@@ -191,7 +191,7 @@ $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i
 ![image](https://github.com/iLovEing/notebook/assets/109459299/9366668e-41cf-47c2-864a-9352790b3f0e)
 ----- ***记 式(f)***  
 
-其中 $λ_i $ 的值由优化问题 $\max_λ{\min_{w, b}{L(w, b, λ)}}，s.t.λ_i \ge 0$ 解出，求解该优化问题有一些经典算法，比如。
+其中 $λ_i$ 的值由优化问题 $\max_λ{\min_{w, b}{L(w, b, λ)}}，s.t.λ_i \ge 0$ 解出，求解该优化问题有一些经典算法，比如。
 
 
 ### 4. soft-margin SVM
