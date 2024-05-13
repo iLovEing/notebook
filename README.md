@@ -42,7 +42,7 @@
 ## Machine Learnning
 - [XGBoost](https://github.com/iLovEing/notebook/issues/28)--2024-05-13
 - [SVM](https://github.com/iLovEing/notebook/issues/15)--2023-03-13
-- [线性回归](https://github.com/iLovEing/notebook/issues/14)--2023-03-13
+- [Linear Regression](https://github.com/iLovEing/notebook/issues/14)--2023-03-13
 - [clustering](https://github.com/iLovEing/notebook/issues/9)--2023-03-09
 ## Math
 - [计算法则](https://github.com/iLovEing/notebook/issues/12)--2023-03-13
