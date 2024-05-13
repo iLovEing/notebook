@@ -52,7 +52,7 @@
 - [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
 - [Git](https://github.com/iLovEing/notebook/issues/3)--2022-07-23
 ## 传送门
-- [收藏滴小网站](https://github.com/iLovEing/notebook/issues/10)--2023-03-10
+- [网站收藏](https://github.com/iLovEing/notebook/issues/10)--2023-03-10
 - [教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
 ## TODO
