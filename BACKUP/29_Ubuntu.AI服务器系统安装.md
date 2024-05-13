@@ -52,12 +52,12 @@ ubuntu 根目录
 
 ---
 
-### 系统环境和驱动
-#### apt软件源修改
+## 系统环境和驱动
+### apt软件源修改
 1. 使用中科大源: sudo sed -i 's@//.*archive.ubuntu.com@//mirrors.ustc.edu.cn@g' /etc/apt/sources.list
 2. 更新索引: sudo apt update
 
-#### linux-windows时间同步
+### linux-windows时间同步
 - 方法1: 使用timedatectl修改为local rtc
   - timedatectl status # 查看状态
   - timedatectl set-local-rtc 1 # 使用local rtc
@@ -66,7 +66,7 @@ ubuntu 根目录
   2. sudo ntpdate time.windows.com
   4. sudo hwclock --localtime --systohc
 
-#### 显卡驱动
+### 显卡驱动
 > ***attention***: 建议先安装ssh，防止用户界面无法进入
 > ***attention***: 安装系统时勾选自动安装驱动，开机检查驱动版本，若版本cuda满足可不手动升级
 1. 查看设备：lspci -nn | grep -i nvidia
@@ -112,7 +112,7 @@ ubuntu 根目录
     5. 验证
     nvidia-smi
 
-####  cuda enviroment
+###  cuda enviroment
 - cuda
 1. 先安装 gcc g++ make
 2. 按[官网](https://developer.nvidia.com/cuda-toolkit-archive)命令安装, 选择run file  local,不选driver  不选 kernel object
