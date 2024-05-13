@@ -226,6 +226,3 @@ $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i
 ---
 
 ## kernel SVM
-
-挖个坑，写完核方法填坑。
-（其实解出w和b已经能看出来了）
