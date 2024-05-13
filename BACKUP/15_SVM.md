@@ -175,17 +175,26 @@ $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i
 
 ### 3. SVM求解
 1. 根据先前知识的优化理论，将式(c)转化为无约束优化问题，并写出对偶问题：
-    - 拉格朗日函数： $L(w, b, λ) = \frac{1}{2}w^Tw + \sum_{i=1}^{N}\lambda_i[1-y_i(w^Tx_i+b)]$
+    - 拉格朗日函数： $L(w, b, λ) = \frac{1}{2}w^Tw + \sum_{i=1}^{N}\λ_i[1-y_i(w^Tx_i+b)]$
     - 无约束优化问题： $\min_{w, b}{\max_λ{L(w, b, λ)}}，s.t.λ_i \ge 0$
     - 对偶问题： $\max_λ{\min_{w, b}{L(w, b, λ)}}，s.t.λ_i \ge 0$
 
 2. 代入KKT条件
     1. 根据梯度为0条件可得：
-        - $\frac{\partial L}{\partial w} = 0 \Longrightarrow \tilde{w} = \sum_{i}^{N}λ_iy_ix_i$  -----***记 式(d)***
-        - $\frac{\partial L}{\partial b} = 0 \Longrightarrow  \sum_{i}^{N}λ_iy_i = 0$ ----- ***记 式(e)***
+        - $\frac{\partial L}{\partial b} = 0 \Longrightarrow  \sum_{i}^{N}λ_iy_i = 0$  -----***记 式(d)***
+        - $\frac{\partial L}{\partial w} = 0$ ，联立式（d）可解得 $\tilde{w} = \sum_{i}^{N}λ_iy_ix_i$ ----- ***记 式(e)***
     2. 根据互补松弛条件可得： $λ_i[1-y_i(w^Tx_i+b)] = 0$ ----- ***记 式(f)***
+    观察式（f），结合优化问题本身的两个约束条件： $λ_i \ge 0，1-y_i(w^Tx_i+b) \le 0$ ，可推测大部分 $λ_i $ 值均为0，只对少部分满足 $1-y_i(w^Tx_i+b)=0$ 的样本点， $λ_i$ 有值，这些样本点就被称为**支持向量**。
+    同理，选一支持向量 $(x_k, y_k)$ ，代入上式可解得： $\tilde{b} = y_k - w^Tx_k$ 。
+3. 最终结果
+对于本章提出的分类问题，SVM给出的超平面为 $f(w, b) = sign(w^Tx+b)$  ， $w, b$ 由下式解出：
+![image](https://github.com/iLovEing/notebook/assets/109459299/9366668e-41cf-47c2-864a-9352790b3f0e)
+----- ***记 式(f)***  
 
-3. 求解最终结果
+其中 $λ_i $ 的值由优化问题 $\max_λ{\min_{w, b}{L(w, b, λ)}}，s.t.λ_i \ge 0$ 解出，求解该优化问题有一些经典算法，比如。
+
+
+### 4. soft-margin SVM
 
 ---
 
@@ -195,6 +204,7 @@ $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i
 > (b): \left\{\begin{matrix} \max_{w, b}{\min_{x_i}{\frac{\left | w^Tx_i+b \right | }{\left \| w \right \| } }}
 \\s.t. y_i(w^Tx_i + b) > 0，i=1,2,...,N\end{matrix}\right.
 > (c): \left\{\begin{matrix} \min_{w, b}{\frac{1}{2} w^Tw}\\s.t. 1-y_i(w^Tx_i + b) \le 0，i=1,2,...,N\end{matrix}\right.
+> (f): \left\{\begin{matrix}\tilde{w} = \sum_{i}^{N}\lambda_iy_ix_i\\\tilde{b} = y_k - w^Tx_k，(x_k,y_k)为支持向量\end{matrix}\right.
 
 ---
 
