@@ -155,25 +155,37 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 设样本点为 $\\{ (x_i, y_i) \\} _{i=1}^{N} ，x \propto R^P，y_i \propto \\{ -1, +1\\}$ ，超平面为 $f(w, b) = w^Tx+b$ 
 超平面距离最近样本点的间距：
 ![image](https://github.com/iLovEing/notebook/assets/109459299/a1b4fc5f-3ad6-410e-86d8-0c1859bc7f1b)
------ ***公式(a)***
+----- ***记 式(a)***
 
 则，SVM中”最大化最小距离“可以用数学表达出来：
 ![image](https://github.com/iLovEing/notebook/assets/109459299/ebc850bc-b15f-45cf-ad55-41b471513366)
------ ***公式(b)***
-- 2.1 观察式(b)中的约束条件，可以改写为：
+----- ***记 式(b)***
+
+对上式进一步解析：
+1. 观察式(b)中的约束条件，可以改写为：
 $\exists r>0，\min_i{y_i(w^Tx_i+b)}=r$
 又因为超平面 $w^Tx_i+b$ 可以任意缩放，故该约束条件可以进一步改写为：
 $\min_i{y_i(w^Tx_i+b)}=1$ ，即 $y_i(w^Tx_i+b) \ge 1$
-- 2.2 将2.1中的约束条件带入优化方程：
+2. 将1中的约束条件带入优化方程：
 $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i}{\frac{ y_i(w^Tx_i+b) }{ ||w|| }}} = \max_{w, b}{\frac{ 1 }{ ||w|| }}\min_{x_i}{ y_i(w^Tx_i+b) } = \max_{w, b}{\frac{ 1 }{ ||w|| }} = \min_{w, b}{ ||w|| } = \min_{w, b}{\frac{1}{2} w^Tw}$
 这里，第一个等号用 $y_i$ 相乘抵消绝对值，第三个等号是将约束条件代入的结果，最后一个等号中1/2是为了后面计算方便加上的。
-- 2.3 因此，SVM最终可以写成如下带约束优化问题：
+3. 因此，SVM最终可以写成如下带约束优化问题：
 ![image](https://github.com/iLovEing/notebook/assets/109459299/8712f7c6-85e6-4160-a51e-ab5275cbc967)
------ ***公式(c)***
+----- ***记 式(c)***
 
+### 3. SVM求解
+1. 根据先前知识的优化理论，将式(c)转化为无约束优化问题，并写出对偶问题：
+    - 拉格朗日函数： $L(w, b, λ) = \frac{1}{2}w^Tw + \sum_{i=1}^{N}\lambda_i[1-y_i(w^Tx_i+b)]$
+    - 无约束优化问题： $\min_{w, b}{\max_λ{L(w, b, λ)}}，s.t.λ_i \ge 0$
+    - 对偶问题： $\max_λ{\min_{w, b}{L(w, b, λ)}}，s.t.λ_i \ge 0$
 
+2. 代入KKT条件
+    1. 根据梯度为0条件可得：
+        - $\frac{\partial L}{\partial w} = 0 \Longrightarrow \tilde{w} = \sum_{i}^{N}λ_iy_ix_i$  -----***记 式(d)***
+        - $\frac{\partial L}{\partial b} = 0 \Longrightarrow  \sum_{i}^{N}λ_iy_i = 0$ ----- ***记 式(e)***
+    2. 根据互补松弛条件可得： $λ_i[1-y_i(w^Tx_i+b)] = 0$ ----- ***记 式(f)***
 
-
+3. 求解最终结果
 
 ---
 
