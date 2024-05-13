@@ -154,11 +154,10 @@ $\therefore \max_{λ, η}{\min_x{L}} \le L \le \min_x{\max_{λ, η}L}$
 ### 2. SVM的数学表达
 设样本点为 $\\{ (x_i, y_i) \\} _{i=1}^{N} ，x \propto R^P，y_i \propto \\{ -1, +1\\}$ ，超平面为 $f(w, b) = w^Tx+b$ 
 超平面距离最近样本点的间距：
-![image](https://github.com/iLovEing/notebook/assets/109459299/a1b4fc5f-3ad6-410e-86d8-0c1859bc7f1b)
+![image](https://github.com/iLovEing/notebook/assets/109459299/a6a7156f-a5c9-4a63-83a7-6b68cf929403)
 ----- ***记 式(a)***
-
 则，SVM中”最大化最小距离“可以用数学表达出来：
-![image](https://github.com/iLovEing/notebook/assets/109459299/ebc850bc-b15f-45cf-ad55-41b471513366)
+![image](https://github.com/iLovEing/notebook/assets/109459299/3b3f5603-ce2d-42f2-905f-f2d194c6ec98)
 ----- ***记 式(b)***
 
 对上式进一步解析：
@@ -170,7 +169,7 @@ $\min_i{y_i(w^Tx_i+b)}=1$ ，即 $y_i(w^Tx_i+b) \ge 1$
 $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i}{\frac{ y_i(w^Tx_i+b) }{ ||w|| }}} = \max_{w, b}{\frac{ 1 }{ ||w|| }}\min_{x_i}{ y_i(w^Tx_i+b) } = \max_{w, b}{\frac{ 1 }{ ||w|| }} = \min_{w, b}{ ||w|| } = \min_{w, b}{\frac{1}{2} w^Tw}$
 这里，第一个等号用 $y_i$ 相乘抵消绝对值，第三个等号是将约束条件代入的结果，最后一个等号中1/2是为了后面计算方便加上的。
 3. 因此，SVM最终可以写成如下带约束优化问题：
-![image](https://github.com/iLovEing/notebook/assets/109459299/8712f7c6-85e6-4160-a51e-ab5275cbc967)
+![image](https://github.com/iLovEing/notebook/assets/109459299/068bfd45-cf47-4ded-ac1a-9b9a4ac1a41c)
 ----- ***记 式(c)***
 
 ### 3. SVM求解
@@ -188,23 +187,41 @@ $\max_{w, b}{\min_{x_i}{\frac{ | w^Tx_i+b | }{ ||w|| }}} = \max_{w, b}{\min_{x_i
     同理，选一支持向量 $(x_k, y_k)$ ，代入上式可解得： $\tilde{b} = y_k - w^Tx_k$ 。
 3. 最终结果
 对于本章提出的分类问题，SVM给出的超平面为 $f(w, b) = sign(w^Tx+b)$  ， $w, b$ 由下式解出：
-![image](https://github.com/iLovEing/notebook/assets/109459299/9366668e-41cf-47c2-864a-9352790b3f0e)
+![image](https://github.com/iLovEing/notebook/assets/109459299/9345ee9f-f4aa-4eb6-a235-3e46fd622670)
 ----- ***记 式(f)***  
 
 其中 $λ_i$ 的值由优化问题 $\max_λ{\min_{w, b}{L(w, b, λ)}}，s.t.λ_i \ge 0$ 解出，求解该优化问题有一些经典算法，比如。
 
 
 ### 4. soft-margin SVM
+上一节推导的前提是“所有样本分类正确”，即式（b）中的 $y_i(w^\top x_i + b) > 0$ ，在真实案例中，可能样本不是线性可分的，即不存在超平面能分开所有样本，这时就需要模型能允许一点点“loss”：
+比如，把loss定义为分类错误的个数，则SVM可以表达为：
+![image](https://github.com/iLovEing/notebook/assets/109459299/6a43e798-284b-4a81-a97d-45a3e856e515)
+----- ***记 式(g)***  
+其中， $ Num $ 表示满足条件的样本点个数。
+但是上式无法求导，也无法求解，所以使用上loss被定义为距离：
+![image](https://github.com/iLovEing/notebook/assets/109459299/53d44990-47d6-4a23-80fc-b795eb760577)
+----- ***记 式(h)***  
+即： $loss = max\\{ 0, 1-y_i(w^Tx_i+b) \\} $ 
+记 $ξ_i = 1 - y_i(w^T+b)，ξ_i > 0 $
+则soft-margin SVM可以写成：
+![image](https://github.com/iLovEing/notebook/assets/109459299/41bd0354-f0c7-4b78-ab19-7d5d95598e62)
+----- ***记 式(g)***  
+其中，C为loss的超参，C越大，对距离的惩罚越大。
+
 
 ---
 
 
 > 公式latex附录
-> (a): margin(w, b) = \min_{w,b,x_i}{d(w, b, x_i)} = \min_{w,b,x_i}{\frac{\left | w^Tx_i+b \right | }{\left \| w \right \| } }
-> (b): \left\{\begin{matrix} \max_{w, b}{\min_{x_i}{\frac{\left | w^Tx_i+b \right | }{\left \| w \right \| } }}
-\\s.t. y_i(w^Tx_i + b) > 0，i=1,2,...,N\end{matrix}\right.
-> (c): \left\{\begin{matrix} \min_{w, b}{\frac{1}{2} w^Tw}\\s.t. 1-y_i(w^Tx_i + b) \le 0，i=1,2,...,N\end{matrix}\right.
-> (f): \left\{\begin{matrix}\tilde{w} = \sum_{i}^{N}\lambda_iy_ix_i\\\tilde{b} = y_k - w^Tx_k，(x_k,y_k)为支持向量\end{matrix}\right.
+> (a): margin(w, b) = \min_{w,b,x_i}{d(w, b, x_i)} = \min_{w,b,x_i}{\frac{\left | w^\top x_i+b \right | }{\left \| w \right \| } }
+> (b): \left\{\begin{matrix} \max_{w, b}{\min_{x_i}{\frac{\left | w^\top x_i+b \right | }{\left \| w \right \| } }}
+\\s.t. y_i(w^\top x_i + b) > 0，i=1,2,...,N\end{matrix}\right.
+> (c): \left\{\begin{matrix} \min_{w, b}{\frac{1}{2} w^\top w}\\s.t. 1-y_i(w^\top x_i + b) \le 0，i=1,2,...,N\end{matrix}\right.
+> (f): \left\{\begin{matrix}\tilde{w} = \sum_{i}^{N}\lambda_iy_ix_i\\\tilde{b} = y_k - \tilde{w}^\top x_k，(x_k,y_k)为支持向量\end{matrix}\right.
+> (g): \left\{\begin{matrix} \min_{w, b}{\frac{1}{2} w^\top w + Num_i\left \{ 1-y_i(w^\top x_i + b) > 0 \right \} }\\s.t. 1-y_i(w^\top x_i + b) \le 0，i=1,2,...,k(k \le N)\end{matrix}\right.
+> (h): \left\{\begin{matrix} y_i(w^\top x_i + b) \ge 1，loss=0 \\ y_i(w^\top x_i + b) < 1，loss=1 - y_i(w^\top x_i + b) \end{matrix}\right.
+> (g): \left\{\begin{matrix} \min_{w, b}{[\frac{1}{2}w^\top w + C\sum_{i}^{N}\xi_i ]} \\ \xi_i > 0，i=1, 2,...,N \\ s.t. y_i(w^\top x_i + b) \ge 1 - \xi_i，i=1, 2,...,N \end{matrix}\right.
 
 ---
 
