@@ -6,3 +6,5 @@
 - [ ] xgboost
 - [ ] 计算图
 - [ ] audio ssl
+- [ ] linux
+- [ ] swim transformer

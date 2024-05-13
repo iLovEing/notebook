@@ -56,7 +56,7 @@
 - [教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
 ## TODO
-TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--7 jobs to do--0 jobs done
+TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--8 jobs to do--0 jobs done
 - [ ] SVM
 - [ ] 线性回归
 - [ ] fft
@@ -64,6 +64,7 @@ TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--7
 - [ ] 计算图
 - [ ] audio ssl
 - [ ] linux
+- [ ] swim transformer
 
 TODO list from [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--2 jobs to do--2 jobs done
 - [x] 考驾照
