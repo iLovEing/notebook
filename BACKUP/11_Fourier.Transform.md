@@ -1,14 +1,15 @@
 # [Fourier Transform](https://github.com/iLovEing/notebook/issues/11)
 
-傅里叶变换各种信号处理的基础，
+傅里叶变换各种信号处理的基础，可以将信号从时域转换到频域。
 
 ![image](https://github.com/iLovEing/notebook/assets/109459299/c4554a38-ee1e-4af7-ae35-525dd33afe13)
 ## 章节
-- [x] 傅里叶级数
-- [x] 傅里叶变换
-- [ ] 离散傅里叶级数
-- [ ] 离散傅里叶变换
-- [ ] kiss_fft
+- [x] 傅里叶级数（FS, Fourier Series）
+- [x] 傅里叶变换（FT, Fourier Transform）
+- [ ] 离散傅里叶级数（DFS, Discrete Fourier Series）
+- [ ] 离散傅里叶变换（DFT, Discrete Fourier Transform）
+- [ ] 快速傅里叶变换（FFT, Fast Fourier Series）
+- [ ] kiss_fft: 一个较高效的fft代码实现
 
 ---
 
