@@ -1,6 +1,9 @@
 # [Fourier Transform](https://github.com/iLovEing/notebook/issues/11)
 
-## 大纲
+傅里叶变换各种信号处理的基础，
+
+![image](https://github.com/iLovEing/notebook/assets/109459299/c4554a38-ee1e-4af7-ae35-525dd33afe13)
+## 章节
 - [x] 傅里叶级数
 - [x] 傅里叶变换
 - [ ] 离散傅里叶级数
