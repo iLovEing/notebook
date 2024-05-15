@@ -70,6 +70,6 @@ TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--5
 TODO list from [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--2 jobs to do--2 jobs done
 - [x] 考驾照
 - [x] 减肥：俯冲130
-- [ ] 考雅思
+- [ ] train Government GPT
 - [ ] 减肥：俯冲120~125
 
