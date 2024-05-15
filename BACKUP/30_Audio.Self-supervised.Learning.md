@@ -21,3 +21,14 @@ SSL的思想可以抽象为让模型学习对应的数据的内在空间结构�
 **overview of audio SSL methords. FOS abbreviates field of study.**
 ![image](https://github.com/iLovEing/notebook/assets/109459299/0dd663a2-157d-4ed2-97ee-ccec2e390a9c)
 
+
+
+---
+
+## Auto-encoding
+
+恒等变换-》加噪声
+不一定还原全部，只换原确实部分
+Audio2Vec [49]
+and Speech2Vec 实现 CBoW Skip-gram
+APC MPC
