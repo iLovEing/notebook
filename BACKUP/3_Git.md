@@ -78,8 +78,8 @@
 - remote有主机名和分支名
 - git remote -v 查看主机名
 - 使用 remote 系列命令可以增加一个关联主机，执行 git remote add [主机名] [主仓库的地址]，注意，主仓库的地址使用 https 开头的：
-  - git remote add up https://github.com/iLovEing/hello_github
-  - git fetch up
+  - git remote add origin https://github.com/iLovEing/hello_github
+  - git fetch origin
 - clone远程分支后，本地有：
   - 与远程同名的分支，比如main，该分支可在本地任意改动
   - origin/main分支，表示远程分支指针，表示与远程分支的通信状态，在该分支上commit会分离HEAD（该分支不会改变）；
