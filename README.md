@@ -25,11 +25,11 @@
 </table>
 
 ## 最近更新
+- [pytorch多机多卡训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [分布式训练-Pytorch DDP](https://github.com/iLovEing/notebook/issues/31)--2024-05-24
 - [Audio Self-supervised Learning](https://github.com/iLovEing/notebook/issues/30)--2024-05-14
 - [Ubuntu AI服务器系统安装](https://github.com/iLovEing/notebook/issues/29)--2024-05-13
 - [XGBoost](https://github.com/iLovEing/notebook/issues/28)--2024-05-13
-- [add notebook](https://github.com/iLovEing/notebook/issues/27)--2024-05-11
 ## Traditional Algos
 - [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## Audio
