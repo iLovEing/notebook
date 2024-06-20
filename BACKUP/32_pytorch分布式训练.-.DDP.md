@@ -32,3 +32,8 @@ cuda()函数的参数信息:
 device ([int](https://docs.python.org/3/library/functions.html#int)) – 指定的GPU设备id. 默认为当前设备，即 [torch.cuda.current_device()](https://www.cntofu.com/book/169/docs/1.0/cuda.html#torch.cuda.current_device)的返回值。
 
 non_blocking ([bool](https://docs.python.org/3/library/functions.html#bool)) – 如果此参数被设置为True, 并且此对象的资源存储在固定内存上(pinned memory)，那么此cuda()函数产生的复制将与host端的原storage对象保持同步。否则此参数不起作用。
+
+---
+
+# DDP 基本概念
+- **rank**：进程，我们通常假定rank 0是第一个进程或者主进程，其它进程分别具有1，2，3不同rank号，这样总共具有4个进程
