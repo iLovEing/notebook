@@ -25,7 +25,7 @@
 </table>
 
 ## 最近更新
-- [pytorch并行训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
+- [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [分布式训练-Pytorch DDP](https://github.com/iLovEing/notebook/issues/31)--2024-05-24
 - [Audio Self-supervised Learning](https://github.com/iLovEing/notebook/issues/30)--2024-05-14
 - [Ubuntu AI服务器系统安装](https://github.com/iLovEing/notebook/issues/29)--2024-05-13
