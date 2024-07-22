@@ -44,9 +44,7 @@ non_blocking ([bool](https://docs.python.org/3/library/functions.html#bool)) –
 - **master_addr**、**master_port**：主节点的地址以及端口，供init_method 的tcp方式使用。 因为pytorch中网络通信建立是从机去连接主机，运行ddp只需要指定主节点的IP与端口，其它节点的IP不需要填写。 这个两个参数可以通过环境变量或者init_method传入。
 
 如下图所示，共有3个node(机器)，每个node上有4个GPU，每台机器上起4个进程，每个进程占一块GPU，那么图中一共有12个rank，nproc_per_node=4，nnodes=3，每个节点都一个对应的node_rank。
-![image](https://github.com/user-attachments/assets/6b56634b-d2e3-44b7-b58d-003e5ff982cd)
-
-
+![image](https://github.com/user-attachments/assets/71694762-3aa5-48df-b7d4-37b72a53413b)
 
 ---
 
