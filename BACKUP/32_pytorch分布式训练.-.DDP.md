@@ -45,6 +45,7 @@ torch save module
 - **rank**：全局进程(GPU)ID，比如两台各4块GPU，那么他们的rank分别为0~7，rank = nproc_per_node * node_rank + local_rank；默认rank 0为主进程；world size 为全局进程总数。
 - **backend**： 通信后端，可选的包括：nccl（NVIDIA推出）、gloo（Facebook推出）、mpi（OpenMPI）。一般建议GPU训练选择nccl，CPU训练选择gloo。
 - **master_addr**、**master_port**：主节点的地址以及端口，供init_method 的tcp方式使用。 因为pytorch中网络通信建立是从机去连接主机，运行ddp只需要指定主节点的IP与端口，其它节点的IP不需要填写。 这个两个参数可以通过环境变量或者init_method传入。
+- **group**： 即进程组。默认情况下，只有一个组。一个 job 为一个组，即一个 world。
 
 如下图所示，共有3个node(机器)，每个node上有4个GPU，每台机器上起4个进程，每个进程占一块GPU，那么图中一共有12个rank，nproc_per_node=4，nnodes=3，每个节点都一个对应的node_rank。
 ![image](https://github.com/user-attachments/assets/71694762-3aa5-48df-b7d4-37b72a53413b)
