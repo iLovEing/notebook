@@ -36,4 +36,18 @@ non_blocking ([bool](https://docs.python.org/3/library/functions.html#bool)) –
 ---
 
 # DDP 基本概念
-- **rank**：进程，我们通常假定rank 0是第一个进程或者主进程，其它进程分别具有1，2，3不同rank号，这样总共具有4个进程
+
+- **node**：物理节点，可以是一个容器也可以是一台机器，节点内部可以有多个GPU；nnodes指物理节点数量， nproc_per_node指每个物理节点上面进程的数量，通常每个GPU对应一个线程，所以nproc_per_node通常是每台机器上GPU的数量。
+- **local_rank**：一个node上的进程(GPU)ID，比如一台机器上有4块GPU，那么他们的local rank分别是0、1、2、3，local_rank在node之间相互独立。
+- **rank**：全局进程(GPU)ID，比如两台各4块GPU，那么他们的rank分别为0~7，rank = nproc_per_node * node_rank + local_rank；默认rank 0为主进程；world size 为全局进程总数。
+- **backend**： 通信后端，可选的包括：nccl（NVIDIA推出）、gloo（Facebook推出）、mpi（OpenMPI）。一般建议GPU训练选择nccl，CPU训练选择gloo。
+- **master_addr**、**master_port**：主节点的地址以及端口，供init_method 的tcp方式使用。 因为pytorch中网络通信建立是从机去连接主机，运行ddp只需要指定主节点的IP与端口，其它节点的IP不需要填写。 这个两个参数可以通过环境变量或者init_method传入。
+
+如下图所示，共有3个node(机器)，每个node上有4个GPU，每台机器上起4个进程，每个进程占一块GPU，那么图中一共有12个rank，nproc_per_node=4，nnodes=3，每个节点都一个对应的node_rank。
+![image](https://github.com/user-attachments/assets/6b56634b-d2e3-44b7-b58d-003e5ff982cd)
+
+
+
+---
+
+> ***attention***: rank与GPU之间没有必然的对应关系，一个rank可以包含多个GPU；一个GPU也可以为多个rank服务（多进程共享GPU），在torch的分布式训练中习惯默认一个rank对应着一个GPU，因此local_rank可以当作GPU号。
