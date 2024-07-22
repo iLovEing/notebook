@@ -33,6 +33,9 @@ device ([int](https://docs.python.org/3/library/functions.html#int)) – 指定�
 
 non_blocking ([bool](https://docs.python.org/3/library/functions.html#bool)) – 如果此参数被设置为True, 并且此对象的资源存储在固定内存上(pinned memory)，那么此cuda()函数产生的复制将与host端的原storage对象保持同步。否则此参数不起作用。
 
+
+torch save module
+
 ---
 
 # DDP 基本概念
