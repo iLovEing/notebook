@@ -53,3 +53,343 @@ torch save module
 ---
 
 > ***attention***: rank与GPU之间没有必然的对应关系，一个rank可以包含多个GPU；一个GPU也可以为多个rank服务（多进程共享GPU），在torch的分布式训练中习惯默认一个rank对应着一个GPU，因此local_rank可以当作GPU号。
+
+---
+
+# DDP 基本流程 & 代码
+
+### 训练流程
+
+使用DDP分布式训练，一共如下几个步骤：
+
+1. 初始化进程组 dist.init_process_group
+2. 设置分布式采样器 DistributedSampler
+3. 使用DistributedDataParallel封装模型
+4. 使用torchrun 或者 mp.spawn 启动分布式训练
+
+### 代码
+
+torchrun 启动方式方便一些，这里只展示torchrun代码。通过一个MNIST训练实例来看ddp如何实现，方便起见，train和eval用相同的数据。
+
+- **without DDP**
+  保存代码为 mnist.py，命令行输入 python mnist.py 可直接运行
+  ```
+  import os
+  import argparse
+  from datetime import datetime
+  import torch
+  import torch.nn as nn
+  import torchvision
+  from tqdm import tqdm
+  import torchvision.transforms as transforms
+  from torch.utils.data import Dataset, DataLoader
+  
+  
+  class ConvNet(nn.Module):
+      def __init__(self, num_classes=10):
+          super(ConvNet, self).__init__()
+          self.layer1 = nn.Sequential(
+              nn.Conv2d(1, 16, kernel_size=5, stride=1, padding=2),
+              nn.BatchNorm2d(16),
+              nn.ReLU(),
+              nn.MaxPool2d(kernel_size=2, stride=2))
+          self.layer2 = nn.Sequential(
+              nn.Conv2d(16, 32, kernel_size=5, stride=1, padding=2),
+              nn.BatchNorm2d(32),
+              nn.ReLU(),
+              nn.MaxPool2d(kernel_size=2, stride=2))
+          self.fc = nn.Linear(7 * 7 * 32, num_classes)
+  
+      def forward(self, x):
+          out = self.layer1(x)
+          out = self.layer2(out)
+          out = out.reshape(out.size(0), -1)
+          out = self.fc(out)
+          return out
+  
+  
+  def train(args):
+      # 0. preset
+      batch_size = args.batch_size
+      epochs = args.epochs
+  
+      device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+  
+      # 1. model
+      model = ConvNet()
+      model.to(device)
+  
+      # 2. dataset
+      train_set = torchvision.datasets.MNIST(root='./data', train=True,
+                                             transform=transforms.ToTensor(), download=True)
+      train_loader = DataLoader(dataset=train_set, batch_size=batch_size,
+                                shuffle=True, pin_memory=True)
+      eval_set = torchvision.datasets.MNIST(root='./data', train=False,
+                                            transform=transforms.ToTensor(), download=True)
+      eval_loader = DataLoader(dataset=eval_set, batch_size=batch_size,
+                               shuffle=True, pin_memory=True)
+  
+      # 3. loss and optimizer
+      criterion = nn.CrossEntropyLoss().to(device)
+      optimizer = torch.optim.SGD(model.parameters(), 1e-4)
+  
+      # 4. training & eval
+      start = datetime.now()
+      step = 0
+      for epoch in range(epochs):
+          # train
+          model.train()
+          progress_bar_train = tqdm(train_loader, desc=f'Epoch {epoch + 1}/{epochs} train')
+          for batch in progress_bar_train:
+              image, label = batch
+              image = image.to(device, non_blocking=True)
+              label = label.to(device, non_blocking=True)
+              # Forward pass
+              outputs = model(image)
+              loss = criterion(outputs, label)
+  
+              # Backward and optimize
+              optimizer.zero_grad()
+              loss.backward()
+              optimizer.step()
+              if step % 10 == 0:
+                  progress_bar_train.set_postfix(loss=loss.item())
+              step += 1
+  
+          with torch.no_grad():
+              model.eval()
+              preds = []
+              targets = []
+              progress_bar_eval = tqdm(eval_loader, desc=f'Epoch {epoch + 1}/{epochs} eval')
+              for batch in progress_bar_eval:
+                  image, label = batch
+                  image = image.to(device, non_blocking=True)
+                  label = label.to(device, non_blocking=True)
+                  output = model(image)
+                  pred = output.argmax(dim=1)
+  
+                  preds.append(pred)
+                  targets.append(label)
+              preds = torch.cat(preds)
+              targets = torch.cat(targets)
+              acc = (preds == targets).sum().cpu().numpy()
+              print(f'Epoch {epoch + 1}/{epochs} acc: {format(acc, ".5f")}')
+  
+      print("Training complete in: " + str(datetime.now() - start))
+      # 5. save
+      torch.save(model.state_dict(), 'mnist.pth')
+  
+  
+  def main():
+      parser = argparse.ArgumentParser()
+      parser.add_argument('--epochs', default=10, type=int)
+      parser.add_argument('--batch_size', default=128, type=int)
+      args = parser.parse_args()
+      train(args)
+  
+  
+  # run: python mnist.py
+  if __name__ == '__main__':
+      main()
+  ```
+
+- **add DDP code (torchrun)**
+保存代码为 ddp_mnist.py，使用torch run运行，其中nnodes为机器数量，nproc_per_node为每台机器的gpu数量，如果在多机多卡上运行，对应机器的启动命令中需要修改node_rank为机器的编号：
+torchrun --nnodes=1 --node_rank=0 --nproc_per_node=2 --master_addr="192.168.1.250" --master_port=23456 ddp_mnist.py
+```
+import os
+import argparse
+from datetime import datetime
+import torch
+import torch.nn as nn
+import torchvision
+from tqdm import tqdm
+import torchvision.transforms as transforms
+from torch.utils.data import Dataset, DataLoader
+########## DDP ##########
+import torch.distributed as dist
+from torch.utils.data.distributed import DistributedSampler
+###########################
+
+
+class ConvNet(nn.Module):
+    def __init__(self, num_classes=10):
+        super(ConvNet, self).__init__()
+        self.layer1 = nn.Sequential(
+            nn.Conv2d(1, 16, kernel_size=5, stride=1, padding=2),
+            nn.BatchNorm2d(16),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2))
+        self.layer2 = nn.Sequential(
+            nn.Conv2d(16, 32, kernel_size=5, stride=1, padding=2),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2))
+        self.fc = nn.Linear(7 * 7 * 32, num_classes)
+
+    def forward(self, x):
+        out = self.layer1(x)
+        out = self.layer2(out)
+        out = out.reshape(out.size(0), -1)
+        out = self.fc(out)
+        return out
+
+
+########## DDP-6 ##########
+@torch.no_grad()
+def concat_all_gather(tensor):
+    """
+    Performs all_gather operation on the provided tensors.
+    *** Warning ***: torch.distributed.all_gather has no gradient.
+    """
+    tensors_gather = [torch.ones_like(tensor) for _ in range(torch.distributed.get_world_size())]
+    torch.distributed.all_gather(tensors_gather, tensor, async_op=False)
+
+    output = torch.cat(tensors_gather, dim=0)
+    return output
+###########################
+
+
+def train(args):
+    # 0. preset
+    batch_size = args.batch_size
+    epochs = args.epochs
+
+    ########## DDP-1 ##########
+    # device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+    gpu = int(os.environ["LOCAL_RANK"])
+    rank = int(os.environ["RANK"])
+    world_size = int(os.environ['WORLD_SIZE'])
+    dist.init_process_group(
+        backend='nccl',
+        init_method='env://',
+        world_size=world_size,
+        rank=rank
+    )
+    device = torch.device(f"cuda:{gpu}")
+    print(f'pid: {os.getpid()}, ppid: {os.getppid()}, gpu: {gpu}-{rank}')
+    ###########################
+
+    # 1. model
+    model = ConvNet()
+    model.to(device)
+    ########## DDP-2 ##########
+    model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)  # for batch normal layer
+    model = nn.parallel.DistributedDataParallel(model, device_ids=[gpu])
+    ###########################
+
+    # 2. dataset
+    ########## DDP-3 ##########
+    train_set = torchvision.datasets.MNIST(root='./data', train=True,
+                                           transform=transforms.ToTensor(), download=True)
+    # train_loader = DataLoader(dataset=train_set, batch_size=batch_size,
+    #                           shuffle=True, pin_memory=True)
+    # dataset will be divided into {world_size} parts automatic by sampler,
+    # every rank will obtain its own dataset
+    train_sampler = DistributedSampler(train_set, num_replicas=world_size, rank=rank)
+    train_loader = DataLoader(train_set,
+                              batch_size=batch_size,
+                              shuffle=False,  # sampler will do shuffle
+                              sampler=train_sampler)
+
+    eval_set = torchvision.datasets.MNIST(root='./data', train=False,
+                                          transform=transforms.ToTensor(), download=True)
+    # eval_loader = DataLoader(dataset=eval_set, batch_size=batch_size,
+    #                          shuffle=True, pin_memory=True)
+    eval_sampler = DistributedSampler(eval_set, num_replicas=world_size, rank=rank)
+    eval_loader = DataLoader(eval_set, batch_size=batch_size, shuffle=False, sampler=eval_sampler)
+    #########################
+
+    # 3. loss and optimizer
+    criterion = nn.CrossEntropyLoss().to(device)
+    optimizer = torch.optim.SGD(model.parameters(), 1e-4)
+
+    # 4. training & eval
+    start = datetime.now()
+    step = 0
+    for epoch in range(epochs):
+        ########## DDP-4 ##########
+        train_sampler.set_epoch(epoch)
+        eval_sampler.set_epoch(epoch)
+        ###########################
+
+        # train
+        model.train()
+        ########## DDP-5 ##########
+        # progress_bar_train = tqdm(train_loader, desc=f'Epoch {epoch + 1}/{epochs} train')
+        progress_bar_train = tqdm(train_loader, desc=f'Epoch {epoch + 1}/{epochs} train') \
+            if gpu == 0 else train_loader
+        ##########################
+        for batch in progress_bar_train:
+            image, label = batch
+            image = image.to(device, non_blocking=True)
+            label = label.to(device, non_blocking=True)
+            # Forward pass
+            outputs = model(image)
+            loss = criterion(outputs, label)
+
+            # Backward and optimize
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            ########## DDP-5 ##########
+            # if step % 10 == 0:
+            if gpu == 0 and step % 10 == 0:
+                progress_bar_train.set_postfix(loss=loss.item())
+            ##########################
+            step += 1
+
+        with torch.no_grad():
+            model.eval()
+            preds = []
+            targets = []
+            ########## DDP-5 ##########
+            # progress_bar_eval = tqdm(eval_loader, desc=f'Epoch {epoch + 1}/{epochs} eval')
+            progress_bar_eval = tqdm(eval_loader, desc=f'Epoch {epoch + 1}/{epochs} eval') \
+                if gpu == 0 else eval_loader
+            ##########################
+            for batch in progress_bar_eval:
+                image, label = batch
+                image = image.to(device, non_blocking=True)
+                label = label.to(device, non_blocking=True)
+                output = model(image)
+                pred = output.argmax(dim=1)
+
+                ########## DDP-6 ##########
+                pred = concat_all_gather(pred)
+                label = concat_all_gather(label)
+                ##########################
+                preds.append(pred)
+                targets.append(label)
+
+            ########## DDP-5 ##########
+            if gpu == 0:
+                preds = torch.cat(preds)
+                targets = torch.cat(targets)
+                acc = (preds == targets).sum().cpu().numpy() / len(preds)
+                print(f'Epoch {epoch + 1}/{epochs} acc: {format(acc, ".5f")}')
+            ##########################
+
+    ########## DDP-5 ##########
+    if gpu == 0:
+        print("Training complete in: " + str(datetime.now() - start))
+    ##########################
+    # 5. save
+    if rank == 0:
+        torch.save(model.state_dict(), 'mnist.pth')
+    ##########################
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--epochs', default=10, type=int)
+    parser.add_argument('--batch_size', default=128, type=int)
+    args = parser.parse_args()
+    train(args)
+
+########## DDP-0 ##########
+# run: torchrun --nnodes=1 --node_rank=0 --nproc_per_node=2 --master_addr="192.168.1.250" --master_port=23456 ddp_mnist.py
+##########################
+if __name__ == '__main__':
+    main()
+```
