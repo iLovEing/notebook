@@ -381,3 +381,62 @@ def main():
 if __name__ == '__main__':
     main()
 ```
+
+---
+
+# 代码&api 解释
+
+ ### 1. DDP-0：启动分布式训练
+
+使用torchrun方式启动，会自动设置进程的RANK,LOCAL_RANK, WORLD_SIZE等，可以直接从环境变量获取。常用的参数有：
+
+- `--nnodes`: 使用的机器数量，单机的话，默认是1
+- `--nproc_per_node`: 每台机器的进程数，通常为每台机器参与训练的GPU数
+- `--master_addr/port`: 主进程rank0所在的机器地址和后端通信端口（端口不被占用即可）
+- `--node_rank`: 当前机器的id
+
+在实例代码中，就是单机多卡的启动示例。如果使用单机多卡，只有`nproc_per_node` 是必须指定的，`master_addr/port`和`node_rank`都是可以由launch通过环境自动配置；如果使用多机多卡，不同机器都要输入启动命令，其中每台机器的`--node_rank`参数需要修改为本机id，须保证`node_rank < nnodes`，其他参数相同。
+
+### 2. DDP-1：初始化进程组
+
+使用`torch.distributed.init_process_group`初始化进程组，参数：
+
+- `backend`： 使用的后端
+
+- `init_method`：初始化方法，主要是指获取通信地址、端口、rank、world size的方式。
+
+  - `init_method='tcp://ip:port`：通过指定rank 0（即：MASTER进程）的IP和端口，各个进程进行信息交换。 需指定 rank 和 world_size 这两个参数
+  - `init_method='file://path`：通过所有进程都可以访问共享文件系统来进行信息共享。需要指定rank和world_size参数
+  - `init_method=env://`：从环境变量中读取分布式的信息(os.environ)，主要包括 MASTER_ADDR, MASTER_PORT, RANK, WORLD_SIZE。 其中，rank和world_size可以选择手动指定，否则从环境变量读取 
+
+  tcp和env两种方式比较类似（其实env就是对tcp的一层封装），都是通过网络地址的方式进行通信，也是最常用的初始化方法
+
+- `world_size`：即world size
+
+- `rank`：当前进程的rank
+
+### 3. DDP-2：封装模型
+
+直接用`torch.nn.parallel.DistributedDataParallel`封装即可，封装以后，框架会自动做不同GPU上梯度的all gather；如果有batch normal layer，想要做全局的batch normal，则需要用`convert_sync_batchnorm`单独封装。
+
+### 4. DDP-3：封装dataset
+
+使用`torch.utils.data.distributed.DistributedSampler`封装dataloader，这样dataset会自动划分为word size份，并送到每个进程进行训练，这里shuffle置为False，因为DistributedSampler已经做了打乱操作。同时，需要在每个epoch开始前对sampler进行set epoch，以保证数据打乱并进行不同的划分。`DistributedSampler`部分参数：
+
+- `dataset`: 需要加载的完整数据集
+- `num_replicas`： 把数据集分成多少份，默认是当前dist的world_size
+- `rank`: 当前进程的id，默认dist的rank
+- `shuffle`：是否打乱
+- `drop_last`: 如果数据长度不能被world_size整除，可以考虑是否将剩下的扔掉
+- `seed`：随机数种子。这里需要注意，从源码中可以看出，真正的种子其实是 `self.seed+self.epoch` 这样的好处是，不同的epoch每个进程拿到的数据是不一样
+
+### 5. DDP-4：多进程相关操作
+
+观察`DDP-4`相关的代码，会发现这里大都是指定rank或者local_rank进行的动作，这是因为ddp是以多进程方式执行，这里每行代码都会在各自的进程运行，因此需要开发者仔细考虑哪些部分是只要在主进程内运行的，比如希望log在每个节点上打印一次（不重复打印），则指定local_rank为0的进程运行；希望只在主节点保存一份模型，则指定rank为0的进程运行。
+
+### 6. DDP-5：分布式推理
+
+分布式推理的基本处理方式和训练一样，唯一不同的是需要自己做数据整合，即把多卡上的目标数据进行整合合并。常用的两个函数：
+
+- `torch.distributed.all_gather`： 将所有进程的tensor进行收集并拼接成新的tensor list内
+- `torch.distributed.all_reduce`：对所有进程的某个tensor进行合并操作（in-place），op可以是求和等，返回op的结果
