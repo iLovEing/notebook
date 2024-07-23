@@ -24,21 +24,6 @@ DDP 由于各进程中的模型，初始参数一致 (初始时刻进行一次 b
 
 ---
 
-2.3 cuda()函数解释
-cuda() 函数返回一个存储在CUDA内存中的复制，其中device可以指定cuda设备。 但如果此storage对象早已在CUDA内存中存储，并且其所在的设备编号与cuda()函数传入的device参数一致，则不会发生复制操作，返回原对象。
-
-cuda()函数的参数信息:
-
-device ([int](https://docs.python.org/3/library/functions.html#int)) – 指定的GPU设备id. 默认为当前设备，即 [torch.cuda.current_device()](https://www.cntofu.com/book/169/docs/1.0/cuda.html#torch.cuda.current_device)的返回值。
-
-non_blocking ([bool](https://docs.python.org/3/library/functions.html#bool)) – 如果此参数被设置为True, 并且此对象的资源存储在固定内存上(pinned memory)，那么此cuda()函数产生的复制将与host端的原storage对象保持同步。否则此参数不起作用。
-
-
-torch save module
-batch 单独加载数据 总和
-
----
-
 # DDP 基本概念
 
 - **node**：物理节点，可以是一个容器也可以是一台机器，节点内部可以有多个GPU；nnodes指物理节点数量， nproc_per_node指每个物理节点上面进程的数量，通常每个GPU对应一个线程，所以nproc_per_node通常是每台机器上GPU的数量。
@@ -63,14 +48,15 @@ batch 单独加载数据 总和
 
 使用DDP分布式训练，一共如下几个步骤：
 
-1. 初始化进程组 dist.init_process_group
-2. 设置分布式采样器 DistributedSampler
-3. 使用DistributedDataParallel封装模型
-4. 使用torchrun 或者 mp.spawn 启动分布式训练
+1. 初始化：使用dist.init_process_group初始化进程组
+2. 封装数据：设置分布式采样器 DistributedSampler 对数据进行自动分割
+3. 封装模型：使用DistributedDataParallel封装模型
+4. 每次epoch之前对sampler使用set epoch；如有自定义的数据需要在多卡之间通信，比如eval时计算acc，需要手动all_gather/all_reduce
+5. 使用torchrun 或者 mp.spawn 启动分布式训练
 
 ### 代码
 
-torchrun 启动方式方便一些，这里只展示torchrun代码。通过一个MNIST训练实例来看ddp如何实现，方便起见，train和eval用相同的数据。
+torchrun 启动方式优雅一些，这里只展示torchrun代码。通过一个MNIST训练实例来看ddp如何实现，方便起见，train和eval用相同的数据。
 
 - **without DDP**
   保存代码为 mnist.py，命令行输入 python mnist.py 可直接运行
@@ -118,7 +104,7 @@ torchrun 启动方式方便一些，这里只展示torchrun代码。通过一个
   
       # 1. model
       model = ConvNet()
-      model.to(device)
+      model = model.to(device)
   
       # 2. dataset
       train_set = torchvision.datasets.MNIST(root='./data', train=True,
@@ -173,8 +159,8 @@ torchrun 启动方式方便一些，这里只展示torchrun代码。通过一个
                   targets.append(label)
               preds = torch.cat(preds)
               targets = torch.cat(targets)
-              acc = (preds == targets).sum().cpu().numpy()
-              print(f'Epoch {epoch + 1}/{epochs} acc: {format(acc, ".5f")}')
+              acc = (preds == targets).sum().cpu().numpy() / len(preds)
+              print(f'Epoch {epoch + 1}/{epochs} acc: {format(acc, ".4f")}')
   
       print("Training complete in: " + str(datetime.now() - start))
       # 5. save
@@ -243,8 +229,8 @@ def concat_all_gather(tensor):
     Performs all_gather operation on the provided tensors.
     *** Warning ***: torch.distributed.all_gather has no gradient.
     """
-    tensors_gather = [torch.ones_like(tensor) for _ in range(torch.distributed.get_world_size())]
-    torch.distributed.all_gather(tensors_gather, tensor, async_op=False)
+    tensors_gather = [torch.ones_like(tensor) for _ in range(dist.get_world_size())]
+    dist.all_gather(tensors_gather, tensor, async_op=False)
 
     output = torch.cat(tensors_gather, dim=0)
     return output
@@ -267,13 +253,13 @@ def train(args):
         world_size=world_size,
         rank=rank
     )
-    device = torch.device(f"cuda:{gpu}")
+    device = torch.device(f"cuda:{gpu}")  # or torch.cuda.set_device(gpu)
     print(f'pid: {os.getpid()}, ppid: {os.getppid()}, gpu: {gpu}-{rank}')
     ###########################
 
     # 1. model
     model = ConvNet()
-    model.to(device)
+    model = model.to(device)  # or mode.cuda()
     ########## DDP-2 ##########
     model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)  # for batch normal layer
     model = nn.parallel.DistributedDataParallel(model, device_ids=[gpu])
@@ -309,14 +295,14 @@ def train(args):
     start = datetime.now()
     step = 0
     for epoch in range(epochs):
-        ########## DDP-4 ##########
+        ########## DDP-3 ##########
         train_sampler.set_epoch(epoch)
         eval_sampler.set_epoch(epoch)
         ###########################
 
         # train
         model.train()
-        ########## DDP-5 ##########
+        ########## DDP-4 ##########
         # progress_bar_train = tqdm(train_loader, desc=f'Epoch {epoch + 1}/{epochs} train')
         progress_bar_train = tqdm(train_loader, desc=f'Epoch {epoch + 1}/{epochs} train') \
             if gpu == 0 else train_loader
@@ -333,7 +319,7 @@ def train(args):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
-            ########## DDP-5 ##########
+            ########## DDP-4 ##########
             # if step % 10 == 0:
             if gpu == 0 and step % 10 == 0:
                 progress_bar_train.set_postfix(loss=loss.item())
@@ -344,7 +330,7 @@ def train(args):
             model.eval()
             preds = []
             targets = []
-            ########## DDP-5 ##########
+            ########## DDP-4 ##########
             # progress_bar_eval = tqdm(eval_loader, desc=f'Epoch {epoch + 1}/{epochs} eval')
             progress_bar_eval = tqdm(eval_loader, desc=f'Epoch {epoch + 1}/{epochs} eval') \
                 if gpu == 0 else eval_loader
@@ -356,14 +342,14 @@ def train(args):
                 output = model(image)
                 pred = output.argmax(dim=1)
 
-                ########## DDP-6 ##########
+                ########## DDP-5 ##########
                 pred = concat_all_gather(pred)
                 label = concat_all_gather(label)
                 ##########################
                 preds.append(pred)
                 targets.append(label)
 
-            ########## DDP-5 ##########
+            ########## DDP-4 ##########
             if gpu == 0:
                 preds = torch.cat(preds)
                 targets = torch.cat(targets)
@@ -371,13 +357,13 @@ def train(args):
                 print(f'Epoch {epoch + 1}/{epochs} acc: {format(acc, ".5f")}')
             ##########################
 
-    ########## DDP-5 ##########
+    ########## DDP-4 ##########
     if gpu == 0:
         print("Training complete in: " + str(datetime.now() - start))
     ##########################
     # 5. save
     if rank == 0:
-        torch.save(model.state_dict(), 'mnist.pth')
+        torch.save(model.module.state_dict(), 'mnist.pth')
     ##########################
 
 
@@ -389,7 +375,8 @@ def main():
     train(args)
 
 ########## DDP-0 ##########
-# run: torchrun --nnodes=1 --node_rank=0 --nproc_per_node=2 --master_addr="192.168.1.250" --master_port=23456 ddp_mnist.py
+# run(dual GPU on one device): torchrun --nnodes=1 --node_rank=0 --nproc_per_node=2 \
+# --master_addr="192.168.1.250" --master_port=23456 ddp_mnist.py
 ##########################
 if __name__ == '__main__':
     main()
