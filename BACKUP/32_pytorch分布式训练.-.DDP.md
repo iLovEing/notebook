@@ -468,9 +468,9 @@ DDP中local rank也是一样。
 
 第二，示例代码中使用`to(device)`指定GPU，也可以使用`.cuda()`。cuda() 函数返回一个存储在CUDA内存中的复制，其中device可以指定cuda设备。 但如果此storage对象早已在CUDA内存中存储，并且其所在的设备编号与cuda()函数传入的device参数一致，则不会发生复制操作，返回原对象。函数参数：
 
-- device：指定的GPU设备id。 默认为当前设备，即 `torch.cuda.current_device()`的返回值，可以通过`torch.cuda.set_device(gpu)`提前修改默认值。
+- `device`：指定的GPU设备id。 默认为当前设备，即 `torch.cuda.current_device()`的返回值，可以通过`torch.cuda.set_device(gpu)`提前修改默认值。
 
-- non_blocking ：如果此参数被设置为True, 并且此对象的资源存储在固定内存上(pinned memory)，那么此cuda()函数产生的复制将与host端的原storage对象保持同步。否则此参数不起作用。
+- `non_blocking` ：如果此参数被设置为True, 并且此对象的资源存储在固定内存上(pinned memory)，那么此cuda()函数产生的复制将与host端的原storage对象保持同步。否则此参数不起作用。
 
 ### 3. small tips
 
