@@ -194,7 +194,7 @@ torchrun 启动方式方便一些，这里只展示torchrun代码。通过一个
   ```
 
 - **add DDP code (torchrun)**
-保存代码为 ddp_mnist.py，使用torch run运行，其中nnodes为机器数量，nproc_per_node为每台机器的gpu数量，如果在多机多卡上运行，对应机器的启动命令中需要修改node_rank为机器的编号：
+保存代码为 ddp_mnist.py，使用torch run运行：
 torchrun --nnodes=1 --node_rank=0 --nproc_per_node=2 --master_addr="192.168.1.250" --master_port=23456 ddp_mnist.py
 ```
 import os
