@@ -35,6 +35,7 @@ non_blocking ([bool](https://docs.python.org/3/library/functions.html#bool)) –
 
 
 torch save module
+batch 单独加载数据 总和
 
 ---
 
