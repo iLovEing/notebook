@@ -440,3 +440,39 @@ if __name__ == '__main__':
 
 - `torch.distributed.all_gather`： 将所有进程的tensor进行收集并拼接成新的tensor list内
 - `torch.distributed.all_reduce`：对所有进程的某个tensor进行合并操作（in-place），op可以是求和等，返回op的结果
+
+---
+
+# 其他
+
+### 1. 常用api
+
+- `torch.distributed.get_rank(group=None)`： 获取rank
+- `torch.distributed.get_backend(group=None)`： 获取当前任务（或者指定group）的后端
+- `torch.distributed.get_world_size(group=None)` 获取当前进程的rank
+- `dist.barrier()`：类似多进程的join，所有进程都运行到此处时才往下运行，否则等待
+
+### 2. 关于cuda device
+
+首先，进程可见的cuda设备取决于`os.environ["CUDA_VISIBLE_DEVICES"]`的值，假如一台机器上有5块GPU，驱动会对其有内置的编号0~4，如果设置了`os.environ["CUDA_VISIBLE_DEVICES"]=“3, 1, 4, 0”`，那么此时运行环境的gpu编号对应关系为：
+
+> cuda:0 --> 3
+>
+> cuda:1 --> 1
+>
+> cuda:2 --> 4
+>
+> cuda:3 --> 0
+
+DDP中local rank也是一样。
+
+第二，示例代码中使用`to(device)`指定GPU，也可以使用`.cuda()`。cuda() 函数返回一个存储在CUDA内存中的复制，其中device可以指定cuda设备。 但如果此storage对象早已在CUDA内存中存储，并且其所在的设备编号与cuda()函数传入的device参数一致，则不会发生复制操作，返回原对象。函数参数：
+
+- device：指定的GPU设备id。 默认为当前设备，即 `torch.cuda.current_device()`的返回值，可以通过`torch.cuda.set_device(gpu)`提前修改默认值。
+
+- non_blocking ：如果此参数被设置为True, 并且此对象的资源存储在固定内存上(pinned memory)，那么此cuda()函数产生的复制将与host端的原storage对象保持同步。否则此参数不起作用。
+
+### 3. small tips
+
+- 由于model在ddp中封装了一层，因此在save model时需要保存`model.module.state_dict()`，否则也不会报错，但是等load的时候，你就知道哭了。
+- DDP中，batch size是指每个节点(GPU)的batch，因此实际的batch size应为 `batch_size * world_slze`
