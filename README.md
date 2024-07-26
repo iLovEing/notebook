@@ -25,11 +25,11 @@
 </table>
 
 ## 最近更新
+- [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
 - [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [分布式训练-Pytorch DDP](https://github.com/iLovEing/notebook/issues/31)--2024-05-24
 - [Audio Self-supervised Learning](https://github.com/iLovEing/notebook/issues/30)--2024-05-14
 - [Ubuntu AI服务器系统安装](https://github.com/iLovEing/notebook/issues/29)--2024-05-13
-- [XGBoost](https://github.com/iLovEing/notebook/issues/28)--2024-05-13
 ## Traditional Algos
 - [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## Audio
@@ -59,6 +59,8 @@
 - [网站收藏](https://github.com/iLovEing/notebook/issues/10)--2023-03-10
 - [教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
+## 模型部署
+- [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
 ## TODO
 TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--5 jobs to do--0 jobs done
 - [ ] fft
