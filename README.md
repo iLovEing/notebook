@@ -24,6 +24,9 @@
 </tbody>
 </table>
 
+## 置顶文章
+- [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
+- [声纹识别基础](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
 ## 最近更新
 - [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
 - [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
@@ -51,6 +54,7 @@
 - [计算法则](https://github.com/iLovEing/notebook/issues/12)--2023-03-13
 - [Fourier Transform](https://github.com/iLovEing/notebook/issues/11)--2023-03-13
 ## Tips
+- [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [MySQL](https://github.com/iLovEing/notebook/issues/22)--2023-07-29
 - [Hugging Face - transformers](https://github.com/iLovEing/notebook/issues/21)--2023-07-22
 - [conda&pip](https://github.com/iLovEing/notebook/issues/8)--2023-01-29
