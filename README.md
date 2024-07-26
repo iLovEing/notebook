@@ -67,9 +67,10 @@ TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--5
 - [ ] audio ssl
 - [ ] swim transformer
 
-TODO list from [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--2 jobs to do--2 jobs done
+TODO list from [2023~2024要做的事情](https://github.com/iLovEing/notebook/issues/26)--3 jobs to do--2 jobs done
 - [x] 考驾照
 - [x] 减肥：俯冲130
-- [ ] train Government GPT
+- [ ] Government GPT
+- [ ] RL 象棋
 - [ ] 减肥：俯冲120~125
 
