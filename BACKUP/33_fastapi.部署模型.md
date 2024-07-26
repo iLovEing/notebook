@@ -53,3 +53,23 @@ if __name__ == '__main__':
     sa_pipeline = pipeline(task="sentiment-analysis", device=DEVICE)
     uvicorn.run(app, host='0.0.0.0', port=12345, workers=1)
 ```
+
+---
+
+# client code
+使用python 进行http请求
+
+```
+import requests
+
+url = "http://127.0.0.1:12345/"
+query = {"desc": r"i love u"}
+
+response = requests.post(url, json=query)
+
+if response.status_code == 200:
+    result = response.json()
+    print(f'query: {query} | answer: {result}')
+else:
+    print("Error:", response.status_code, response.text)
+```
