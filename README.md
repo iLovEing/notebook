@@ -21,6 +21,16 @@
 <td>https://github.com/yihong0618/gitblog</td>
 <td>blog来源</td>
 </tr>
+<tr>
+<td>CMake-primer</td>
+<td>https://subingwen.cn/cmake/CMake-primer/</td>
+<td>CMake教程1</td>
+</tr>
+<tr>
+<td>CMake-advanced</td>
+<td>https://subingwen.cn/cmake/CMake-advanced/</td>
+<td>CMake教程2</td>
+</tr>
 </tbody>
 </table>
 
