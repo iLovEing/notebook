@@ -38,11 +38,11 @@
 - [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [声纹识别基础](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
 ## 最近更新
+- [cmake](https://github.com/iLovEing/notebook/issues/34)--2024-07-31
 - [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
 - [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [分布式训练-Pytorch DDP](https://github.com/iLovEing/notebook/issues/31)--2024-05-24
 - [Audio Self-supervised Learning](https://github.com/iLovEing/notebook/issues/30)--2024-05-14
-- [Ubuntu AI服务器系统安装](https://github.com/iLovEing/notebook/issues/29)--2024-05-13
 ## Traditional Algos
 - [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 ## Audio
