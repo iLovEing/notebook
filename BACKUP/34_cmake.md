@@ -1,6 +1,6 @@
 # [cmake](https://github.com/iLovEing/notebook/issues/34)
 
-## cmake tips
+## cmake example
 ```
 #[[
 ## version 1: build with src file
