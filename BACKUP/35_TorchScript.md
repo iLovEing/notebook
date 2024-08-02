@@ -37,3 +37,47 @@
 建议优先选择 `torch.jit.trace` ，把有分支的code剥离成函数单独使用 `@torch.jit.script_method` 修饰，或抽离成 `nn.module` 类单独用 `torch.jit.script` 包装。
 在实际使用trace的时候，有分支的地方都会报warning
 ![image](https://github.com/user-attachments/assets/4a15319a-0a47-46cb-a387-b6eba9ee1299)
+
+
+---
+
+## case
+- 转化成 JIT
+```
+class TestScript(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(4, 2)
+        self.relu = torch.nn.ReLU()
+
+    @torch.jit.script
+    def my_abs(x):
+        if x.sum() > 0:
+            return x
+        else:
+            return -x
+
+    def forward(self, x, h):
+        x = self.my_abs(x)
+        x = self.linear(x)
+        x = x + h
+        x = self.relu(x)
+        return x
+
+model = TestScript()
+traced_model = torch.jit.trace(model, (torch.rand(3, 4), torch.rand(3, 2)))
+print(traced_model.code)
+print(traced_model(torch.randn(3, 4), torch.randn(3, 2)))
+```
+
+- 保存
+```
+traced_model.save('jit.pt')
+```
+
+- 加（注意，静态图的加载不需要类实现）
+```
+loaded_model = torch.jit.load('jit.pt')
+print(loaded_model.code)
+print(loaded_model((torch.rand(3, 4), torch.rand(3, 2)))
+```
