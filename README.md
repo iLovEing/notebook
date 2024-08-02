@@ -41,7 +41,6 @@
 ## Deep Learning
 - [生成模型](https://github.com/iLovEing/notebook/issues/19)--2023-03-15
 - [Transformer](https://github.com/iLovEing/notebook/issues/18)--2023-03-15
-- [CNN](https://github.com/iLovEing/notebook/issues/17)--2023-03-13
 - [梯度下降方法](https://github.com/iLovEing/notebook/issues/16)--2023-03-13
 ## Linux
 - [Ubuntu AI服务器系统安装](https://github.com/iLovEing/notebook/issues/29)--2024-05-13
