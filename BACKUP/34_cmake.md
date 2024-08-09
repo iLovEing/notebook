@@ -50,4 +50,21 @@ link_directories(${PROJECT_SOURCE_DIR}/lib)  # add lib path if library is not sy
 add_executable(main_link_shared main.c)  # build executable
 target_link_libraries(main_link_shared cmake_test_lib_share)  # link after build executable
 ]]
+
+
+#[[
+## version 3: build with share lib, it seems not work on windows (cannot find dll)
+# use cmake . -DCMAKE_LIBRARY_PATH=*** to find library
+cmake_minimum_required(VERSION 3.20)  # cmake version
+set(CMAKE_CXX_STANDARD 17)  # c++ standard
+
+project(CMAKE_TEST)  # project name
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)  # executable output path
+
+
+include_directories(${PROJECT_SOURCE_DIR}/inc)  # add head file dir
+find_library (libshare cmake_test_lib_share)
+add_executable(main_link_shared main.c)  # build executable
+target_link_libraries(main_link_shared ${libshare})  # link after build executable
+]]
 ```
