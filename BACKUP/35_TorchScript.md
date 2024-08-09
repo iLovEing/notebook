@@ -34,7 +34,7 @@
 - 缺点：兼容性差，不是所有python原生语言都能“翻译”成功，只能处理常见的数据结构。
 
 ### 3. 建议
-建议优先选择 `torch.jit.trace` ，把有分支的code剥离成函数单独使用 `@torch.jit.script_method` 修饰，或抽离成 `nn.module` 类单独用 `torch.jit.script` 包装。
+建议优先选择 `torch.jit.trace` ，把有分支的code剥离成函数单独使用 `@torch.jit.script` 修饰，或抽离成 `nn.module` 类单独用 `torch.jit.script` 包装。
 在实际使用trace的时候，有分支的地方都会报warning
 ![image](https://github.com/user-attachments/assets/4a15319a-0a47-46cb-a387-b6eba9ee1299)
 

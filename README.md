@@ -63,6 +63,7 @@
 - [教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
 ## 模型部署
+- [TorchScript](https://github.com/iLovEing/notebook/issues/35)--2024-08-02
 - [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
 ## TODO
 TODO list from [add notebook](https://github.com/iLovEing/notebook/issues/27)--5 jobs to do--0 jobs done
