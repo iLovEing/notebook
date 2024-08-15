@@ -23,40 +23,23 @@
 
 ---
 
-## step 1
-生成jit model，注意这里forward函数是多输入多输出类型
-```
-import torch
-import torch.nn as nn
+## 静态图转换
+`torch.jit.trace` 和 `torch.jit.script` 是TorchScript保存静态图的两种方式：
+### 1. `torch.jit.trace(model, example_inputs)`
+- 原理：使用跟踪的方法保存，原理是给模型输入一个example tensor，框架会根据这个tensor在在模型内经过的计算流程保存静态图。
+- 优势：只要输入正确，模型可以正常计算，trace就可以work。
+- 缺点：只能跟踪某一个tensor的计算过程，如果模型中出现分支，该输入只经过其中一个分支，则分支的其他选择无法记录
 
-class TestModel(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.linear = torch.nn.Linear(4, 2)
-        self.relu = torch.nn.ReLU()
+### 2.  `torch.jit.script(model)`
+- 原理：框架分析模型代码，自动生成。
+- 优势：可以兼容分支代码。
+- 缺点：兼容性差，不是所有python原生语言都能“翻译”成功，只能处理常见的数据结构。
 
-    @torch.jit.script
-    def _abs(x):
-        if x.sum() > 0:
-            return x
-        else:
-            return -x
+### 3. 建议
+建议优先选择 `torch.jit.trace` ，把有分支的code剥离成函数单独使用 `@torch.jit.script` 修饰，或抽离成 `nn.module` 类单独用 `torch.jit.script` 包装。
+在实际使用trace的时候，有分支的地方都会报warning
+![image](https://github.com/user-attachments/assets/4a15319a-0a47-46cb-a387-b6eba9ee1299)
 
-    # input: x-(batch, 4), h-(batch, 2)
-    # output: x1-(batch, 2), x2-(batch, 2)
-    def forward(self, x, h):
-        x = self._abs(x)
-        x = self.linear(x)
-        x1 = x + h
-        x2 = self.relu(x1)
-        return x1, x2
-
-
-model = TestModel()
-script_model = torch.jit.trace(model, (torch.rand([6, 4]), torch.rand([6, 2])))
-print(script_model.code)
-script_model.save('test_jit_model.pt')
-```
 
 ---
 
