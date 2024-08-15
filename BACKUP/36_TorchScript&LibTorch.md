@@ -88,52 +88,16 @@ print(loaded_jit_model((torch.rand(3, 4), torch.rand(3, 2)))
 
 ---
 
-## step 1
-生成jit model，注意这里forward函数是多输入多输出类型
-```
-import torch
-import torch.nn as nn
-
-class TestModel(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.linear = torch.nn.Linear(4, 2)
-        self.relu = torch.nn.ReLU()
-
-    @torch.jit.script
-    def _abs(x):
-        if x.sum() > 0:
-            return x
-        else:
-            return -x
-
-    # input: x-(batch, 4), h-(batch, 2)
-    # output: x1-(batch, 2), x2-(batch, 2)
-    def forward(self, x, h):
-        x = self._abs(x)
-        x = self.linear(x)
-        x1 = x + h
-        x2 = self.relu(x1)
-        return x1, x2
-
-
-model = TestModel()
-script_model = torch.jit.trace(model, (torch.rand([6, 4]), torch.rand([6, 2])))
-print(script_model.code)
-script_model.save('test_jit_model.pt')
-```
-
-## step 2
-配置libtorch环境
+# Sample Code - C++推理
+## step 1：配置libtorch环境
 
 1. 安装make、cmake、gcc等工具
     - sudo apt install cmake
     - sudo apt install make
     - sudo apt install gcc
-2. libtorch库安装，在[官网](https://pytorch.org/get-started/locally/)选择适合的版本下载，下载完成后解压。
+2. libtorch库安装，在[官网](https://pytorch.org/get-started/locally/)选择适合的版本下载，下载完成后解压并记下目录。
 
-## step 3
-编写c++代码。
+## step 2：编写c++代码。
 - CMakeLists.txt
 ```
 cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
@@ -188,6 +152,26 @@ int main()
     return 0;
 }
 ```
+
+## step 3：编译运行
+代码目录结构：
+- 方案一
+设置环境变量：export Torch_DIR=[your libtorch dir]/share/cmake/Torch
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+- 方案二
+cmake中添加头文件路径：
+```
+mkdir build
+cd build
+cmake .. -DCMAKE_PREFIX_PATH=[your libtorch dir]
+make
+```
+
 
 ---
 
