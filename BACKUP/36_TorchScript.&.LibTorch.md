@@ -169,22 +169,13 @@ make
 
 ---
 
-## step 4
-编译
-把test_jit_model.pt放到同一文件夹下
-- 方案一
-设置环境变量：export Torch_DIR=[your libtorch dir]/share/cmake/Torch
-```
-mkdir build
-cd build
-cmake ..
-make
-```
-- 方案二
-cmake中添加头文件路径：
-```
-mkdir build
-cd build
-cmake .. -DCMAKE_PREFIX_PATH=[your libtorch dir]
-make
-```
+# other
+1. **guide & ref**
+    - [torch script tutorials](https://pytorch.org/docs/stable/jit.html)
+    - [libtorch tutorials](https://pytorch.org/cppdocs/installing.html)
+    - todo: [模型量化](https://www.oikita.com/article/92766)
+2. **关于 trace 和 script 两个静态图转化工具**
+看起来 script 方式不用考虑代码中的分支、循环情况，但实际在使用时，很可能会出现 script 报错多如牛毛，因为 script 很难正确“翻译”千奇百怪的 python 代码。因此，在做静态图转化的时候，优先选择 `torch.jit.trace` ，把有分支的code剥离成函数单独使用 `@torch.jit.script` 修饰，或抽离成 `nn.module` 类单独用 `torch.jit.script` 包装。在实际使用 trace 的时候，有分支的地方都会报类似如下的 warning，处理完 warning，基本就没什么问题了。特别的，如果 warning 报错实际上和输入无关，即每个输入经过此处的 "trace" 都一样，且都符合预期，那么 warning 也可以忽略掉不处理。
+![image](https://github.com/user-attachments/assets/4a15319a-0a47-46cb-a387-b6eba9ee1299)
+
+3. **C++日经问题：debug/release**
