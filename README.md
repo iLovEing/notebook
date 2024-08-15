@@ -28,7 +28,7 @@
 - [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [声纹识别基础](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
 ## 最近更新
-- [pytorch to libtorch(c++)](https://github.com/iLovEing/notebook/issues/36)--2024-08-15
+- [libtorch(c++)](https://github.com/iLovEing/notebook/issues/36)--2024-08-15
 - [TorchScript](https://github.com/iLovEing/notebook/issues/35)--2024-08-02
 - [cmake](https://github.com/iLovEing/notebook/issues/34)--2024-07-31
 - [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
@@ -63,7 +63,7 @@
 - [教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
 ## 模型部署
-- [pytorch to libtorch(c++)](https://github.com/iLovEing/notebook/issues/36)--2024-08-15
+- [libtorch(c++)](https://github.com/iLovEing/notebook/issues/36)--2024-08-15
 - [TorchScript](https://github.com/iLovEing/notebook/issues/35)--2024-08-02
 - [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
 ## TODO
