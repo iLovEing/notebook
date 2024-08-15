@@ -51,3 +51,62 @@ script_model.save('test_jit_model.pt')
     - sudo apt install make
     - sudo apt install gcc
 2. libtorch库安装，在[官网](https://pytorch.org/get-started/locally/)选择适合的版本下载，下载完成后解压。
+
+---
+
+## step 3
+编写c++代码。
+- CMakeLists.txt
+```
+cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
+set(CMAKE_CXX_STANDARD 17)
+
+project(test_libtorch)
+find_package(Torch REQUIRED)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
+add_executable(test_libtorch main.cpp)
+target_link_libraries(test_libtorch "${TORCH_LIBRARIES}")
+```
+
+- main.cpp
+```
+static void softmax(T& input) {
+    float rowmax = *std::max_element(input.begin(), input.end());
+    std::vector<float> y(input.size());
+    float sum = 0.0f;
+    for (size_t i = 0; i != input.size(); ++i) {
+        sum += y[i] = std::exp(input[i] - rowmax);
+    }
+    for (size_t i = 0; i != input.size(); ++i) {
+        input[i] = y[i] / sum;
+    }
+}
+
+
+int main()
+{
+    torch::Tensor test_tensor = torch::rand({2, 3});
+    std::cout << test_tensor << std::endl;
+
+    std::string path = "/home/tlzn/users/zlqiu/project/ctorch_test/poc.pt";
+    std::cout << path << std::endl;
+    torch::jit::script::Module module;
+
+    try {
+        module = torch::jit::load(path);
+    }
+    catch (const c10::Error& e) {
+        std::cerr << "error loading the model\n";
+        return -1;
+    }
+
+    torch::Tensor input = torch::randn({1, 975359});
+    std::vector<torch::jit::IValue> inputs;
+    inputs.push_back(input);
+    auto outputs = module.forward(inputs).toTuple();
+    torch::Tensor output = outputs->elements()[0].toTensor();
+    std::cout << output << '\n';
+
+    return 0;
+}
+```
