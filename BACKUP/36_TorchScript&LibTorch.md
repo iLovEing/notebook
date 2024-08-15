@@ -21,6 +21,24 @@
 一般来说，动态图容易获取中间结果，方便调试，但是内存开销大一些不可直接部署；静态图的特点则相反。另一方面，动态图允许使用原生编程语言做分支控制，而静态图需要使用计算框架来构建（比如*tf.cond()*）。综上，训练模型、调试的时候一般使用静态图；部署时，尤其是端侧部署，一般使用动态图。
 主流机器学习框架TensorFlow、MindSpore均支持动态图和静态图模式。***TorchScript***就是PyTorch则可以通过工具将构建的动态图神经网络模型转化为静态结构，以获得高效的计算执行效率。
 
+## 静态图转换
+`torch.jit.trace` 和 `torch.jit.script` 是TorchScript保存静态图的两种方式：
+### 1. `torch.jit.trace(model, example_inputs)`
+- 原理：使用跟踪的方法保存，原理是给模型输入一个example tensor，框架会根据这个tensor在在模型内经过的计算流程保存静态图。
+- 优势：只要输入正确，模型可以正常计算，trace就可以work。
+- 缺点：只能跟踪某一个tensor的计算过程，如果模型中出现分支，该输入只经过其中一个分支，则分支的其他选择无法记录
+
+### 2.  `torch.jit.script(model)`
+- 原理：框架分析模型代码，自动生成。
+- 优势：可以兼容分支代码。
+- 缺点：兼容性差，不是所有python原生语言都能“翻译”成功，只能处理常见的数据结构。
+
+### 3. 建议
+建议优先选择 `torch.jit.trace` ，把有分支的code剥离成函数单独使用 `@torch.jit.script` 修饰，或抽离成 `nn.module` 类单独用 `torch.jit.script` 包装。
+在实际使用trace的时候，有分支的地方都会报warning
+![image](https://github.com/user-attachments/assets/4a15319a-0a47-46cb-a387-b6eba9ee1299)
+
+
 ---
 
 ## 静态图转换
