@@ -115,3 +115,20 @@ int main()
 
 ## step 4
 编译
+把test_jit_model.pt放到同一文件夹下
+- 方案一
+设置环境变量：export Torch_DIR=[your libtorch dir]/share/cmake/Torch
+```
+mkdir build
+cd build
+cmake ..
+make
+```
+- 方案二
+cmake中添加头文件路径：
+```
+mkdir build
+cd build
+cmake .. -DCMAKE_PREFIX_PATH=[your libtorch dir]
+make
+```
