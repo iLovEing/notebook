@@ -40,3 +40,14 @@ script_model = torch.jit.trace(model, (torch.rand([6, 4]), torch.rand([6, 2])))
 print(script_model.code)
 script_model.save('test_jit_model.pt')
 ```
+
+---
+
+## step 2
+配置libtorch环境
+
+1. 安装make、cmake、gcc等工具
+    - sudo apt install cmake
+    - sudo apt install make
+    - sudo apt install gcc
+2. libtorch库安装，在[官网](https://pytorch.org/get-started/locally/)选择适合的版本下载，下载完成后解压。
