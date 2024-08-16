@@ -71,11 +71,12 @@ torch.onnx.export(model,
 
 ---
 
+## Sample Code 2 - python推理
 ```
-onnx_model0 = onnx.load("model0.onnx")
+onnx_model = onnx.load("model.onnx")
 onnx.checker.check_model(onnx_model0)
 
-ort_session0 = onnxruntime.InferenceSession("model0.onnx")
+ort_session = onnxruntime.InferenceSession("model.onnx")
 ort_inputs1 = {'in_x': a.detach().numpy(), 'in_h': b.detach().numpy()}
 ort_inputs2 = {'in_x': x.detach().numpy(), 'in_h': y.detach().numpy()}
 ort_output1 = ort_session0.run(['out0', 'out1'], ort_inputs1)[0]
