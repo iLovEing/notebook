@@ -10,6 +10,9 @@
 ## onnx介绍
 onnx (Open Neural Network Exchange)，一种开放式神经网络格式，支持将pytorch、tensorflow等框架的模型转化正onnx，并在onnx runtime上推理。onnx runtime支持多平台多语言，并对算子有一定优化。
 
+## pyTorch 转 onnx 
+pytorch 模型转 onnx依赖函数 `torch.onnx.export()`。
+
 ---
 
 ```
