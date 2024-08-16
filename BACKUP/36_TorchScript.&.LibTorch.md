@@ -22,7 +22,7 @@
 主流机器学习框架TensorFlow、MindSpore均支持动态图和静态图模式。***TorchScript***就是PyTorch则可以通过工具将构建的动态图神经网络模型转化为静态结构，以获得高效的计算执行效率。
 
 ## 静态图转换
-在pytorch框架中，动态图是 torch.nn.Module 格式，动态图 torch.jit.ScriptModule。`torch.jit.trace` 和 `torch.jit.script` 是pytorch动态图转静态图的两种方式：
+在pytorch框架中，`torch.nn.Module`是静态图，`torch.jit.ScriptModule`是动态图。`torch.jit.trace`和`torch.jit.script`是pytorch动态图转静态图的两种方式：
 ### 1. `torch.jit.trace(model, example_inputs)`
 - 原理：使用跟踪的方法保存，原理是给模型输入一个example tensor，框架会根据这个tensor在在模型内经过的计算流程保存静态图。
 - 优势：只要输入正确，模型可以正常计算，trace就可以work。
