@@ -83,3 +83,193 @@ ort_output1 = ort_session0.run(['out0', 'out1'], ort_inputs1)[0]
 ort_output2 = ort_session0.run(['out0', 'out1'], ort_inputs2)[0]
 ort_output1.sum(), ort_output2.sum()
 ```
+
+---
+
+## Sample Code 3 - C++推理
+cmake
+```
+cmake_minimum_required(VERSION 3.20)  # cmake version
+set(CMAKE_CXX_STANDARD 17)  # c++ standard
+
+project(ONNX_TEST)  # project name
+
+include_directories(${PROJECT_SOURCE_DIR}/inc)  # add head file dir
+find_library (libshare onnxruntime)
+add_executable(onnx_test test.cpp)  # build executable
+target_link_libraries(onnx_test ${libshare})  # link after build executable
+```
+
+main
+```
+#include <iostream>
+#include <assert.h>
+#include <vector>
+#include <cmath>
+#include <string>
+#include <onnxruntime_cxx_api.h>
+#include <cstdlib>
+#include <time.h>
+#include <typeinfo>
+
+template <typename T>
+static void softmax(T& input) {
+    float rowmax = *std::max_element(input.begin(), input.end());
+    std::vector<float> y(input.size());
+    float sum = 0.0f;
+    for (size_t i = 0; i != input.size(); ++i) {
+        sum += y[i] = std::exp(input[i] - rowmax);
+    }
+    for (size_t i = 0; i != input.size(); ++i) {
+        input[i] = y[i] / sum;
+    }
+}
+
+void prinf_result(const std::vector<std::vector<float>>& result)
+{
+    for (int i = 0; i < result.size(); ++i) {
+        std::cout << "node" << i << " :(";
+        for (const auto& _n: result[i]) {
+            std::cout << " " << _n;
+        }
+        std::cout << " )" << std::endl;
+    }
+}
+
+int main()
+{
+    Ort::Env env;
+    Ort::SessionOptions session_options;
+    Ort::AllocatorWithDefaultOptions allocator;
+    session_options.SetIntraOpNumThreads(1);
+    // session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
+
+    const char* model_path = "/home/tlzn/users/zlqiu/project/onnx_test/model.onnx";
+    Ort::Session session(env, model_path, session_options);
+    size_t num_input_nodes = session.GetInputCount();
+    size_t num_output_nodes = session.GetOutputCount();
+    std::cout << "num args of input and output: " <<
+        num_input_nodes << ", " << num_output_nodes << std::endl;
+
+    const int64_t BATCH_SIZE = 2;
+
+    // input info
+    for (int i = 0; i < num_input_nodes; i++) {
+        // 得到输入节点的名称 std::string
+        Ort::AllocatedStringPtr node_name = session.GetInputNameAllocated(i, allocator);
+        std::cout << "input info of node " << i << ": " << std::endl;
+        std::cout << "    name: " << node_name.get() << std::endl;
+
+        Ort::TypeInfo type_info = session.GetInputTypeInfo(i);
+        auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
+        // 输入节点的数据类型 ONNXTensorElementDataType
+        ONNXTensorElementDataType type = tensor_info.GetElementType();
+        std::cout << "    type: " << type << std::endl;
+
+        // 输入节点的输入维度 std::vector<int64_t>，这里有-1是因为模型有dynamic_axes
+        std::vector<int64_t> node_shape = tensor_info.GetShape();
+        std::cout << "    shape: (";
+        for (const auto& _d: node_shape) {
+            std::cout << " " << _d;
+        }
+        std::cout << " )" << std::endl;
+    }
+
+    // output info
+    for (int i = 0; i < num_output_nodes; i++) {
+        // 得到输入节点的名称 std::string
+        Ort::AllocatedStringPtr node_name = session.GetOutputNameAllocated(i, allocator);
+        std::cout << "output info of node " << i << ": " << std::endl;
+        std::cout << "    name: " << node_name.get() << std::endl;
+
+        Ort::TypeInfo type_info = session.GetOutputTypeInfo(i);
+        auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
+        // 输出节点的数据类型 ONNXTensorElementDataType
+        ONNXTensorElementDataType type = tensor_info.GetElementType();
+        std::cout << "    type: " << type << std::endl;
+
+        // 输出节点的输入维度 std::vector<int64_t>，这里有-1是因为模型有dynamic_axes
+        std::vector<int64_t> node_shape = tensor_info.GetShape();
+        std::cout << "    shape: (";
+        for (const auto& _d: node_shape) {
+            std::cout << " " << _d;
+        }
+        std::cout << " )" << std::endl;
+    }
+
+    // vector输入
+    std::vector<std::vector<float>> ori_inputs;
+    std::vector<float> input_node_1(BATCH_SIZE * 4, 0);
+    std::vector<float> input_node_2(BATCH_SIZE * 2, 0);
+    ori_inputs.emplace_back(input_node_1);
+    ori_inputs.emplace_back(input_node_2);
+    std::vector<std::vector<int64_t>> ori_inputs_shape;
+    std::vector<int64_t> input_node_shape_1{BATCH_SIZE, 4};
+    std::vector<int64_t> input_node_shape_2{BATCH_SIZE, 2};
+    ori_inputs_shape.emplace_back(input_node_shape_1);
+    ori_inputs_shape.emplace_back(input_node_shape_2);
+
+    srand((unsigned)time(NULL));
+    for (auto& _in_vec: ori_inputs) {
+        for (int i = 0; i < _in_vec.size(); ++i) {
+            _in_vec[i] = float(rand() % 100) / 50.0 - 1.0;
+        }
+    }
+
+    // vector输出
+    std::vector<std::vector<float>> result;
+    std::vector<float> output_node_1(BATCH_SIZE * 2, 0);
+    std::vector<float> output_node_2(BATCH_SIZE * 2, 0);
+    result.emplace_back(output_node_1);
+    result.emplace_back(output_node_2);
+    std::vector<std::vector<int64_t>> result_shape;
+    std::vector<int64_t> output_node_shape_1{BATCH_SIZE, 2};
+    std::vector<int64_t> output_node_shape_2{BATCH_SIZE, 2};
+    result_shape.emplace_back(output_node_shape_1);
+    result_shape.emplace_back(output_node_shape_2);
+
+    // tensor 输入
+    std::vector<Ort::Value> ort_inputs;
+    auto memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
+    for (size_t i = 0; i < num_input_nodes; i++) {
+        Ort::Value input_tensor = Ort::Value::CreateTensor<float>(memory_info,
+                                                                  ori_inputs[i].data(),
+                                                                  ori_inputs[i].size(),
+                                                                  ori_inputs_shape[i].data(),
+                                                                  ori_inputs_shape[i].size());
+        ort_inputs.push_back(std::move(input_tensor));
+    }
+
+    // tensor 输出
+    std::vector<Ort::Value> ort_outputs;
+    for (size_t i = 0; i < num_output_nodes; i++) {
+        Ort::Value output_tensor = Ort::Value::CreateTensor<float>(memory_info,
+                                                                  result[i].data(),
+                                                                  result[i].size(),
+                                                                  result_shape[i].data(),
+                                                                  result_shape[i].size());
+        ort_outputs.push_back(std::move(output_tensor));
+    }
+
+    prinf_result(result);
+    // 推理
+    const char* input_names[] = {"in_x", "in_h"};
+    const char* output_names[] = {"out0", "out1"};
+    session.Run(Ort::RunOptions{ nullptr },
+                input_names,
+                ort_inputs.data(),
+                num_input_nodes,
+                output_names,
+                ort_outputs.data(),
+                num_output_nodes);
+
+/*
+    // 获取输出
+    float* output0 = output_tensors[0].GetTensorMutableData<float>();
+    float* output1 = output_tensors[1].GetTensorMutableData<float>();
+*/
+        prinf_result(result);
+    return 0;
+}
+
+```
