@@ -25,8 +25,8 @@ pytorch 模型转 onnx依赖函数 `torch.onnx.export()`。重要的函数参数
 
 #### 导出原理
 ![image](https://github.com/user-attachments/assets/b1258d09-f050-448c-b50c-c44539071d6d)
-TorchScript 是一种序列化PyTorch模型的格式（静态图），在序列化过程中，一个torch.nn.Module模型会被转换成 TorchScript 的torch.jit.ScriptModule模型。torch.onnx.export中需要的模型实际上是一个torch.jit.ScriptModule，然后通过算子转换将torch.jit.ScriptModule转化为onnx model。
-torch.onnx.export 支持 nn.Module 和 jit.ScriptModule 两种格式作为输入。如果使用 ScriptModule，则直接执行算子转换流程；如果使用nn.Module，则 torch.onnx.export 默认以 trace 方式导出 ScriptModule，再进行算子转换，特别地，这个过程中 @torch.jit.script 修饰同样生效。
+TorchScript 是一种序列化PyTorch模型的格式（静态图），在序列化过程中，一个`torch.nn.Module`模型会被转换成 TorchScript 的`torch.jit.ScriptModule`模型。`torch.onnx.export`中需要的模型实际上是一个ScriptModule，然后通过算子转换将 ScriptModule 转化为 onnx model。
+`torch.onnx.export`支持 nn.Module 和 jit.ScriptModule 两种格式作为输入。如果使用 ScriptModule，则直接执行算子转换流程；如果使用nn.Module，则`torch.onnx.export`默认以 trace 方式导出 ScriptModule，再进行算子转换，特别地，这个过程中`@torch.jit.script`修饰同样生效。
 
 ---
 
