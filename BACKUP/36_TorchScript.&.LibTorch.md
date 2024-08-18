@@ -77,7 +77,7 @@ python 推理相对简单，在torch框架下进行推理即可。注意这里�
 ```
 loaded_jit_model = torch.jit.load('test_jit_model.pt')
 print(loaded_jit_model.code)
-print(loaded_jit_model((torch.rand(3, 4), torch.rand(3, 2)))
+print(loaded_jit_model((torch.rand(3, 4), torch.rand(3, 2))
 ```
 
 ---
