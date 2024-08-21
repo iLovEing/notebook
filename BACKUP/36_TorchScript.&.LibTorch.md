@@ -94,7 +94,7 @@ print(loaded_jit_model((torch.rand(3, 4), torch.rand(3, 2))
 ## step 2：编写c++代码。
 - CMakeLists.txt
 ```
-cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CXX_STANDARD 17)
 
 project(test_libtorch)
@@ -148,23 +148,23 @@ int main()
 ```
 
 ## step 3：编译运行
-代码目录结构：
-- 方案一
+1. 代码目录结构：
+- CMakeLists.txt
+- main.cpp
+- model/
+  - test_jit_model.pt
+- bin
+- build
+
+2. 编译
 设置环境变量：export Torch_DIR=[your libtorch dir]/share/cmake/Torch
-```
-mkdir build
-cd build
-cmake ..
-make
-```
-- 方案二
-cmake中添加头文件路径：
-```
-mkdir build
-cd build
-cmake .. -DCMAKE_PREFIX_PATH=[your libtorch dir]
-make
-```
+
+> mkdir build
+> cd build
+> cmake ..
+> make
+
+
 
 
 ---
