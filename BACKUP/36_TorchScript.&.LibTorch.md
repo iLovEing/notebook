@@ -108,12 +108,21 @@ set(CMAKE_CXX_STANDARD 17)
 project(test_libtorch)
 find_package(Torch REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
+# include_directories(TORCH_INCLUDE_DIRS)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
 add_executable(test_libtorch main.cpp)
 target_link_libraries(test_libtorch "${TORCH_LIBRARIES}")
 ```
 
 - main.cpp
 ```
+#include <torch/torch.h>
+#include <iostream>
+#include <string>
+#include <torch/script.h>
+
+template <typename T>
 static void softmax(T& input) {
     float rowmax = *std::max_element(input.begin(), input.end());
     std::vector<float> y(input.size());
@@ -127,29 +136,61 @@ static void softmax(T& input) {
 }
 
 
-int main()
+int main(int argc, char** argv)
 {
+    // test basic api of libtorch
     torch::Tensor test_tensor = torch::rand({2, 3});
-    std::cout << test_tensor << std::endl;
+    std::cout << "Hello LibTorch!" << std::endl;
+    std::cout << "test random tensor: " << test_tensor << std::endl;
 
-    std::string path = "/home/tlzn/users/zlqiu/project/ctorch_test/poc.pt";
-    std::cout << path << std::endl;
-    torch::jit::script::Module module;
+    if (argc < 2) {
+        std::cout << "no model name or path input, return." << std::endl;
+        return 0;
+    }
 
+    // load model
+    std::string path = argv[1];
+    //std::string path = "/home/tlzn/users/zlqiu/project/ctorch_test/poc.pt";
+    if (path[0] != '/') {
+        path = "../model/" + path;
+    }
+    std::cout << "load model: " << path << std::endl;
+
+    torch::jit::script::Module test_model;
     try {
-        module = torch::jit::load(path);
+        test_model = torch::jit::load(path);  // torch::jit::script::Module
     }
     catch (const c10::Error& e) {
         std::cerr << "error loading the model\n";
-        return -1;
+        return 0;
     }
 
-    torch::Tensor input = torch::randn({1, 975359});
+    // inference
+    torch::NoGradGuard guard;
+    torch::Tensor input_x = torch::randn({1, 4});
+    torch::Tensor input_h = torch::randn({1, 3});
     std::vector<torch::jit::IValue> inputs;
-    inputs.push_back(input);
-    auto outputs = module.forward(inputs).toTuple();
-    torch::Tensor output = outputs->elements()[0].toTensor();
-    std::cout << output << '\n';
+    inputs.push_back(input_x);
+    inputs.push_back(input_h);
+    auto outputs = test_model.forward(inputs).toTuple();
+    torch::Tensor output = outputs->elements()[1].toTensor();
+    std::cout << "tensor output: " << output << std::endl;
+
+    // tensor to vector
+    std::vector<float> result(output.data_ptr<float>(), output.data_ptr<float>() + output.numel());
+    std::cout << "vector output: ( ";
+    for (const auto& _num: result) {
+        std::cout << _num << " ";
+    }
+    std::cout << ")" << std::endl;
+
+    // prob
+    softmax(result);
+    std::cout << "prob: ( ";
+    for (const auto& _num: result) {
+        std::cout << _num << " ";
+    }
+    std::cout << ")" << std::endl;
 
     return 0;
 }
@@ -160,7 +201,7 @@ int main()
 - CMakeLists.txt
 - main.cpp
 - model/
-  - test_jit_model.pt
+  - test_scripted_model.pt
 - bin
 - build
 
@@ -172,8 +213,8 @@ int main()
 > cmake ..
 > make
 
-
-
+3. 运行
+> ../bin/test_libtorch test_scripted_model.pt
 
 ---
 
