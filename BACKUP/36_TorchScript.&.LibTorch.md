@@ -64,15 +64,17 @@ class TestModel(nn.Module):
 
 
 model = TestModel()
-scripted_model = torch.jit.trace(model, (torch.rand(1, 4), torch.rand(1, 3)))
-print(scripted_model.code)
-
-input_x = torch.rand(1, 4)
-input_h = torch.rand(1, 3)
-ori_result = model(input_x, input_h)[1]
-scripted_result = scripted_model(input_x, input_h)[1]
-print((ori_result == scripted_result).sum() == torch.ones_like(ori_result).sum())
-scripted_model.save('test_scripted_model.pt')
+model.eval()
+with torch.no_grad():
+    scripted_model = torch.jit.trace(model, (torch.rand(1, 4), torch.rand(1, 3)))
+    print(scripted_model.code)
+    
+    input_x = torch.rand(1, 4)
+    input_h = torch.rand(1, 3)
+    ori_result = model(input_x, input_h)[1]
+    scripted_result = scripted_model(input_x, input_h)[1]
+    print((ori_result == scripted_result).sum() == torch.ones_like(ori_result).sum())
+    scripted_model.save('test_scripted_model.pt')
 ```
 
 ---
@@ -80,9 +82,10 @@ scripted_model.save('test_scripted_model.pt')
 # Sample Code - python 推理
 python 推理相对简单，在torch框架下进行推理即可。注意这里不再需要模型实现的代码，直接读取“图模型”进行推理即可。
 ```
-loaded_jit_model = torch.jit.load('test_jit_model.pt')
-print(loaded_jit_model.code)
-print(loaded_jit_model((torch.rand(3, 4), torch.rand(3, 2))
+loaded_scripted_model = torch.jit.load('test_scripted_model.pt')
+print(loaded_scripted_model.code)
+with torch.no_grad():
+    print(loaded_scripted_model(torch.rand(1, 4), torch.rand(1, 3)))
 ```
 
 ---
