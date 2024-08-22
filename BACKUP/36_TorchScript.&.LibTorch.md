@@ -228,6 +228,8 @@ int main(int argc, char** argv)
 ![image](https://github.com/user-attachments/assets/4a15319a-0a47-46cb-a387-b6eba9ee1299)
 
 3. **C++日经问题：debug/release**
+发现c++推理比python慢很多，考虑编译版本问题。最终部署编译release版本：
+    > cmake .. -DCMAKE_BUILD_TYPE=Release && make
 
 ---
 
