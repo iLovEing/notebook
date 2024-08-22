@@ -68,3 +68,25 @@ add_executable(main_link_shared main.c)  # build executable
 target_link_libraries(main_link_shared ${libshare})  # link after build executable
 ]]
 ```
+
+---
+
+## link library
+
+### 1. link_directories
+使用`link_directories(${lib path})`，会自动在lib path中搜寻目标库
+
+### 2. CMAKE_LIBRARY_PATH/CMAKE_PREFIX_PATH
+编译命令指定搜寻目录，其中CMAKE_PREFIX_PATH会先搜寻该目录，再搜寻CMAKE_PREFIX_PATH/lib 目录
+    > cmake . -DCMAKE_LIBRARY_PATH=***
+
+### 3. find_package
+
+### 4. [pkg-config](https://blog.csdn.net/qq_21438461/article/details/132898233)
+pkg-config 基于 `lib${lib name}.pc` 文件搜索头文件和库，在cmake中使用如下代码搜索
+```
+find_package(PkgConfig REQUIRED)
+pkg_search_module(ONNXLIBS REQUIRED onnxruntime)
+```
+成功匹配后，可使用 ${ONNXLIBS _INCLUDE_DIRS}、${ONNXLIBS_LIBRARIES} 两个变量，分别是头文件和库集合，来源于pc文件中的 Cflags 和 Libs 变量。
+三方库的pc文件，可指定环境变量 `export PKG_CONFIG_PATH=${pc path}` 来搜寻。
