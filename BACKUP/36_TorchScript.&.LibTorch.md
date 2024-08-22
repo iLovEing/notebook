@@ -43,7 +43,7 @@ import torch.nn as nn
 class TestModel(nn.Module):
     def __init__(self):
         super().__init__()
-        self.linear = torch.nn.Linear(4, 2)
+        self.linear = torch.nn.Linear(4, 3)
         self.relu = torch.nn.ReLU()
 
     @torch.jit.script
@@ -64,10 +64,15 @@ class TestModel(nn.Module):
 
 
 model = TestModel()
-jit_model = torch.jit.trace(model, (torch.rand(3, 4), torch.rand(3, 2)))
-print(jit_model.code)
-print(jit_model(torch.randn(3, 4), torch.randn(3, 2)))
-jit_model.save('test_jit_model.pt')
+scripted_model = torch.jit.trace(model, (torch.rand(1, 4), torch.rand(1, 3)))
+print(scripted_model.code)
+
+input_x = torch.rand(1, 4)
+input_h = torch.rand(1, 3)
+ori_result = model(input_x, input_h)[1]
+scripted_result = scripted_model(input_x, input_h)[1]
+print((ori_result == scripted_result).sum() == torch.ones_like(ori_result).sum())
+scripted_model.save('test_scripted_model.pt')
 ```
 
 ---
