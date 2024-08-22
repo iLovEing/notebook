@@ -97,15 +97,14 @@ torch.onnx.export(model, args, f, export_params=True, verbose=False, training=Tr
 
 ## Sample Code 2 - python推理
 ```
-onnx_model = onnx.load("model.onnx")
-onnx.checker.check_model(onnx_model0)
+onnx_model = onnx.load("test_onnx_model.onnx")
+onnx.checker.check_model(onnx_model)
 
-ort_session = onnxruntime.InferenceSession("model.onnx")
-ort_inputs1 = {'in_x': a.detach().numpy(), 'in_h': b.detach().numpy()}
-ort_inputs2 = {'in_x': x.detach().numpy(), 'in_h': y.detach().numpy()}
-ort_output1 = ort_session0.run(['out0', 'out1'], ort_inputs1)[0]
-ort_output2 = ort_session0.run(['out0', 'out1'], ort_inputs2)[0]
-ort_output1.sum(), ort_output2.sum()
+x, h = torch.randn([1, 4]), torch.randn([1, 3])
+ort_session = onnxruntime.InferenceSession("test_onnx_model.onnx")
+ort_inputs = {'in_x': x.detach().numpy(), 'in_h': h.detach().numpy()}
+ort_output = ort_session.run(['out0', 'out1'], ort_inputs)
+print(ort_output[0], ort_output[1])
 ```
 
 ---
