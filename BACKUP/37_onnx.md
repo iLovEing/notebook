@@ -109,49 +109,43 @@ print(ort_output[0], ort_output[1])
 
 ---
 
-## Sample Code 3 - C++推理
-cmake
+# Sample Code 3 - C++推理
+## Step 1: 配置c++环境
+1. 安装make、cmake、gcc等工具
+sudo apt install cmake
+sudo apt install make
+sudo apt install gcc
+2. onnxruntime库安装，在[官方release](https://github.com/microsoft/onnxruntime/releases)选择适合的版本下载，下载完成后解压并记下目录，也可以自己根据build pipeline构建，这里使用直接下载的lib。
+
+## step 2：编写c++代码
+- CMakeLists.txt
 ```
-cmake_minimum_required(VERSION 3.20)  # cmake version
-set(CMAKE_CXX_STANDARD 17)  # c++ standard
+cmake_minimum_required(VERSION 3.18)
+set(CMAKE_CXX_STANDARD 17)
 
-project(ONNX_TEST)  # project name
+project(test_onnx)
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
-include_directories(${PROJECT_SOURCE_DIR}/inc)  # add head file dir
-find_library (libshare onnxruntime)
-add_executable(onnx_test test.cpp)  # build executable
-target_link_libraries(onnx_test ${libshare})  # link after build executable
+find_package(onnxruntime REQUIRED)
+get_target_property(ONNXRT_INC onnxruntime::onnxruntime INTERFACE_INCLUDE_DIRECTORIES)
+
+message( STATUS "build type ${CMAKE_BUILD_TYPE}" )
+message(STATUS "onnxruntime include dir: ${ONNXRT_INC}")
+add_executable(test_onnx main.cpp)
+target_link_libraries(test_onnx onnxruntime::onnxruntime)
 ```
 
-main
+- main.cpp
 ```
 #include <iostream>
-#include <assert.h>
-#include <vector>
-#include <cmath>
-#include <string>
 #include <onnxruntime_cxx_api.h>
-#include <cstdlib>
-#include <time.h>
-#include <typeinfo>
 
-template <typename T>
-static void softmax(T& input) {
-    float rowmax = *std::max_element(input.begin(), input.end());
-    std::vector<float> y(input.size());
-    float sum = 0.0f;
-    for (size_t i = 0; i != input.size(); ++i) {
-        sum += y[i] = std::exp(input[i] - rowmax);
-    }
-    for (size_t i = 0; i != input.size(); ++i) {
-        input[i] = y[i] / sum;
-    }
-}
 
-void prinf_result(const std::vector<std::vector<float>>& result)
+void prinf_result(const std::vector<std::vector<float>>& result, std::string str)
 {
+    std::cout << str << std::endl;
     for (int i = 0; i < result.size(); ++i) {
-        std::cout << "node" << i << " :(";
+        std::cout << "node " << i << " :(";
         for (const auto& _n: result[i]) {
             std::cout << " " << _n;
         }
@@ -159,99 +153,101 @@ void prinf_result(const std::vector<std::vector<float>>& result)
     }
 }
 
-int main()
+int main(int argc, char** argv)
 {
+    const int64_t BATCH_SIZE = 2;
+    std::cout << "Hello onnxruntime!" << std::endl;
+
     Ort::Env env;
+    Ort::Session model(nullptr);
     Ort::SessionOptions session_options;
     Ort::AllocatorWithDefaultOptions allocator;
     session_options.SetIntraOpNumThreads(1);
-    // session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
+    session_options.SetGraphOptimizationLevel(GraphOptimizationLevel::ORT_ENABLE_ALL);
 
-    const char* model_path = "/home/tlzn/users/zlqiu/project/onnx_test/model.onnx";
-    Ort::Session session(env, model_path, session_options);
-    size_t num_input_nodes = session.GetInputCount();
-    size_t num_output_nodes = session.GetOutputCount();
-    std::cout << "num args of input and output: " <<
-        num_input_nodes << ", " << num_output_nodes << std::endl;
+    if (argc < 2) {
+        std::cout << "no model name or path input, return." << std::endl;
+        return 0;
+    }
 
-    const int64_t BATCH_SIZE = 2;
+    // load model
+    std::string model_path = argv[1];
+    if (model_path[0] != '/') {
+        model_path = "../model/" + model_path;
+    }
+    std::cout << "\nload model: " << model_path << std::endl;
+    try {
+        model = Ort::Session(env, model_path.data(), session_options);
+    } catch (const Ort::Exception& e) {
+        std::cerr << "error loading the model, what(): " << e.what() << std::endl;
+        return 0;
+    }
 
+    // get model info
+    size_t num_input_nodes = model.GetInputCount();
+    size_t num_output_nodes = model.GetOutputCount();
     // input info
+    std::cout << "\nread model input info:\n" << "num of input nodes: " << num_input_nodes <<std::endl;
     for (int i = 0; i < num_input_nodes; i++) {
         // 得到输入节点的名称 std::string
-        Ort::AllocatedStringPtr node_name = session.GetInputNameAllocated(i, allocator);
-        std::cout << "input info of node " << i << ": " << std::endl;
-        std::cout << "    name: " << node_name.get() << std::endl;
+        Ort::AllocatedStringPtr node_name = model.GetInputNameAllocated(i, allocator);
+        std::cout << "node " << i << ": " << "name " << node_name.get();
 
-        Ort::TypeInfo type_info = session.GetInputTypeInfo(i);
+        Ort::TypeInfo type_info = model.GetInputTypeInfo(i);
         auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
         // 输入节点的数据类型 ONNXTensorElementDataType
         ONNXTensorElementDataType type = tensor_info.GetElementType();
-        std::cout << "    type: " << type << std::endl;
+        std::cout << ", type " << type;
 
         // 输入节点的输入维度 std::vector<int64_t>，这里有-1是因为模型有dynamic_axes
         std::vector<int64_t> node_shape = tensor_info.GetShape();
-        std::cout << "    shape: (";
+        std::cout << ", shape: (";
         for (const auto& _d: node_shape) {
             std::cout << " " << _d;
         }
         std::cout << " )" << std::endl;
     }
-
     // output info
+    std::cout << "\nread model output info:\n" << "num of output nodes: " << num_output_nodes <<std::endl;
     for (int i = 0; i < num_output_nodes; i++) {
         // 得到输入节点的名称 std::string
-        Ort::AllocatedStringPtr node_name = session.GetOutputNameAllocated(i, allocator);
-        std::cout << "output info of node " << i << ": " << std::endl;
-        std::cout << "    name: " << node_name.get() << std::endl;
+        Ort::AllocatedStringPtr node_name = model.GetOutputNameAllocated(i, allocator);
+        std::cout << "node " << i << ": " << "name: " << node_name.get();
 
-        Ort::TypeInfo type_info = session.GetOutputTypeInfo(i);
+        Ort::TypeInfo type_info = model.GetOutputTypeInfo(i);
         auto tensor_info = type_info.GetTensorTypeAndShapeInfo();
         // 输出节点的数据类型 ONNXTensorElementDataType
         ONNXTensorElementDataType type = tensor_info.GetElementType();
-        std::cout << "    type: " << type << std::endl;
+        std::cout << ", type " << type;
 
         // 输出节点的输入维度 std::vector<int64_t>，这里有-1是因为模型有dynamic_axes
         std::vector<int64_t> node_shape = tensor_info.GetShape();
-        std::cout << "    shape: (";
+        std::cout << ", shape: (";
         for (const auto& _d: node_shape) {
             std::cout << " " << _d;
         }
         std::cout << " )" << std::endl;
     }
 
-    // vector输入
+    // 输入
+    //vector
     std::vector<std::vector<float>> ori_inputs;
     std::vector<float> input_node_1(BATCH_SIZE * 4, 0);
-    std::vector<float> input_node_2(BATCH_SIZE * 2, 0);
+    std::vector<float> input_node_2(BATCH_SIZE * 3, 0);
     ori_inputs.emplace_back(input_node_1);
     ori_inputs.emplace_back(input_node_2);
     std::vector<std::vector<int64_t>> ori_inputs_shape;
     std::vector<int64_t> input_node_shape_1{BATCH_SIZE, 4};
-    std::vector<int64_t> input_node_shape_2{BATCH_SIZE, 2};
+    std::vector<int64_t> input_node_shape_2{BATCH_SIZE, 3};
     ori_inputs_shape.emplace_back(input_node_shape_1);
     ori_inputs_shape.emplace_back(input_node_shape_2);
-
     srand((unsigned)time(NULL));
     for (auto& _in_vec: ori_inputs) {
         for (int i = 0; i < _in_vec.size(); ++i) {
             _in_vec[i] = float(rand() % 100) / 50.0 - 1.0;
         }
     }
-
-    // vector输出
-    std::vector<std::vector<float>> result;
-    std::vector<float> output_node_1(BATCH_SIZE * 2, 0);
-    std::vector<float> output_node_2(BATCH_SIZE * 2, 0);
-    result.emplace_back(output_node_1);
-    result.emplace_back(output_node_2);
-    std::vector<std::vector<int64_t>> result_shape;
-    std::vector<int64_t> output_node_shape_1{BATCH_SIZE, 2};
-    std::vector<int64_t> output_node_shape_2{BATCH_SIZE, 2};
-    result_shape.emplace_back(output_node_shape_1);
-    result_shape.emplace_back(output_node_shape_2);
-
-    // tensor 输入
+    // tensor
     std::vector<Ort::Value> ort_inputs;
     auto memory_info = Ort::MemoryInfo::CreateCpu(OrtArenaAllocator, OrtMemTypeDefault);
     for (size_t i = 0; i < num_input_nodes; i++) {
@@ -263,7 +259,19 @@ int main()
         ort_inputs.push_back(std::move(input_tensor));
     }
 
-    // tensor 输出
+    // 输出
+    // vector
+    std::vector<std::vector<float>> result;
+    std::vector<float> output_node_1(BATCH_SIZE * 3, 0);
+    std::vector<float> output_node_2(BATCH_SIZE * 3, 0);
+    result.emplace_back(output_node_1);
+    result.emplace_back(output_node_2);
+    std::vector<std::vector<int64_t>> result_shape;
+    std::vector<int64_t> output_node_shape_1{BATCH_SIZE, 3};
+    std::vector<int64_t> output_node_shape_2{BATCH_SIZE, 3};
+    result_shape.emplace_back(output_node_shape_1);
+    result_shape.emplace_back(output_node_shape_2);
+    // tensor, 后续vector时使用的是地址，因此推理后result的值就是结果
     std::vector<Ort::Value> ort_outputs;
     for (size_t i = 0; i < num_output_nodes; i++) {
         Ort::Value output_tensor = Ort::Value::CreateTensor<float>(memory_info,
@@ -274,11 +282,11 @@ int main()
         ort_outputs.push_back(std::move(output_tensor));
     }
 
-    prinf_result(result);
+    prinf_result(result, "\nbefore infer:");
     // 推理
     const char* input_names[] = {"in_x", "in_h"};
     const char* output_names[] = {"out0", "out1"};
-    session.Run(Ort::RunOptions{ nullptr },
+    model.Run(Ort::RunOptions{ nullptr },
                 input_names,
                 ort_inputs.data(),
                 num_input_nodes,
@@ -286,16 +294,57 @@ int main()
                 ort_outputs.data(),
                 num_output_nodes);
 
-/*
-    // 获取输出
-    float* output0 = output_tensors[0].GetTensorMutableData<float>();
-    float* output1 = output_tensors[1].GetTensorMutableData<float>();
-*/
-        prinf_result(result);
+    // 这里所有batch数据在一个vecror内连续排列
+    prinf_result(result, "\nafter infer:");
     return 0;
 }
-
 ```
+
+## step 3：编译运行
+1. 代码目录结构：
+```
+- CMakeLists.txt
+- main.cpp
+- model/
+  - test_onnx_model.onnx
+- bin
+- build
+```
+
+2. 在编译之前
+在下载 *onnxruntime-linux-x64-1.19.0.tgz* 时，发现此版本对 linux 系统的三方配置很不友好，源码提供了 cmake package和 pkg-config 两种配置方案，但都或多或少有 bug。总的来说 onnxruntime lib 配置方案有三种：
+    1. 直接使用 `include_directories()` 声明头文件位置，用 `link_directories()` 或 `CMAKE_PREFIX_PATH` 声明库位置，link时库名称为 onnxruntime
+    2. 使用 pkg-config 方式，pc文件位于 `${onnxruntime dir}/lib/pkgconfig` 下，但是里面并没有很好的定义头文件和库的位置，而是需要把对应文件放到系统目录下，很是麻烦。
+    3. 使用cmake find_package 方式，cmake文件位于 `${onnxruntime dir}/lib/cmake` 下，**这里使用该方案**，link的库名为 onnxruntime::onnxruntime，但是编译时会发现两个bug：
+        - 64位系统下的lib路径为lib64，但是包里没有。解决方案：建立lib64目录指向lib的软链接
+```
+CMake Error at /home/tlzn/users/zlqiu/libs/onnxruntime/lib/cmake/onnxruntime/onnxruntimeTargets.cmake:84 (message):
+  The imported target "onnxruntime::onnxruntime" references the file
+
+     "/home/tlzn/users/zlqiu/libs/onnxruntime/lib64/libonnxruntime.so.1.19.0"
+
+  but this file does not exist.  Possible reasons include:
+```
+        - onnxruntimeTargets.cmake 文件中 include dir 定义有问题，多了onnxruntime。解决方案：删除onnxruntime，到include就行
+```
+CMake Error in CMakeLists.txt:
+  Imported target "onnxruntime::onnxruntime" includes non-existent path
+
+    "/home/tlzn/users/zlqiu/libs/onnxruntime/include/onnxruntime"
+
+  in its INTERFACE_INCLUDE_DIRECTORIES.  Possible reasons include:
+```
+
+3. 编译
+设置环境变量：export onnxruntime_DIR=[your onnxruntimedir]/lib/cmake/onnxruntime
+
+    > mkdir build
+    > cd build
+    > cmake ..
+    > make
+
+4. 运行
+    > ../bin/test_onnx test_onnx_model.onnx
 
 ---
 
