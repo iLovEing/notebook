@@ -94,9 +94,9 @@ with torch.no_grad():
 ## step 1：配置libtorch环境
 
 1. 安装make、cmake、gcc等工具
-    - sudo apt install cmake
-    - sudo apt install make
-    - sudo apt install gcc
+    > sudo apt install cmake
+    > sudo apt install make
+    > sudo apt install gcc
 2. libtorch库安装，在[官网](https://pytorch.org/get-started/locally/)选择适合的版本下载，下载完成后解压并记下目录。
 
 ## step 2：编写c++代码
