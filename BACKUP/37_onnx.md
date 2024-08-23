@@ -348,5 +348,11 @@ CMake Error in CMakeLists.txt:
 
 ---
 
-onnx可视化
+# other
+1. 一些有用的网站
+2. onnx可视化
 https://netron.app/
+
+---
+
+# 有效问题记录
