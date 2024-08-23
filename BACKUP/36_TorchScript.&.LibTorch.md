@@ -99,7 +99,7 @@ with torch.no_grad():
     - sudo apt install gcc
 2. libtorch库安装，在[官网](https://pytorch.org/get-started/locally/)选择适合的版本下载，下载完成后解压并记下目录。
 
-## step 2：编写c++代码。
+## step 2：编写c++代码
 - CMakeLists.txt
 ```
 cmake_minimum_required(VERSION 3.18)
@@ -202,23 +202,25 @@ int main(int argc, char** argv)
 
 ## step 3：编译运行
 1. 代码目录结构：
+```
 - CMakeLists.txt
 - main.cpp
 - model/
   - test_scripted_model.pt
 - bin
 - build
+```
 
 2. 编译
 设置环境变量：export Torch_DIR=[your libtorch dir]/share/cmake/Torch
 
-> mkdir build
-> cd build
-> cmake ..
-> make
+    > mkdir build
+    > cd build
+    > cmake ..
+    > make
 
 3. 运行
-> ../bin/test_libtorch test_scripted_model.pt
+    > ../bin/test_libtorch test_scripted_model.pt
 
 ---
 
