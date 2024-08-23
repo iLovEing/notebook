@@ -271,7 +271,7 @@ int main(int argc, char** argv)
     std::vector<int64_t> output_node_shape_2{BATCH_SIZE, 3};
     result_shape.emplace_back(output_node_shape_1);
     result_shape.emplace_back(output_node_shape_2);
-    // tensor, 后续vector时使用的是地址，因此推理后result的值就是结果
+    // tensor, 包装vector时使用的是地址，因此推理后result的值就是结果
     std::vector<Ort::Value> ort_outputs;
     for (size_t i = 0; i < num_output_nodes; i++) {
         Ort::Value output_tensor = Ort::Value::CreateTensor<float>(memory_info,
