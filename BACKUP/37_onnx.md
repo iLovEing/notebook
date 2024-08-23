@@ -350,8 +350,16 @@ CMake Error in CMakeLists.txt:
 
 # other
 1. 一些有用的网站
+- [ONNX Runtime c++ doc](https://onnxruntime.ai/docs/api/c/index.html)
+- [ONNX github](https://github.com/onnx/onnx)
+- [ONNX Runtime github](https://github.com/microsoft/onnxruntime)
+- [ONNX infer examples](https://github.com/microsoft/onnxruntime-inference-examples)
+- [MMDeploy guide](https://mmdeploy.readthedocs.io/zh-cn/v1.2.0/tutorial/01_introduction_to_model_deployment.html)
+
 2. onnx可视化
-https://netron.app/
+onnx模型可以用[netron](https://netron.app/)可视化，如图
+![image](https://github.com/user-attachments/assets/23a67136-1774-493f-b381-6ba17edb3f7d)
+
 
 ---
 
