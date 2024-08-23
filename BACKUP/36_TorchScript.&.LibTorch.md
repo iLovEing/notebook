@@ -138,9 +138,11 @@ static void softmax(T& input) {
 
 int main(int argc, char** argv)
 {
-    // test basic api of libtorch
-    torch::Tensor test_tensor = torch::rand({2, 3});
+    const int64_t BATCH_SIZE = 2;
     std::cout << "Hello LibTorch!" << std::endl;
+
+    // test basic api of libtorch
+    torch::Tensor test_tensor = torch::rand({BATCH_SIZE, 3});
     std::cout << "test random tensor: " << test_tensor << std::endl;
 
     if (argc < 2) {
@@ -154,7 +156,7 @@ int main(int argc, char** argv)
     if (path[0] != '/') {
         path = "../model/" + path;
     }
-    std::cout << "load model: " << path << std::endl;
+    std::cout << "\nload model: " << path << std::endl;
 
     torch::jit::script::Module test_model;
     try {
@@ -167,18 +169,20 @@ int main(int argc, char** argv)
 
     // inference
     torch::NoGradGuard guard;
-    torch::Tensor input_x = torch::randn({1, 4});
-    torch::Tensor input_h = torch::randn({1, 3});
+    torch::Tensor input_x = torch::randn({BATCH_SIZE, 4});
+    torch::Tensor input_h = torch::randn({BATCH_SIZE, 3});
     std::vector<torch::jit::IValue> inputs;
     inputs.push_back(input_x);
     inputs.push_back(input_h);
+
+    std::cout << BATCH_SIZE << " batch data infering..." << std::endl;
     auto outputs = test_model.forward(inputs).toTuple();
-    torch::Tensor output = outputs->elements()[1].toTensor();
+    torch::Tensor output = outputs->elements()[1].toTensor().reshape({BATCH_SIZE, -1});
     std::cout << "tensor output: " << output << std::endl;
 
     // tensor to vector
-    std::vector<float> result(output.data_ptr<float>(), output.data_ptr<float>() + output.numel());
-    std::cout << "vector output: ( ";
+    std::vector<float> result(output.data_ptr<float>(), output.data_ptr<float>() + output.numel() / BATCH_SIZE);
+    std::cout << "\nvector output of first batch: ( ";
     for (const auto& _num: result) {
         std::cout << _num << " ";
     }
@@ -186,7 +190,7 @@ int main(int argc, char** argv)
 
     // prob
     softmax(result);
-    std::cout << "prob: ( ";
+    std::cout << "prob of first batch: ( ";
     for (const auto& _num: result) {
         std::cout << _num << " ";
     }
