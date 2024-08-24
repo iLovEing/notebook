@@ -104,12 +104,15 @@ with torch.no_grad():
 ```
 cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CXX_STANDARD 17)
-
 project(test_libtorch)
+
 find_package(Torch REQUIRED)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
-# include_directories(TORCH_INCLUDE_DIRS)
 set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
+
+message( STATUS "build type ${CMAKE_BUILD_TYPE}" )
+message(STATUS "libtorch include dir: ${TORCH_INCLUDE_DIRS}")
 
 add_executable(test_libtorch main.cpp)
 target_link_libraries(test_libtorch "${TORCH_LIBRARIES}")
