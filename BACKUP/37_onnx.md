@@ -122,15 +122,16 @@ sudo apt install gcc
 ```
 cmake_minimum_required(VERSION 3.18)
 set(CMAKE_CXX_STANDARD 17)
-
 project(test_onnx)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 
 find_package(onnxruntime REQUIRED)
+
+set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
 get_target_property(ONNXRT_INC onnxruntime::onnxruntime INTERFACE_INCLUDE_DIRECTORIES)
 
 message( STATUS "build type ${CMAKE_BUILD_TYPE}" )
 message(STATUS "onnxruntime include dir: ${ONNXRT_INC}")
+
 add_executable(test_onnx main.cpp)
 target_link_libraries(test_onnx onnxruntime::onnxruntime)
 ```
