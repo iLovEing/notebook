@@ -90,10 +90,10 @@ find_package(onnxruntime REQUIRED)
 
 ### 4. pkg-config
 [a good guide](https://blog.csdn.net/qq_21438461/article/details/132898233)
-pkg-config 基于 `lib${lib name}.pc` 文件搜索头文件和库，在工程cmake中使用如下代码搜索
+pkg-config 基于 pc 文件搜索头文件和库，在工程cmake中使用如下代码搜索
 ```
-find_package(PkgConfig REQUIRED)
-pkg_search_module(ONNXLIBS REQUIRED onnxruntime)
+find_package(PkgConfig REQUIRED)  # 找到PkgConfig 包
+pkg_search_module(DEFINE_NAME REQUIRED ${lib name})   # 使用PkgConfig 寻找库
 ```
-成功匹配后，可使用 ONNXLIBS _INCLUDE_DIRS、ONNXLIBS_LIBRARIES 两个变量，分别是头文件和库集合，来源于pc文件中的 Cflags 和 Libs 变量。
+这里，lib name 要和pc文件中的 Name 变量一致。成功匹配后，可使用 ONNXLIBS _INCLUDE_DIRS、ONNXLIBS_LIBRARIES 两个变量，分别是头文件和库集合，来源于pc文件中的 Cflags 和 Libs 变量。
 三方库的pc文件，可指定环境变量 `export PKG_CONFIG_PATH=${pc path}` 来搜寻。
