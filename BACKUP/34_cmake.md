@@ -82,7 +82,7 @@ target_link_libraries(main_link_shared ${libshare})  # link after build executab
 
 ### 3. find_package
 [a good guide](https://blog.csdn.net/zhanghm1995/article/details/105466372)
-find_package 基于 `lib${lib name}Config.cmake` 文件搜索头文件和库，指定搜索三方库目录的方式比较多，推荐使用指定环境变量 `{lib name}_DIR` 的方式，在工程cmake调用 find_package 接口进行包含即可：
+find_package 基于 `lib${lib name}Config.cmake` 文件搜索头文件和库，指定搜索三方库目录的方式比较多，推荐使用指定环境变量 `{lib name}_DIR` 的方式，或者加入CMAKE_PREFIX_PATH，在工程cmake调用 find_package 接口进行包含即可：
 ```
 find_package(onnxruntime REQUIRED)
 ```
@@ -95,5 +95,8 @@ pkg-config 基于 pc 文件搜索头文件和库，在工程cmake中使用如下
 find_package(PkgConfig REQUIRED)  # 找到PkgConfig 包
 pkg_search_module(DEFINE_NAME REQUIRED ${lib name})   # 使用PkgConfig 寻找库
 ```
-这里，lib name 要和pc文件中的 Name 变量一致。成功匹配后，可使用 ${DEFINE_NAME}_INCLUDE_DIRS、${DEFINE_NAME}_LIBRARIES 两个变量，分别是头文件和库集合，来源于pc文件中的 Cflags 和 Libs 变量。
-三方库的pc文件，可指定环境变量 `export PKG_CONFIG_PATH=${pc path}` 来搜寻。
+这里：
+- lib name 要和pc文件中的 Name 变量一致
+- pkg_search_module 也可以替换成 pkg_check_modules，两者的区别是查找多个module时，前者找到一个就行，后者要求全部找到
+- 成功匹配后，可使用 ${DEFINE_NAME}_INCLUDE_DIRS、${DEFINE_NAME}_LIBRARIES 两个变量，分别是头文件和库集合，来源于pc文件中的 Cflags 和 Libs 变量。
+- 三方库的pc文件，可指定环境变量 `export PKG_CONFIG_PATH=${pc path}` 来搜寻。
