@@ -1,7 +1,7 @@
 ## My Notebook
 好记性不如烂笔头
 
-## [友情链接](https://github.com/iLovEing/gitblog/issues/4)
+## [友情链接](https://github.com/iLovEing/notebook/issues/4)
 <table>
 <thead>
 <tr>
