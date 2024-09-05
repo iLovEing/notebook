@@ -361,6 +361,15 @@ CMake Error in CMakeLists.txt:
 onnx模型可以用[netron](https://netron.app/)可视化，如图
 ![image](https://github.com/user-attachments/assets/23a67136-1774-493f-b381-6ba17edb3f7d)
 
+3. onnx模型优化
+onnx模型可以用simplify进行优化，其中会进行onnx自有的图优化和算子优化，不会改变计算结果，可能会加速模型推理。
+```
+from onnxsim import simplify
+
+model = onnx.load("model.onnx")
+model_simp, check = simplify(model)
+onnx.save(model_simp, "model_sim.onnx")
+```
 
 ---
 
