@@ -350,18 +350,18 @@ CMake Error in CMakeLists.txt:
 ---
 
 # other
-1. 一些有用的网站
+## 1. 一些有用的网站
 - [ONNX Runtime c++ doc](https://onnxruntime.ai/docs/api/c/index.html)
 - [ONNX github](https://github.com/onnx/onnx)
 - [ONNX Runtime github](https://github.com/microsoft/onnxruntime)
 - [ONNX infer examples](https://github.com/microsoft/onnxruntime-inference-examples)
 - [MMDeploy guide](https://mmdeploy.readthedocs.io/zh-cn/v1.2.0/tutorial/01_introduction_to_model_deployment.html)
 
-2. onnx可视化
+## 2. onnx可视化
 onnx模型可以用[netron](https://netron.app/)可视化，如图
 ![image](https://github.com/user-attachments/assets/23a67136-1774-493f-b381-6ba17edb3f7d)
 
-3. onnx模型优化
+## 3. onnx模型优化
 onnx模型可以用simplify进行优化，其中会进行onnx自有的图优化和算子优化，不会改变计算结果，可能会加速模型推理。
 ```
 from onnxsim import simplify
@@ -370,6 +370,26 @@ model = onnx.load("model.onnx")
 model_simp, check = simplify(model)
 onnx.save(model_simp, "model_sim.onnx")
 ```
+
+## 3. onnx模型量化
+- **动态量化**
+1. （建议）使用`simplify`对模型进行优化
+2. （建议）对模型进行前处理：
+    >  python -m onnxruntime.quantization.preprocess --input model_sim.onnx --output model_sim_pre.onnx
+3. 使用`quantize_dynamic`量化模型，一般使用int8或者uint8量化，加速效果随平台和模型而异。
+```
+from onnxruntime.quantization import QuantType, quantize_dynamic 
+
+model_fp32 = "model_sim_pre.onnx"
+model_quant_dynamic = "model_sim_pre_quant_u8.onnx"
+quantize_dynamic(
+    model_input=model_fp32,
+    model_output=model_quant_dynamic,
+    weight_type=QuantType.QUInt8,  # or QuantType.QInt8
+)
+```
+
+- **静态量化**
 
 ---
 
