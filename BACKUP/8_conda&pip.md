@@ -66,4 +66,11 @@ python -m pip uninstall pip
 pip3 freeze > requirements.txt
 pip3 install -r requirements.txt
 
-
+#### ipkernel
+创建了新的conda环境，怎么加入kernel？
+  1. conda create --name zlqiu python=3.10  # 创建环境
+  2. conda activate zlqiu  # 进入环境
+  3. conda install ipykernel  # 安装ipykernel  
+  4. python -m ipykernel install --user --name zlqiu
+  5. 刷新网站，此时新建notebook可以看到conda内核 zlqiu
+  6. remove: jupyter kernelspec remove  zlqiu # 移除内核
