@@ -29,26 +29,61 @@ ubuntu 根目录
 ---
 
 ## 系统设置
-1. win双系统修改grub
+1. grub修改
     1. 修改配置文件: sudo gedit /etc/default/grub
-        - GRUB_DEFAULT 代表默认的进入选项，从0开始
-        - GRUB_TIMEOUT: 代表操作等待时间。默认10s
+       - GRUB_DEFAULT 代表默认的进入选项，从0开始
+       - GRUB_TIMEOUT: 代表操作等待时间。默认10s
     2. 更新grub: sudo update-grub
-2. 修改语言为中文，应用到全系统
-3. 修改输入法为中文智能拼音（这里不要选择其他，点中文进去选择）
-4. 4k屏幕显示太小: 修改显示器缩放至 175%
-	如果没有分数比例调节，使用如下命令（不知道可都用）
+2. 修改语言为中文，应用到全系统 
+
+3. 4k屏幕显示太小: 修改显示器缩放至 150% or 175%
+    如果没有分数比例调节，使用如下命令（不知道可都用）
     - wayland：gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
     - X11：gsettings set org.gnome.mutter experimental-features "['x11-randr-fractional-scaling']"
+
+4. 修改输入法为中文智能拼音（这里不要选择其他，点中文进去选择），修改默认语言、候选词个数
+
 5. 修改终端复制快捷键
+
 6. 修改高危文件夹背景色
-    1. ～/.bashrc最后加上LS_COLORS=$LS_COLORS:'ow=1;32:'
-    3. source /etc/profile
-   > profile和 bashrc, 主要用来存放开机自运行的程序和命令，比如环境变量  
-   > /etc/profile 和 /etc/bash.bashrc, 影响所有用户，先加载 profile，profile里面加载 bashrc  
-   > ~/.profile 和 ~/.bashrc, 影响单个用户，加载顺序同理  
-   >   
+   1. ~/.bashrc最后加上LS_COLORS=$LS_COLORS:'ow=1;32:'
+   2. source /etc/profile
+   > profile和 bashrc, 主要用来存放开机自运行的程序和命令，比如环境变量
+   > /etc/profile 和 /etc/bash.bashrc, 影响所有用户，先加载 profile，profile里面加载 bashrc
+   > ~/.profile 和 ~/.bashrc, 影响单个用户，加载顺序同理
+   > 
    > ***tips***: 一般自己的修改放 bashrc 就可以了
+
+7. 卸载snap(先安装chrome)
+    1. 删除相关软件，执行多次remove_snap1，直到没有提示snap软件
+    2. 删除 Snap 的 Core 文件，执行remove_snap2
+    3. 删除snap管理工具：sudo apt autoremove --purge snapd
+    4. 删除 Snap 的目录：
+        > rm -rf ~/snap
+        > sudo rm -rf /snap
+        > sudo rm -rf /var/snap
+        > sudo rm -rf /var/lib/snapd
+        > sudo rm -rf /var/cache/snapd
+    5. 配置 APT 参数：禁止 apt 安装 snapd
+        > sudo sh -c "cat > /etc/apt/preferences.d/no-snapd.pref" << EOL
+        > Package: snapd
+        > Pin: release a=*
+        > Pin-Priority: -10
+        > EOL
+    6. 禁用 snap Firefox 的更新
+        > sudo sh -c "cat > /etc/apt/preferences.d/no-firefox.pref" << EOL
+        > Package: firefox
+        > Pin: release a=*
+        > Pin-Priority: -10
+        > EOL
+    8. 重新安装Gnome商店
+    - sudo apt install gnome-software
+    - (or) sudo apt install --install-suggests gnome-software
+
+8. 文件夹最近项目：
+
+    - 打开：gsettings reset org.gnome.desktop.privacy remember-recent-files
+    - 关闭：gsettings reset org.gnome.desktop.privacy remember-recent-files
 
 ---
 
