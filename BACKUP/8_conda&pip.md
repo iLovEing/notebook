@@ -47,7 +47,7 @@ pip3 list
 pip3 list --outdated
 pip3 show package_name
 
-pip3 config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip config set global.index-url https://pypi.mirrors.ustc.edu.cn/simple
 pip3 config list
 pip3 config get global.index-url
 pip3 config unset global.index-url

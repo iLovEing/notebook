@@ -32,6 +32,7 @@
 ## 置顶文章
 - [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [声纹识别基础](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
+- [SVM](https://github.com/iLovEing/notebook/issues/15)--2023-03-13
 ## 最近更新
 - [Pytorch](https://github.com/iLovEing/notebook/issues/38)--2024-08-15
 - [onnx](https://github.com/iLovEing/notebook/issues/37)--2024-08-15
