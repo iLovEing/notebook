@@ -1,9 +1,22 @@
 # [Ubuntu AI服务器系统安装](https://github.com/iLovEing/notebook/issues/29)
 
-## 分区方案
-1. efi分区: 主分区/逻辑分区 EFI系统分区 512MB  
+# linux ubuntu
+
+本记录为个人安装ubuntu桌面和windows双系统流程，安装ubuntu服务器也可参考，其中一些部分可以忽略。
+
+---
+
+## 一、系统安装
+
+### 1.1 安装设置
+1. ubuntu桌面版本安装系统时选择安装第三方显卡驱动，否则新显卡有可能卡开机界面。
+2. 若安装windows&ubuntu双系统，先关闭win快速启动
+3. 系统开始时选择语言为english，关系到home目录文件夹名称，有需要开机后改回即可
+
+### 1.2 分区方案
+1. efi分区: 主分区/逻辑分区 EFI系统分区 512MB
 UEFI引导分区
-2. swap分区: 主分区/逻辑分区 交换空间 8192MB(8GB)  
+2. swap分区: 主分区/逻辑分区 交换空间 8192MB(8GB)
 内存交换分区，Redhat官方文档关于swap分区大小设置的建议
 
 |   物理内存  |   建议大小  | 开启休眠功能建议大小 |
@@ -13,77 +26,15 @@ UEFI引导分区
 | 8GB – 64GB |   至少4G   |    内存的1.5倍    |
 | \> 64GB    |   至少4G   |   不建议使用休眠   |
 
-3. /: 主分区 Ext4日志文件系统 131072MB(128GB)  
-ubuntu 根目录
-4. /usr: 逻辑分区 Ext4日志文件系统 262144MB(256GB)  
-存放用户程序，一般在/usr/bin中存放发行版提供的程序，用户自行安装的程序默认安装到/usr/local/bin中
-5. /home: 逻辑分区 Ext4日志文件系统 rest storage  
-存放用户文件，这个分区尽量设置大。
-6. /var: 个人用不分区，服务器可考虑  
-存放一些临时文件比如日志，服务器可考虑单独分区，否则放在根分区下
-
-> ***attention***: 系统安装选择安装到efi分区
-> ***attention***: 系统开始时选择语言为english，关系到home目录文件夹名称；开机后替换
-> ***tips***: 安装为windows&ubuntu双系统，先关闭win快速启动 
-
----
-
-## 系统设置
-1. grub修改
-    1. 修改配置文件: sudo gedit /etc/default/grub
-       - GRUB_DEFAULT 代表默认的进入选项，从0开始
-       - GRUB_TIMEOUT: 代表操作等待时间。默认10s
-    2. 更新grub: sudo update-grub
-2. 修改语言为中文，应用到全系统 
-
-3. 4k屏幕显示太小: 修改显示器缩放至 150% or 175%
-    如果没有分数比例调节，使用如下命令（不知道可都用）
-    - wayland：gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
-    - X11：gsettings set org.gnome.mutter experimental-features "['x11-randr-fractional-scaling']"
-
-4. 修改输入法为中文智能拼音（这里不要选择其他，点中文进去选择），修改默认语言、候选词个数
-
-5. 修改终端复制快捷键
-
-6. 修改高危文件夹背景色
-   1. ~/.bashrc最后加上LS_COLORS=$LS_COLORS:'ow=1;32:'
-   2. source /etc/profile
-   > profile和 bashrc, 主要用来存放开机自运行的程序和命令，比如环境变量
-   > /etc/profile 和 /etc/bash.bashrc, 影响所有用户，先加载 profile，profile里面加载 bashrc
-   > ~/.profile 和 ~/.bashrc, 影响单个用户，加载顺序同理
-   > 
-   > ***tips***: 一般自己的修改放 bashrc 就可以了
-
-7. 卸载snap(先安装chrome)
-    1. 删除相关软件，执行多次remove_snap1，直到没有提示snap软件
-    2. 删除 Snap 的 Core 文件，执行remove_snap2
-    3. 删除snap管理工具：sudo apt autoremove --purge snapd
-    4. 删除 Snap 的目录：
-        > rm -rf ~/snap
-        > sudo rm -rf /snap
-        > sudo rm -rf /var/snap
-        > sudo rm -rf /var/lib/snapd
-        > sudo rm -rf /var/cache/snapd
-    5. 配置 APT 参数：禁止 apt 安装 snapd
-        > sudo sh -c "cat > /etc/apt/preferences.d/no-snapd.pref" << EOL
-        > Package: snapd
-        > Pin: release a=*
-        > Pin-Priority: -10
-        > EOL
-    6. 禁用 snap Firefox 的更新
-        > sudo sh -c "cat > /etc/apt/preferences.d/no-firefox.pref" << EOL
-        > Package: firefox
-        > Pin: release a=*
-        > Pin-Priority: -10
-        > EOL
-    8. 重新安装Gnome商店
-    - sudo apt install gnome-software
-    - (or) sudo apt install --install-suggests gnome-software
-
-8. 文件夹最近项目：
-
-    - 打开：gsettings reset org.gnome.desktop.privacy remember-recent-files
-    - 关闭：gsettings reset org.gnome.desktop.privacy remember-recent-files
+3. /: 主分区 Ext4日志文件系统 131072MB(128GB)
+    ubuntu 根目录
+4. /usr: 逻辑分区 Ext4日志文件系统 262144MB(256GB)
+    存放用户程序，一般在/usr/bin中存放发行版提供的程序，用户自行安装的程序默认安装到/usr/local/bin中，个人首次使用可以不用单独创建此分区，把根目录空间设置大一些即可
+5. /home: 逻辑分区 Ext4日志文件系统 rest storage
+    存放用户文件，这个分区尽量设置大。
+6. /var: 个人用不分区，服务器可考虑
+    存放一些临时文件比如日志，服务器可考虑单独分区，否则放在根分区下
+7. 分区完成后，选择安装到efi分区所在的磁盘号
 
 ---
 
