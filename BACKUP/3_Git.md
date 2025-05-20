@@ -77,7 +77,7 @@
 #### remote说明
 - remote有主机名和分支名
 - git remote -v 查看主机名
-- 使用 remote 系列命令可以增加一个关联主机，执行 git remote add [主机名] [主仓库的地址]，注意，主仓库的地址使用 https 开头的：
+- 使用 remote 系列命令可以增加一个关联主机，执行 git remote add [主机名] [主仓库的地址]，注意，主仓库的地址可以是https和ssh，如果是https，后续交互可能需要输入密码：
   - git remote add origin https://github.com/iLovEing/hello_github
   - git fetch origin
 - clone远程分支后，本地有：

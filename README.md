@@ -39,7 +39,6 @@
 - [TorchScript & LibTorch](https://github.com/iLovEing/notebook/issues/36)--2024-08-15
 - [cmake](https://github.com/iLovEing/notebook/issues/34)--2024-07-31
 - [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
-## Algorithm Principle
 - [XGBoost](https://github.com/iLovEing/notebook/issues/28)--2024-05-13
 - [排序算法](https://github.com/iLovEing/notebook/issues/20)--2023-03-16
 - [生成模型](https://github.com/iLovEing/notebook/issues/19)--2023-03-15
@@ -51,15 +50,12 @@
 - [clustering](https://github.com/iLovEing/notebook/issues/9)--2023-03-09
 </details>
 
-## Audio
 - [Audio Self-supervised Learning](https://github.com/iLovEing/notebook/issues/30)--2024-05-14
 - [声纹识别基础](https://github.com/iLovEing/notebook/issues/23)--2023-08-16
 ## Linux
 - [Ubuntu AI服务器系统安装](https://github.com/iLovEing/notebook/issues/29)--2024-05-13
-## Math
 - [计算法则](https://github.com/iLovEing/notebook/issues/12)--2023-03-13
 - [Fourier Transform](https://github.com/iLovEing/notebook/issues/11)--2023-03-13
-## Tips
 - [Pytorch](https://github.com/iLovEing/notebook/issues/38)--2024-08-15
 - [pytorch分布式训练 - DDP](https://github.com/iLovEing/notebook/issues/32)--2024-06-20
 - [MySQL](https://github.com/iLovEing/notebook/issues/22)--2023-07-29
@@ -70,11 +66,9 @@
 - [Git](https://github.com/iLovEing/notebook/issues/3)--2022-07-23
 </details>
 
-## 传送门
 - [网站收藏](https://github.com/iLovEing/notebook/issues/10)--2023-03-10
 - [教程](https://github.com/iLovEing/notebook/issues/6)--2022-07-24
 - [官方文档](https://github.com/iLovEing/notebook/issues/5)--2022-07-24
-## 模型部署
 - [onnx](https://github.com/iLovEing/notebook/issues/37)--2024-08-15
 - [TorchScript & LibTorch](https://github.com/iLovEing/notebook/issues/36)--2024-08-15
 - [fastapi 部署模型](https://github.com/iLovEing/notebook/issues/33)--2024-07-26
